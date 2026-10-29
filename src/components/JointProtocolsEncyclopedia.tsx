@@ -4,9 +4,14 @@ import {
   JOINT_REGIONS_LIST,
 } from '../data/jointProtocolsData';
 import {
+  ALL_SPECIALTY_CONDITIONS,
+  ALL_SPECIALTIES_SECTIONS,
+} from '../data/specialtyProtocolsData';
+import {
   JointConditionMaster,
+  SpecialtyConditionMaster,
   JointRegion,
-  PhysiotherapyProtocolPhase,
+  SpecialtyId,
   InvestigationModality,
 } from '../types/clinical';
 import {
@@ -23,63 +28,104 @@ import {
   Copy,
   Check,
   Microscope,
-  Calendar,
   Sparkles,
+  Brain,
+  Baby,
+  HeartPulse,
+  Flame,
+  Users,
 } from 'lucide-react';
+
+// Unified condition type for both joints and medical specialties
+export type UnifiedCondition = (JointConditionMaster | SpecialtyConditionMaster) & {
+  domainType: 'joint' | 'specialty';
+  displayTag: string;
+};
 
 interface JointProtocolsEncyclopediaProps {
   initialConditionId?: string;
-  onApplyToPatient?: (condition: JointConditionMaster) => void;
+  onApplyToPatient?: (condition: UnifiedCondition) => void;
 }
 
 export const JointProtocolsEncyclopedia: React.FC<JointProtocolsEncyclopediaProps> = ({
   initialConditionId,
   onApplyToPatient,
 }) => {
+  const [viewMode, setViewMode] = useState<'joints' | 'specialties'>('joints');
   const [selectedJoint, setSelectedJoint] = useState<JointRegion>('Knee');
+  const [selectedSpecialty, setSelectedSpecialty] = useState<SpecialtyId>('neurology');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<
-    'presentation' | 'tests' | 'investigations' | 'advances' | 'physiotherapy'
+    'physiotherapy' | 'presentation' | 'tests' | 'investigations' | 'advances'
   >('physiotherapy');
   const [activePhaseIndex, setActivePhaseIndex] = useState(0);
   const [copiedProtocol, setCopiedProtocol] = useState(false);
 
-  // Filter conditions by selected joint and search query
-  const jointConditions = useMemo(() => {
-    return ALL_JOINT_CONDITIONS.filter((c) => c.joint === selectedJoint);
-  }, [selectedJoint]);
+  // Combine both pools into a unified list
+  const allUnifiedConditions: UnifiedCondition[] = useMemo(() => {
+    const joints: UnifiedCondition[] = ALL_JOINT_CONDITIONS.map((c) => ({
+      ...c,
+      domainType: 'joint',
+      displayTag: c.joint,
+    }));
+    const specialties: UnifiedCondition[] = ALL_SPECIALTY_CONDITIONS.map((c) => ({
+      ...c,
+      domainType: 'specialty',
+      displayTag: c.category,
+    }));
+    return [...joints, ...specialties];
+  }, []);
 
-  const filteredConditions = useMemo(() => {
-    if (!searchQuery.trim()) return jointConditions;
-    const query = searchQuery.toLowerCase();
-    return ALL_JOINT_CONDITIONS.filter(
-      (c) =>
-        c.name.toLowerCase().includes(query) ||
-        c.joint.toLowerCase().includes(query) ||
-        c.category.toLowerCase().includes(query) ||
-        c.clinicalPresentation.toLowerCase().includes(query) ||
-        c.bedsideAssessmentTests.some((t) => t.testName.toLowerCase().includes(query)) ||
-        c.physiotherapyProtocol.phases.some((p) =>
-          p.exercisePrescription.some((e) => e.exerciseName.toLowerCase().includes(query))
-        )
-    );
-  }, [searchQuery, jointConditions]);
+  // Filter conditions based on current viewMode & selected category or search
+  const currentCatalog = useMemo(() => {
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      return allUnifiedConditions.filter(
+        (c) =>
+          c.name.toLowerCase().includes(q) ||
+          c.category.toLowerCase().includes(q) ||
+          c.clinicalPresentation.toLowerCase().includes(q) ||
+          ('joint' in c && c.joint?.toLowerCase().includes(q)) ||
+          ('specialty' in c && c.specialty?.toLowerCase().includes(q)) ||
+          c.bedsideAssessmentTests.some((t) => t.testName.toLowerCase().includes(q)) ||
+          c.physiotherapyProtocol.phases.some((p) =>
+            p.exercisePrescription.some((e) => e.exerciseName.toLowerCase().includes(q))
+          )
+      );
+    }
+
+    if (viewMode === 'joints') {
+      return allUnifiedConditions.filter(
+        (c) => c.domainType === 'joint' && 'joint' in c && c.joint === selectedJoint
+      );
+    } else {
+      return allUnifiedConditions.filter(
+        (c) => c.domainType === 'specialty' && 'specialty' in c && c.specialty === selectedSpecialty
+      );
+    }
+  }, [allUnifiedConditions, viewMode, selectedJoint, selectedSpecialty, searchQuery]);
 
   const [selectedConditionId, setSelectedConditionId] = useState<string>(
-    initialConditionId || jointConditions[0]?.id || ALL_JOINT_CONDITIONS[0].id
+    initialConditionId || allUnifiedConditions[0].id
   );
 
-  const selectedCondition: JointConditionMaster = useMemo(() => {
+  const selectedCondition: UnifiedCondition = useMemo(() => {
     return (
-      ALL_JOINT_CONDITIONS.find((c) => c.id === selectedConditionId) ||
-      jointConditions[0] ||
-      ALL_JOINT_CONDITIONS[0]
+      allUnifiedConditions.find((c) => c.id === selectedConditionId) ||
+      currentCatalog[0] ||
+      allUnifiedConditions[0]
     );
-  }, [selectedConditionId, jointConditions]);
+  }, [selectedConditionId, currentCatalog, allUnifiedConditions]);
 
-  const handleSelectCondition = (condition: JointConditionMaster) => {
+  const handleSelectCondition = (condition: UnifiedCondition) => {
     setSelectedConditionId(condition.id);
-    setSelectedJoint(condition.joint);
+    if (condition.domainType === 'joint' && 'joint' in condition && condition.joint) {
+      setSelectedJoint(condition.joint);
+      setViewMode('joints');
+    } else if (condition.domainType === 'specialty' && 'specialty' in condition && condition.specialty) {
+      setSelectedSpecialty(condition.specialty);
+      setViewMode('specialties');
+    }
     setActivePhaseIndex(0);
   };
 
@@ -87,7 +133,7 @@ export const JointProtocolsEncyclopedia: React.FC<JointProtocolsEncyclopediaProp
     const p = selectedCondition.physiotherapyProtocol;
     const text = `
 CLINICAAI EVIDENCE-BASED PHYSIOTHERAPY PROTOCOL
-Condition: ${selectedCondition.name} (${selectedCondition.joint})
+Condition: ${selectedCondition.name} (${selectedCondition.displayTag})
 Guideline Basis: ${p.guidelineBasis}
 Summary: ${p.summary}
 
@@ -104,7 +150,7 @@ Precautions: ${phase.precautionsAndContraindications.join(', ')}
   )
   .join('\n')}
 
-DISCHARGE / RETURN TO SPORT CRITERIA:
+DISCHARGE / RETURN TO FUNCTION & SPORT CRITERIA:
 ${p.dischargeAndReturnToActivityCriteria.join('\n - ')}
 
 PATIENT EDUCATION:
@@ -123,20 +169,20 @@ ${p.patientEducationSummary}
         <div>
           <div className="flex items-center gap-2 text-xs font-semibold text-teal-700 uppercase tracking-wider mb-1">
             <Activity className="w-4 h-4 text-teal-600" />
-            <span>Comprehensive Joint Protocol Catalog & Evidence Synthesis</span>
+            <span>Comprehensive Clinical Protocols & Dosed Physiotherapy Catalog</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-            Joint-by-Joint Clinical Assessment & Phased Physiotherapy Protocols
+            Clinical Protocols & Phased Physiotherapy Dosing Encyclopedia
           </h1>
           <p className="text-sm text-slate-600 mt-1 max-w-3xl">
-            Clinically validated protocols across Knee, Spine, Shoulder, Hip, and Ankle. Each condition includes bedside diagnostic accuracy metrics, multi-modality worldwide investigations (X-ray, MRI, CT, Ultrasound, Path Lab), recent peer-reviewed advances, and progressive 4-phase exercise dosing.
+            Evidence-based conditions spanning Peripheral MSK Joints, Neurology, Neurosurgery, Paediatrics, Geriatrics, Cardiopulmonary, and Rheumatology. Each includes bedside diagnostic accuracy, multi-modality investigations, recent literature with DOIs, and 4-phase exercise dosing.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           <button
             onClick={handleCopyProtocol}
-            className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 shadow-xs transition-colors"
+            className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 shadow-xs transition-colors cursor-pointer"
             title="Copy complete structured protocol to clipboard"
           >
             {copiedProtocol ? (
@@ -154,81 +200,168 @@ ${p.patientEducationSummary}
         </div>
       </div>
 
-      {/* Joint Region Selector Tabs */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
-        {JOINT_REGIONS_LIST.map((joint) => {
-          const isSelected = selectedJoint === joint.id && !searchQuery.trim();
-          return (
-            <button
-              key={joint.id}
-              onClick={() => {
-                setSelectedJoint(joint.id);
-                setSearchQuery('');
-                const first = ALL_JOINT_CONDITIONS.find((c) => c.joint === joint.id);
-                if (first) {
-                  setSelectedConditionId(first.id);
-                  setActivePhaseIndex(0);
-                }
-              }}
-              className={`text-left p-3 rounded-lg border transition-all ${
-                isSelected
-                  ? 'border-teal-700 bg-teal-50/70 shadow-xs ring-1 ring-teal-600/30'
-                  : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span
-                  className={`text-xs font-bold ${
-                    isSelected ? 'text-teal-900' : 'text-slate-800'
-                  }`}
-                >
-                  {joint.id}
-                </span>
-                <span className="text-[10px] font-mono tabular-nums font-semibold px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
-                  {joint.conditionCount}
-                </span>
-              </div>
-              <p className="text-[11px] text-slate-500 mt-1 line-clamp-1">
-                {joint.keyAnatomy}
-              </p>
-            </button>
-          );
-        })}
+      {/* Domain Switcher: Joint Complexes vs Medical Specialties */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
+        <div className="flex items-center gap-1">
+          <button
+            onClick={() => {
+              setViewMode('joints');
+              setSearchQuery('');
+              const firstJoint = allUnifiedConditions.find((c) => c.domainType === 'joint' && 'joint' in c && c.joint === selectedJoint);
+              if (firstJoint) setSelectedConditionId(firstJoint.id);
+            }}
+            className={`px-4 py-2 text-xs font-bold rounded-lg transition-all flex items-center gap-2 ${
+              viewMode === 'joints' && !searchQuery
+                ? 'bg-white text-slate-900 shadow-xs ring-1 ring-slate-200'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <Activity className="w-3.5 h-3.5 text-teal-600" />
+            <span>Musculoskeletal & Orthopaedic Joints</span>
+            <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-slate-100 text-slate-600">
+              {ALL_JOINT_CONDITIONS.length}
+            </span>
+          </button>
+
+          <button
+            onClick={() => {
+              setViewMode('specialties');
+              setSearchQuery('');
+              const firstSpec = allUnifiedConditions.find((c) => c.domainType === 'specialty' && 'specialty' in c && c.specialty === selectedSpecialty);
+              if (firstSpec) setSelectedConditionId(firstSpec.id);
+            }}
+            className={`px-4 py-2 text-xs font-bold rounded-lg transition-all flex items-center gap-2 ${
+              viewMode === 'specialties' && !searchQuery
+                ? 'bg-white text-slate-900 shadow-xs ring-1 ring-slate-200'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <Brain className="w-3.5 h-3.5 text-indigo-600" />
+            <span>Medical Specialties Requiring Physiotherapy</span>
+            <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-slate-100 text-slate-600">
+              {ALL_SPECIALTY_CONDITIONS.length}
+            </span>
+          </button>
+        </div>
+
+        <div className="text-[11px] text-slate-500 px-2 font-mono">
+          {allUnifiedConditions.length} Total Conditions Indexed
+        </div>
       </div>
 
-      {/* Search & Filter Bar */}
+      {/* Subcategory Selectors */}
+      {!searchQuery && viewMode === 'joints' && (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+          {JOINT_REGIONS_LIST.map((joint) => {
+            const isSelected = selectedJoint === joint.id;
+            return (
+              <button
+                key={joint.id}
+                onClick={() => {
+                  setSelectedJoint(joint.id);
+                  const first = ALL_JOINT_CONDITIONS.find((c) => c.joint === joint.id);
+                  if (first) setSelectedConditionId(first.id);
+                }}
+                className={`text-left p-3 rounded-lg border transition-all ${
+                  isSelected
+                    ? 'border-teal-700 bg-teal-50/70 shadow-xs ring-1 ring-teal-600/30'
+                    : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span
+                    className={`text-xs font-bold ${
+                      isSelected ? 'text-teal-900' : 'text-slate-800'
+                    }`}
+                  >
+                    {joint.id}
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-500 mt-1 line-clamp-1">
+                  {joint.keyAnatomy}
+                </p>
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {!searchQuery && viewMode === 'specialties' && (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+          {ALL_SPECIALTIES_SECTIONS.map((sec) => {
+            const isSelected = selectedSpecialty === sec.id;
+            return (
+              <button
+                key={sec.id}
+                onClick={() => {
+                  setSelectedSpecialty(sec.id);
+                  const first = ALL_SPECIALTY_CONDITIONS.find((c) => c.specialty === sec.id);
+                  if (first) setSelectedConditionId(first.id);
+                }}
+                className={`text-left p-3 rounded-lg border transition-all ${
+                  isSelected
+                    ? 'border-indigo-700 bg-indigo-50/70 shadow-xs ring-1 ring-indigo-600/30'
+                    : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span
+                    className={`text-xs font-bold ${
+                      isSelected ? 'text-indigo-900' : 'text-slate-800'
+                    }`}
+                  >
+                    {sec.label.split('&')[0].trim()}
+                  </span>
+                  <span className="text-[10px] font-mono px-1 py-0.5 rounded bg-slate-100 text-slate-600">
+                    {sec.conditionCount}
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-500 mt-1 line-clamp-1">
+                  {sec.corePhysioRole}
+                </p>
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Global Search Bar */}
       <div className="relative">
         <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search all joint conditions, special tests (Lachman, Spurling), exercises, modalities, or journals/DOIs..."
-          className="w-full pl-10 pr-4 py-2.5 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-teal-600"
+          placeholder="Search all joint & specialty conditions (Stroke, Parkinson's, Scoliosis, Sarcopenia, Cardiac Rehab, Ankylosing Spondylitis, ACL, etc.)..."
+          className="w-full pl-10 pr-4 py-2.5 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-teal-600 shadow-xs"
         />
         {searchQuery && (
           <button
             onClick={() => setSearchQuery('')}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600 cursor-pointer"
           >
             Clear
           </button>
         )}
       </div>
 
-      {/* Main Grid: Conditions Sidebar + Condition Deep Dive */}
+      {/* Main Grid: Conditions Sidebar + Deep Dive */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column: Condition List (4 cols) */}
         <div className="lg:col-span-4 space-y-2">
           <div className="flex items-center justify-between text-xs font-semibold text-slate-500 px-1">
             <span>
-              {searchQuery ? `Search Results (${filteredConditions.length})` : `${selectedJoint} Conditions (${filteredConditions.length})`}
+              {searchQuery
+                ? `Search Matches (${currentCatalog.length})`
+                : viewMode === 'joints'
+                ? `${selectedJoint} (${currentCatalog.length})`
+                : `${ALL_SPECIALTIES_SECTIONS.find((s) => s.id === selectedSpecialty)?.label} (${currentCatalog.length})`}
             </span>
             <span className="text-[11px] text-slate-400">Select to inspect</span>
           </div>
 
           <div className="space-y-1.5 max-h-[720px] overflow-y-auto pr-1">
-            {filteredConditions.map((cond) => {
+            {currentCatalog.map((cond) => {
               const isSelected = cond.id === selectedCondition.id;
               return (
                 <div
@@ -262,7 +395,7 @@ ${p.patientEducationSummary}
                         isSelected ? 'text-teal-300' : 'text-teal-700 font-medium'
                       }`}
                     >
-                      {cond.category}
+                      {cond.displayTag}
                     </span>
                     <span className={isSelected ? 'text-slate-400' : 'text-slate-300'}>
                       ·
@@ -298,13 +431,18 @@ ${p.patientEducationSummary}
             <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
               <div>
                 <div className="flex items-center gap-2 text-xs font-medium text-slate-500 mb-1">
-                  <span>{selectedCondition.joint}</span>
+                  <span>{selectedCondition.displayTag}</span>
                   <span>·</span>
                   <span className="text-teal-700 font-semibold">{selectedCondition.category}</span>
                 </div>
                 <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
                   {selectedCondition.name}
                 </h2>
+                {'targetPopulation' in selectedCondition && selectedCondition.targetPopulation && (
+                  <p className="text-xs text-slate-500 mt-1">
+                    <strong>Population:</strong> {selectedCondition.targetPopulation}
+                  </p>
+                )}
               </div>
 
               {selectedCondition.isRedFlag ? (
@@ -312,14 +450,14 @@ ${p.patientEducationSummary}
                   <AlertTriangle className="w-4 h-4 text-rose-600" />
                   <span>
                     {selectedCondition.redFlagSeverity === 'EMERGENCY_IMMEDIATE'
-                      ? 'Immediate Emergency Escalation'
-                      : 'Urgent Same-Day Specialty Escalation'}
+                      ? 'Emergency Escalation Required'
+                      : 'Urgent Specialty Consultation'}
                   </span>
                 </div>
               ) : (
                 <div className="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-800 text-xs font-medium shrink-0">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Non-Emergency MSK Protocol</span>
+                  <span>Evidence-Based Rehabilitation</span>
                 </div>
               )}
             </div>
@@ -328,7 +466,7 @@ ${p.patientEducationSummary}
             <div className="flex items-center gap-1 border-b border-slate-200 pt-2 overflow-x-auto">
               <button
                 onClick={() => setActiveTab('physiotherapy')}
-                className={`px-3 py-2 text-xs font-semibold border-b-2 whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+                className={`px-3 py-2 text-xs font-semibold border-b-2 whitespace-nowrap transition-colors flex items-center gap-1.5 cursor-pointer ${
                   activeTab === 'physiotherapy'
                     ? 'border-teal-700 text-teal-800'
                     : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -339,18 +477,18 @@ ${p.patientEducationSummary}
               </button>
               <button
                 onClick={() => setActiveTab('presentation')}
-                className={`px-3 py-2 text-xs font-semibold border-b-2 whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+                className={`px-3 py-2 text-xs font-semibold border-b-2 whitespace-nowrap transition-colors flex items-center gap-1.5 cursor-pointer ${
                   activeTab === 'presentation'
                     ? 'border-teal-700 text-teal-800'
                     : 'border-transparent text-slate-500 hover:text-slate-800'
                 }`}
               >
                 <FileText className="w-3.5 h-3.5" />
-                <span>Presentation & Red Flags</span>
+                <span>Presentation & Acuity</span>
               </button>
               <button
                 onClick={() => setActiveTab('tests')}
-                className={`px-3 py-2 text-xs font-semibold border-b-2 whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+                className={`px-3 py-2 text-xs font-semibold border-b-2 whitespace-nowrap transition-colors flex items-center gap-1.5 cursor-pointer ${
                   activeTab === 'tests'
                     ? 'border-teal-700 text-teal-800'
                     : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -361,7 +499,7 @@ ${p.patientEducationSummary}
               </button>
               <button
                 onClick={() => setActiveTab('investigations')}
-                className={`px-3 py-2 text-xs font-semibold border-b-2 whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+                className={`px-3 py-2 text-xs font-semibold border-b-2 whitespace-nowrap transition-colors flex items-center gap-1.5 cursor-pointer ${
                   activeTab === 'investigations'
                     ? 'border-teal-700 text-teal-800'
                     : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -372,7 +510,7 @@ ${p.patientEducationSummary}
               </button>
               <button
                 onClick={() => setActiveTab('advances')}
-                className={`px-3 py-2 text-xs font-semibold border-b-2 whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+                className={`px-3 py-2 text-xs font-semibold border-b-2 whitespace-nowrap transition-colors flex items-center gap-1.5 cursor-pointer ${
                   activeTab === 'advances'
                     ? 'border-teal-700 text-teal-800'
                     : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -390,7 +528,7 @@ ${p.patientEducationSummary}
                 <div className="bg-slate-50 rounded-lg p-4 border border-slate-200 space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-                      Clinical Protocol Synthesis
+                      Clinical Rehabilitation Synthesis
                     </span>
                     <span className="text-xs font-mono text-teal-700 font-semibold">
                       {selectedCondition.physiotherapyProtocol.guidelineBasis}
@@ -406,9 +544,9 @@ ${p.patientEducationSummary}
                   <div className="flex items-center justify-between mb-3">
                     <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
                       <Layers className="w-4 h-4 text-teal-600" />
-                      <span>Rehabilitation Phases & Progressive Dosing</span>
+                      <span>Rehabilitation Progression Phases</span>
                     </h3>
-                    <span className="text-xs text-slate-500">
+                    <span className="text-xs text-slate-500 font-mono">
                       Phase {activePhaseIndex + 1} of {selectedCondition.physiotherapyProtocol.phases.length}
                     </span>
                   </div>
@@ -420,9 +558,9 @@ ${p.patientEducationSummary}
                         <button
                           key={phase.phaseNumber}
                           onClick={() => setActivePhaseIndex(idx)}
-                          className={`p-3 rounded-lg border text-left transition-all ${
+                          className={`p-3 rounded-lg border text-left transition-all cursor-pointer ${
                             isCurrent
-                              ? 'border-teal-700 bg-teal-50 ring-1 ring-teal-600 text-slate-900'
+                              ? 'border-teal-700 bg-teal-50 ring-1 ring-teal-600 text-slate-900 shadow-xs'
                               : 'border-slate-200 bg-white hover:bg-slate-50 text-slate-600'
                           }`}
                         >
@@ -481,7 +619,7 @@ ${p.patientEducationSummary}
                               <tr>
                                 <th className="py-2.5 px-3 font-semibold">Category</th>
                                 <th className="py-2.5 px-3 font-semibold">Exercise Name</th>
-                                <th className="py-2.5 px-3 font-semibold">Dosage / Tempo</th>
+                                <th className="py-2.5 px-3 font-semibold">Dosage / Dosing</th>
                                 <th className="py-2.5 px-3 font-semibold">Clinical Rationale</th>
                               </tr>
                             </thead>
@@ -543,11 +681,11 @@ ${p.patientEducationSummary}
                   )}
                 </div>
 
-                {/* Discharge / Return-to-Sport Milestones */}
+                {/* Discharge / Return-to-Function Milestones */}
                 <div className="border border-slate-200 rounded-lg p-4 bg-slate-50 space-y-3">
                   <div className="flex items-center gap-2 text-xs font-bold text-slate-900 uppercase tracking-wider">
                     <ShieldCheck className="w-4 h-4 text-teal-600" />
-                    <span>Discharge & Return-to-Sport / Work Milestones</span>
+                    <span>Discharge, Functional Independence & Maintenance Criteria</span>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-700">
                     {selectedCondition.physiotherapyProtocol.dischargeAndReturnToActivityCriteria.map((crit, idx) => (
@@ -570,12 +708,12 @@ ${p.patientEducationSummary}
               </div>
             )}
 
-            {/* TAB CONTENT: PRESENTATION & RED FLAGS */}
+            {/* TAB CONTENT: PRESENTATION & ACUITY */}
             {activeTab === 'presentation' && (
               <div className="space-y-5 pt-2">
                 <div>
                   <h3 className="text-sm font-bold text-slate-900 mb-2">
-                    Clinical Presentation & Natural History
+                    Clinical Presentation & Pathophysiology
                   </h3>
                   <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs text-slate-700 leading-relaxed">
                     {selectedCondition.clinicalPresentation}
@@ -586,10 +724,10 @@ ${p.patientEducationSummary}
                   <div className="border-l-4 border-rose-600 bg-rose-50/70 p-4 rounded-r-lg space-y-2">
                     <div className="flex items-center gap-2 text-xs font-bold text-rose-900 uppercase tracking-wider">
                       <AlertTriangle className="w-4 h-4 text-rose-600" />
-                      <span>Red Flag Escalation Required</span>
+                      <span>Red Flag Escalation Warning</span>
                     </div>
                     <p className="text-xs text-rose-800 leading-relaxed">
-                      This presentation represents high clinical acuity ({selectedCondition.redFlagSeverity}). Do not delay emergency surgical or medical referral for routine conservative assessment.
+                      This presentation represents high clinical acuity ({selectedCondition.redFlagSeverity}). Do not delay emergency surgical, medical, or acute neurological assessment for routine therapy.
                     </p>
                   </div>
                 )}
@@ -601,7 +739,7 @@ ${p.patientEducationSummary}
               <div className="space-y-4 pt-2">
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-bold text-slate-900">
-                    Bedside Physical Examination & Diagnostic Accuracy
+                    Bedside Physical Examination & Diagnostic Battery
                   </h3>
                   <span className="text-xs text-slate-500">
                     Evidence-linked sensitivity, specificity & likelihood ratios
@@ -658,7 +796,7 @@ ${p.patientEducationSummary}
                     Multi-Modality Diagnostic Investigation Profile
                   </h3>
                   <span className="text-xs text-slate-500">
-                    X-ray, MRI, CT, Ultrasound, Path Lab & Arthrocentesis
+                    X-ray, MRI, CT, Ultrasound, Path Lab, CPET & Arthrocentesis
                   </span>
                 </div>
 
@@ -714,10 +852,10 @@ ${p.patientEducationSummary}
               <div className="space-y-4 pt-2">
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-bold text-slate-900">
-                    Recent Technological Advances & Peer-Reviewed Research
+                    Recent Technological Advances & Peer-Reviewed Literature
                   </h3>
                   <span className="text-xs text-slate-500">
-                    Curated latest literature with journals & DOIs
+                    Curated latest evidence with journals & DOIs
                   </span>
                 </div>
 

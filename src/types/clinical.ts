@@ -206,10 +206,54 @@ export interface PhysiotherapyProtocolPhase {
 export interface JointConditionMaster {
   id: string;
   joint: JointRegion;
+  specialty?: SpecialtyId;
   name: string;
   category: string;
   isRedFlag: boolean;
   redFlagSeverity?: 'EMERGENCY_IMMEDIATE' | 'URGENT_SAME_DAY';
+  clinicalPresentation: string;
+  bedsideAssessmentTests: {
+    testName: string;
+    sensitivity: string;
+    specificity: string;
+    positiveLikelihoodRatio?: string;
+    techniqueAndInterpretation: string;
+    evidenceCitation: string;
+    doi?: string;
+  }[];
+  investigationsProfile: {
+    modality: InvestigationModality;
+    description: string;
+    indications: string;
+    keyFindings: string;
+    accuracyOrYield: string;
+    recentAdvanceNote?: string;
+    evidencePaper?: ResearchArticleReference;
+  }[];
+  recentAdvancesAndResearch: {
+    advanceTitle: string;
+    description: string;
+    readinessLevel: 'Routine Clinical Standard' | 'Emerging Guideline Option' | 'Translational Research';
+    journalPaper: ResearchArticleReference;
+  }[];
+  physiotherapyProtocol: {
+    summary: string;
+    guidelineBasis: string;
+    phases: PhysiotherapyProtocolPhase[];
+    dischargeAndReturnToActivityCriteria: string[];
+    patientEducationSummary: string;
+  };
+}
+
+export interface SpecialtyConditionMaster {
+  id: string;
+  specialty: SpecialtyId;
+  joint?: JointRegion;
+  name: string;
+  category: string;
+  isRedFlag: boolean;
+  redFlagSeverity?: 'EMERGENCY_IMMEDIATE' | 'URGENT_SAME_DAY';
+  targetPopulation?: string;
   clinicalPresentation: string;
   bedsideAssessmentTests: {
     testName: string;

@@ -119,30 +119,23 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           {SPECIALTIES_CONFIG.map((spec) => (
             <div
               key={spec.id}
-              className={`p-3.5 rounded-xl border transition-all text-xs flex flex-col justify-between ${
-                spec.mvpReady
-                  ? 'border-teal-700/40 bg-teal-50/20 hover:border-teal-700 shadow-xs'
-                  : 'border-slate-200 bg-white opacity-85 hover:opacity-100'
-              }`}
+              onClick={() => onNavigate('protocols')}
+              className="p-3.5 rounded-xl border transition-all text-xs flex flex-col justify-between border-teal-700/40 bg-teal-50/20 hover:border-teal-700 hover:bg-teal-50/40 shadow-xs cursor-pointer group"
             >
               <div>
                 <div className="flex items-center justify-between">
-                  <span
-                    className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${
-                      spec.mvpReady
-                        ? 'bg-teal-700 text-white'
-                        : 'bg-slate-100 text-slate-500'
-                    }`}
-                  >
-                    {spec.mvpReady ? 'Active MVP' : 'Extensible'}
+                  <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-teal-700 text-white">
+                    Active Module
                   </span>
+                  <ArrowRight className="w-3 h-3 text-slate-400 group-hover:text-teal-700 transition-colors" />
                 </div>
                 <h3 className="font-bold text-slate-900 mt-2 leading-snug">{spec.name}</h3>
                 <p className="text-[11px] text-slate-500 mt-1 line-clamp-2">{spec.scopeSummary}</p>
               </div>
 
-              <div className="mt-3 pt-2 border-t border-slate-100 text-[10px] text-slate-400 font-mono">
-                {spec.supportedComplaints.length} Conditions
+              <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-teal-800 font-mono">
+                <span>{spec.supportedComplaints.length} Protocols</span>
+                <span className="font-sans font-medium text-teal-700">View &rarr;</span>
               </div>
             </div>
           ))}

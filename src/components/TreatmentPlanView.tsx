@@ -15,8 +15,14 @@ import {
   ChevronDown,
   Sparkles,
 } from 'lucide-react';
-import { TreatmentRecommendation, PatientIntake } from '../types/clinical';
+import { TreatmentRecommendation, PatientIntake, JointConditionMaster, SpecialtyConditionMaster } from '../types/clinical';
 import { ALL_JOINT_CONDITIONS } from '../data/jointProtocolsData';
+import { ALL_SPECIALTY_CONDITIONS } from '../data/specialtyProtocolsData';
+
+const COMBINED_ALL_CONDITIONS: (JointConditionMaster | SpecialtyConditionMaster)[] = [
+  ...ALL_JOINT_CONDITIONS,
+  ...ALL_SPECIALTY_CONDITIONS,
+];
 
 interface TreatmentPlanViewProps {
   treatment: TreatmentRecommendation;
@@ -33,10 +39,10 @@ export const TreatmentPlanView: React.FC<TreatmentPlanViewProps> = ({
   onUpdateTreatment,
   onProceed,
 }) => {
-  // Find matching joint condition from library or default to first
+  // Find matching condition from library or default to first
   const defaultCondition = useMemo(() => {
     if (primaryDiagnosis) {
-      const match = ALL_JOINT_CONDITIONS.find(
+      const match = COMBINED_ALL_CONDITIONS.find(
         (c) =>
           c.name.toLowerCase().includes(primaryDiagnosis.toLowerCase()) ||
           primaryDiagnosis.toLowerCase().includes(c.name.toLowerCase())
@@ -45,13 +51,14 @@ export const TreatmentPlanView: React.FC<TreatmentPlanViewProps> = ({
     }
     if (patient?.chiefComplaint) {
       const complaintLower = patient.chiefComplaint.toLowerCase();
-      const match = ALL_JOINT_CONDITIONS.find((c) =>
+      const match = COMBINED_ALL_CONDITIONS.find((c) =>
         complaintLower.includes(c.name.toLowerCase()) ||
-        complaintLower.includes(c.joint.toLowerCase())
+        ('joint' in c && c.joint && complaintLower.includes(c.joint.toLowerCase())) ||
+        ('specialty' in c && c.specialty && complaintLower.includes(c.specialty.toLowerCase()))
       );
       if (match) return match;
     }
-    return ALL_JOINT_CONDITIONS[0]; // ACL Rupture
+    return COMBINED_ALL_CONDITIONS[0]; // Default
   }, [primaryDiagnosis, patient]);
 
   const [selectedConditionId, setSelectedConditionId] = useState<string>(defaultCondition.id);
@@ -61,7 +68,7 @@ export const TreatmentPlanView: React.FC<TreatmentPlanViewProps> = ({
 
   const activeCondition = useMemo(() => {
     return (
-      ALL_JOINT_CONDITIONS.find((c) => c.id === selectedConditionId) ||
+      COMBINED_ALL_CONDITIONS.find((c) => c.id === selectedConditionId) ||
       defaultCondition
     );
   }, [selectedConditionId, defaultCondition]);
@@ -163,13 +170,22 @@ ${phase.precautionsAndContraindications.join(', ')}
                 setSelectedConditionId(e.target.value);
                 setActivePhaseIndex(0);
               }}
-              className="text-xs bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 font-medium text-slate-800 focus:outline-none focus:ring-1 focus:ring-teal-600 max-w-[220px]"
+              className="text-xs bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 font-medium text-slate-800 focus:outline-none focus:ring-1 focus:ring-teal-600 max-w-[280px]"
             >
-              {ALL_JOINT_CONDITIONS.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.joint}: {c.name}
-                </option>
-              ))}
+              <optgroup label="Musculoskeletal Joints">
+                {ALL_JOINT_CONDITIONS.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.joint}: {c.name}
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="Specialized Medical Protocols">
+                {ALL_SPECIALTY_CONDITIONS.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.specialty.toUpperCase()}: {c.name}
+                  </option>
+                ))}
+              </optgroup>
             </select>
           </div>
         </div>
