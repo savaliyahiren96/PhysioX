@@ -15,9 +15,11 @@ import {
   Dumbbell,
   Apple,
   Microscope,
+  HelpCircle,
 } from 'lucide-react';
 import { PatientIntake } from '../types/clinical';
 import { DEMO_PATIENTS, SPECIALTIES_CONFIG } from '../data/clinicalKnowledge';
+import { AudienceScopeModal } from './AudienceScopeModal';
 
 import { AppView } from './Header';
 
@@ -33,6 +35,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   onNavigate,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [scopeModalOpen, setScopeModalOpen] = useState(false);
 
   const filteredPatients = DEMO_PATIENTS.filter(
     (p) =>
@@ -59,27 +62,27 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 shrink-0">
+            <button
+              onClick={() => setScopeModalOpen(true)}
+              className="px-3.5 py-3 bg-teal-50 border border-teal-200 hover:bg-teal-100 text-teal-800 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer"
+            >
+              <HelpCircle className="w-4 h-4 text-teal-700" />
+              <span>Who Is This For?</span>
+            </button>
             <button
               onClick={onNewAssessment}
-              className="px-5 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-2 shadow-xs transition-colors"
+              className="px-5 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-2 shadow-xs transition-colors cursor-pointer"
             >
               <Plus className="w-4 h-4 text-teal-400" />
               <span>Start New Patient Encounter</span>
             </button>
             <button
               onClick={() => onNavigate('protocols')}
-              className="px-4 py-3 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-colors"
+              className="px-4 py-3 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer"
             >
               <Activity className="w-4 h-4 text-teal-600" />
-              <span>Joint Protocols & Dosing</span>
-            </button>
-            <button
-              onClick={() => onNavigate('evidence')}
-              className="px-4 py-3 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-colors"
-            >
-              <BookOpen className="w-4 h-4 text-slate-400" />
-              <span>Evidence CPGs</span>
+              <span>Joint Protocols</span>
             </button>
           </div>
         </div>
@@ -353,6 +356,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           })}
         </div>
       </div>
+
+      {/* Target Audience & Scope Matrix Modal */}
+      <AudienceScopeModal
+        isOpen={scopeModalOpen}
+        onClose={() => setScopeModalOpen(false)}
+        onNavigate={onNavigate}
+      />
     </div>
   );
 };
