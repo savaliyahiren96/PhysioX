@@ -1,0 +1,209 @@
+export type SpecialtyId =
+  | 'physiotherapy'
+  | 'orthopaedics'
+  | 'sports_medicine'
+  | 'neurology'
+  | 'neurosurgery'
+  | 'cardiopulmonary'
+  | 'general_medicine'
+  | 'rheumatology'
+  | 'paediatrics'
+  | 'geriatrics';
+
+export interface SpecialtyConfig {
+  id: SpecialtyId;
+  name: string;
+  category: string;
+  scopeSummary: string;
+  mvpReady: boolean;
+  supportedComplaints: string[];
+}
+
+export type Sex = 'Male' | 'Female' | 'Intersex' | 'Not Disclosed' | 'Unknown';
+
+export interface PatientDemographics {
+  id: string;
+  mrn: string;
+  name: string;
+  age: number | '';
+  sex: Sex;
+  heightCm: number | '';
+  weightKg: number | '';
+  occupation: string;
+  activityLevel: 'Sedentary' | 'Light' | 'Moderate' | 'Heavy Athletic' | 'Unknown';
+}
+
+export interface PatientIntake extends PatientDemographics {
+  chiefComplaint: string;
+  anatomicalLocation: string; // e.g., 'Right Knee - Anterior / Retropatellar', 'Lumbar Spine - L4/L5 with radiation to right foot'
+  onset: 'Acute (< 48 hrs)' | 'Subacute (2 - 6 weeks)' | 'Chronic (> 3 months)' | 'Acute on Chronic' | 'Unknown';
+  duration: string;
+  severityNprs: number; // 0 to 10
+  progression: 'Improving' | 'Static' | 'Worsening' | 'Fluctuating' | 'Unknown';
+  injuryMechanism: string; // e.g., 'Non-contact deceleration with pop', 'Lifting heavy load while flexed and rotated', 'Insidious / gradual'
+  aggravatingFactors: string[];
+  relievingFactors: string[];
+  functionalLimitations: string;
+  patientGoals: string;
+  medicalHistory: string;
+  surgicalHistory: string;
+  comorbidities: string[];
+  medications: string;
+  allergies: string;
+  priorInvestigations: string;
+  priorTreatments: string;
+  notes: string;
+}
+
+export type RedFlagUrgency = 'EMERGENCY_IMMEDIATE' | 'URGENT_SAME_DAY' | 'PRIORITY_ROUTINE' | 'NEGATIVE_CLEAR';
+
+export interface RedFlagItem {
+  id: string;
+  specialty: SpecialtyId;
+  conditionTarget: string;
+  label: string;
+  findingPrompt: string;
+  urgency: RedFlagUrgency;
+  escalationPath: string;
+  clinicalRationale: string;
+  isPositive: boolean;
+  notes?: string;
+}
+
+export interface AdaptiveQuestion {
+  id: string;
+  specialty: SpecialtyId;
+  complaintCondition: string; // condition under which question is shown
+  question: string;
+  explanation: string; // Clinical sensitivity/evidence rationale
+  type: 'select' | 'boolean' | 'multiselect' | 'text';
+  options?: string[];
+  value: any;
+  isSkipped: boolean;
+  skipReason?: string;
+}
+
+export interface SpecialTestItem {
+  id: string;
+  name: string;
+  category: 'Observation & Palpation' | 'ROM & Strength' | 'Neurological' | 'Special Diagnostic Test' | 'Validated Outcome Measure';
+  indication: string;
+  sensitivity?: string;
+  specificity?: string;
+  interpretationRules: string;
+  evidenceSource: string;
+  doi?: string;
+  result: 'Positive' | 'Negative' | 'Equivocal' | 'Not Tested' | 'Contraindicated';
+  scoreValue?: string;
+  clinicianNotes?: string;
+}
+
+export interface DifferentialCandidate {
+  id: string;
+  condition: string;
+  tier: 'Primary Consideration' | 'Secondary Consideration' | 'Less Common / Critical Differential';
+  clinicalRationale: string;
+  supportingFindings: string[];
+  conflictingFindings: string[];
+  missingInformation: string[];
+  importantAlternatives: string[];
+  redFlagNotes: string;
+  evidenceCitations: {
+    source: string;
+    year: number;
+    doi?: string;
+    type: string;
+  }[];
+}
+
+export interface InvestigationGuidance {
+  id: string;
+  modality: 'Plain Radiograph (X-ray)' | 'MRI Scan' | 'Diagnostic Ultrasound' | 'CT Scan' | 'Laboratory (ESR/CRP/WBC)' | 'Joint Aspiration';
+  isIndicated: boolean;
+  urgencyLevel: 'Emergency' | 'Urgent (< 2 weeks)' | 'Elective / Post-Conservative' | 'Not Indicated';
+  clinicalIndicationRules: string;
+  limitationsAndRisks: string;
+  guidelineReference: string;
+  choosingWiselyStatement: string;
+}
+
+export interface TreatmentRecommendation {
+  conservativeRehab: string[];
+  patientEducation: string[];
+  loadManagement: string;
+  precautions: string[];
+  contraindications: string[];
+  pharmacologyContext: string; // Clearly noting prescribing scope
+  specialistConsultThresholds: string[];
+  reassessmentTimeline: string;
+}
+
+export interface MultidisciplinaryReferral {
+  targetSpecialty: string;
+  urgency: 'Emergency (Immediate Decompression/Transfer)' | 'Urgent (Within 24-48 Hours)' | 'Semi-Urgent (Within 2 Weeks)' | 'Routine Outpatient';
+  consultationQuestion: string;
+  summaryOfFacts: string;
+  objectivePhysicalFindings: string;
+  imagingAndLabsCompleted: string;
+  clinicianSignature: string;
+  clinicianLicense: string;
+  referralDate: string;
+}
+
+export interface ClinicalReportState {
+  id: string;
+  status: 'Draft' | 'Clinician Reviewed' | 'Clinician Signed & Approved';
+  createdAt: string;
+  updatedAt: string;
+  patient: PatientIntake;
+  specialty: SpecialtyId;
+  redFlagsSummary: {
+    screenedCount: number;
+    positiveCount: number;
+    highestUrgency: RedFlagUrgency;
+  };
+  keyFindings: string[];
+  differentialTopThree: string[];
+  investigationPlan: string;
+  treatmentPlan: TreatmentRecommendation;
+  referralGenerated: boolean;
+  clinicianDeclaration: string;
+}
+
+export interface LiteratureArticle {
+  id: string;
+  title: string;
+  authors: string;
+  journal: string;
+  year: number;
+  doi: string;
+  studyType: string;
+  sampleSize: string;
+  targetPopulation: string;
+  keyFindings: string;
+  limitations: string;
+  relevanceScore: number;
+  lastChecked: string;
+}
+
+export interface ResearchWatchlist {
+  id: string;
+  name: string;
+  keywords: string;
+  specialty: SpecialtyId;
+  frequency: 'Daily' | 'Weekly' | 'Monthly';
+  lastRun: string;
+  unreadCount: number;
+  active: boolean;
+}
+
+export interface ClinicalRuleGovernance {
+  id: string;
+  title: string;
+  version: string;
+  status: 'Active' | 'Under Review' | 'Deprecated' | 'Rolled Back';
+  lastReviewed: string;
+  reviewedBy: string;
+  description: string;
+  rollbackAvailable: boolean;
+}
