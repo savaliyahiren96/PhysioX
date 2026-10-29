@@ -2,9 +2,17 @@ export type SpecialtyId =
   | 'physiotherapy'
   | 'orthopaedics'
   | 'sports_medicine'
+  | 'sports_physiotherapy'
+  | 'strength_conditioning'
+  | 'sports_nutrition'
   | 'neurology'
   | 'neurosurgery'
   | 'cardiopulmonary'
+  | 'critical_care'
+  | 'oncology'
+  | 'pelvic_health'
+  | 'pain_management'
+  | 'postoperative_rehab'
   | 'general_medicine'
   | 'rheumatology'
   | 'paediatrics'
@@ -368,3 +376,216 @@ export interface ClinicalRuleGovernance {
   description: string;
   rollbackAvailable: boolean;
 }
+
+// ==========================================
+// ATHLETE ASSESSMENT & SPORTS PERFORMANCE
+// ==========================================
+export type SportType =
+  | 'cricket'
+  | 'football'
+  | 'badminton'
+  | 'kabaddi'
+  | 'wrestling'
+  | 'hockey'
+  | 'athletics_track'
+  | 'running_marathon'
+  | 'swimming'
+  | 'tennis'
+  | 'volleyball'
+  | 'basketball'
+  | 'weightlifting'
+  | 'combat_sports';
+
+export type AthleteLevel = 'Recreational' | 'District / State' | 'National' | 'International / Elite' | 'Youth Academy' | 'Masters';
+
+export interface SportSpecificPathway {
+  sportId: SportType;
+  sportName: string;
+  primaryIndianGoverningBody: string; // e.g. BCCI, AIFF, BAI, AKFI, WFI, Hockey India, AFI
+  internationalFederation: string; // e.g. ICC, FIFA, BWF, IKF, UWW, FIH, World Athletics
+  positionalRoles: string[];
+  keyPhysicalDemands: string[];
+  commonInjuryEpidemiology: string[];
+  preParticipationScreening: {
+    toolName: string;
+    description: string;
+    cutoffOrCriteria: string;
+  }[];
+  movementAndBiomechanicsBattery: {
+    testName: string;
+    protocol: string;
+    targetBenchmark: string;
+    relevance: string;
+  }[];
+  physiologicalTesting: {
+    testName: string;
+    metric: string;
+    eliteBenchmarkMale: string;
+    eliteBenchmarkFemale: string;
+    equipmentRequired: string;
+  }[];
+  workloadMonitoringRules: {
+    metric: string;
+    optimalRange: string;
+    dangerThreshold: string;
+    clinicalSignificance: string;
+  }[];
+  returnToSportContinuum: {
+    stage: 'Stage 1: Return to Activity' | 'Stage 2: Return to Sport Training' | 'Stage 3: Return to Full Practice' | 'Stage 4: Return to Match Competition' | 'Stage 5: Return to Peak Performance';
+    objectiveGateways: string[];
+    riskMitigation: string;
+  }[];
+}
+
+// ==========================================
+// STRENGTH AND CONDITIONING (S&C)
+// ==========================================
+export type PeriodizationModel = 'Linear / Traditional' | 'Daily Undulating (DUP)' | 'Block Periodisation' | 'Conjugate' | 'Phased Post-Injury Return';
+export type SCExperienceLevel = 'Beginner (0-1 yr)' | 'Intermediate (1-3 yrs)' | 'Advanced (3+ yrs)' | 'Youth LTAD' | 'Masters / Veteran';
+
+export interface ExercisePrescriptionDetail {
+  exerciseName: string;
+  category: 'Squat / Knee Dominant' | 'Hinge / Posterior Chain' | 'Upper Push (Horizontal/Vertical)' | 'Upper Pull' | 'Rotational & Core' | 'Plyometrics & RFD' | 'Sprint & Acceleration' | 'Conditioning';
+  sets: number;
+  repsOrDuration: string;
+  intensityRpeOrPercent1RM: string;
+  restSeconds: number;
+  tempo: string; // e.g. "3-1-X-1"
+  coachingCues: string;
+  equipmentAdaptation: string; // Equipment alternatives for Indian gym/ground settings
+}
+
+export interface TrainingSessionDay {
+  dayName: string; // e.g. "Day 1: Lower Body Max Strength & Acceleration"
+  warmUpRampProtocol: string[];
+  exercises: ExercisePrescriptionDetail[];
+  coolDownMobility: string[];
+}
+
+export interface MicrocyclePlan {
+  weekNumber: number;
+  focus: string;
+  sessions: TrainingSessionDay[];
+  volumeLoadEstimateKg: string;
+  deloadWeek: boolean;
+}
+
+export interface MesocycleBlock {
+  blockName: string; // e.g. "Anatomical Adaptation", "Maximal Strength", "Power Transition"
+  durationWeeks: number;
+  primaryAdaptation: string;
+  model: PeriodizationModel;
+  microcycles: MicrocyclePlan[];
+}
+
+// ==========================================
+// SPORTS NUTRITION & INDIAN DIET PLANNING
+// ==========================================
+export type DietaryTradition = 'North Indian' | 'South Indian' | 'West Indian / Gujarati / Maharashtrian' | 'East Indian' | 'Pan-Indian';
+export type FoodPreference = 'Pure Vegetarian (Lacto)' | 'Eggetarian (Lacto-Ovo)' | 'Non-Vegetarian (Chicken, Fish, Eggs)' | 'Vegan' | 'Jain (Strict Vegetarian without roots)';
+export type BudgetLevel = 'Economy / Budget-Friendly (Local Dal, Sattu, Besan, Rice, Curd)' | 'Moderate' | 'High-Performance / Premium';
+
+export interface IndianFoodItem {
+  name: string;
+  localName?: string;
+  category: 'Protein Core' | 'Complex Carbohydrate' | 'Healthy Fats' | 'Fiber & Micro-Dense';
+  servingGramsOrUnits: string;
+  caloriesKcal: number;
+  proteinGrams: number;
+  carbsGrams: number;
+  fatsGrams: number;
+  costTier: 'Very Low Cost' | 'Moderate' | 'Premium';
+  culinaryNotes: string;
+}
+
+export interface NutritionMealSlot {
+  mealName: 'Early Morning / Pre-Training' | 'Post-Training Recovery Golden Window' | 'Breakfast' | 'Mid-Morning Snack' | 'Lunch' | 'Evening Pre-Workout / Snack' | 'Dinner' | 'Bedtime Casein';
+  timing: string;
+  targetCalories: number;
+  targetProteinGrams: number;
+  targetCarbsGrams: number;
+  items: {
+    foodName: string;
+    portionDescription: string;
+    nutritionSummary: string;
+    budgetAlternative?: string;
+  }[];
+  clinicalNutrientTimingRationale: string;
+}
+
+export interface IndianPersonalizedNutritionPlan {
+  id: string;
+  athleteGoal: 'Lean Muscle Hypertrophy' | 'Fat Loss with Muscle Retention' | 'Endurance Match Performance' | 'Injury Recovery & Post-Op Anabolism' | 'Weight-Class Sports Cutting & Recovery';
+  bmrKcal: number;
+  totalDailyEnergyExpenditureKcal: number;
+  dailyCalorieTarget: number;
+  proteinTargetGrams: number;
+  proteinGramsPerKg: number;
+  carbsTargetGrams: number;
+  carbsGramsPerKg: number;
+  fatsTargetGrams: number;
+  hydrationSweatLossStrategy: string;
+  electrolytesStrategy: string; // Nimbu paani, ORS, coconut water adaptations
+  icmrNinGuidelinesAlignment: string; // Alignment with ICMR-NIN 2024 Dietary Guidelines for Indians
+  wadaNadaComplianceNote: string; // Safety checks against adulterated supplements
+  redSScreeningNote: string; // Screening for Relative Energy Deficiency in Sport
+  meals: NutritionMealSlot[];
+}
+
+// ==========================================
+// INDIAN HOSPITAL INVESTIGATION REFERENCE ATLAS
+// ==========================================
+export type IndianHospitalTier =
+  | 'Tier 1 Apex / Super-Specialty (AIIMS, PGI, Medanta, Apollo, Max)'
+  | 'Tier 2 District Hospital / State Medical College / ESI Hospital'
+  | 'Tier 3 Sub-District / Community Health Centre (CHC) / Private Clinic';
+
+export interface IndianInvestigationAtlasItem {
+  id: string;
+  modalityName: string;
+  subType: string;
+  bodyRegionOrSpecialty: string;
+  tierAvailability: IndianHospitalTier[];
+  approximateCostINR: string;
+  ayushmanBharatCovered: boolean;
+  purposeAndIndications: string;
+  contraindicationsAndSafety: string;
+  patientPreparationProtocol: string;
+  normalAnatomicalFindings: string;
+  pathologicalFindingsAndSigns: string;
+  diagnosticAccuracySensSpec: string;
+  rehabilitationAndAthleticImplications: string;
+  annotatedDiagramOrVisualDetails: {
+    visualDescription: string;
+    keyLandmarksToInspect: string[];
+    typicalPitfallsOrArtifacts: string;
+  };
+  evidenceGuidelineCitation: string;
+  doi?: string;
+}
+
+// ==========================================
+// MULTIDISCIPLINARY TEAM (MDT) CASE DISCUSSIONS
+// ==========================================
+export interface MDTTeamMember {
+  role: 'Orthopaedic Surgeon' | 'Neurologist / Neurosurgeon' | 'Consultant Physiotherapist' | 'Sports Medicine Physician' | 'Strength & Conditioning Specialist' | 'Sports Dietitian' | 'Musculoskeletal Radiologist';
+  name: string;
+  qualifications: string;
+  specialtyInputSummary: string;
+  recommendedNextActions: string[];
+  consensusAgreement: 'Agreed' | 'Agreed with Precaution' | 'Further Testing Required' | 'Divergent Opinion';
+}
+
+export interface MDTCaseDiscussionRecord {
+  id: string;
+  caseTitle: string;
+  patientId: string;
+  patientDemographicsSummary: string;
+  primaryConcernOrPresentation: string;
+  chairperson: string;
+  meetingDate: string;
+  teamInputs: MDTTeamMember[];
+  finalConsensusActionPlan: string;
+  monitoringMilestones: string[];
+}
+

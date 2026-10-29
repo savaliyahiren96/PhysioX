@@ -11,14 +11,20 @@ import {
   Plus,
   Clock,
   Sparkles,
+  Trophy,
+  Dumbbell,
+  Apple,
+  Microscope,
 } from 'lucide-react';
 import { PatientIntake } from '../types/clinical';
 import { DEMO_PATIENTS, SPECIALTIES_CONFIG } from '../data/clinicalKnowledge';
 
+import { AppView } from './Header';
+
 interface DashboardViewProps {
   onSelectPatient: (patient: PatientIntake) => void;
   onNewAssessment: () => void;
-  onNavigate: (view: 'dashboard' | 'wizard' | 'evidence' | 'watchlists' | 'governance' | 'protocols') => void;
+  onNavigate: (view: AppView) => void;
 }
 
 export const DashboardView: React.FC<DashboardViewProps> = ({
@@ -92,13 +98,123 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           </div>
           <div className="p-3 bg-slate-50/70 rounded-xl border border-slate-100">
             <div className="text-slate-400 text-[11px]">Bedside Diagnostic Tests</div>
-            <div className="text-xl font-bold font-mono tabular-nums text-slate-900 mt-0.5">12 Indexed</div>
+            <div className="text-xl font-bold font-mono tabular-nums text-slate-900 mt-0.5">32 Indexed</div>
             <div className="text-[10px] text-slate-500 mt-0.5">Sens/Spec & Likelihood Ratios</div>
           </div>
           <div className="p-3 bg-slate-50/70 rounded-xl border border-slate-100">
-            <div className="text-slate-400 text-[11px]">Target Specialties</div>
-            <div className="text-xl font-bold font-mono tabular-nums text-slate-900 mt-0.5">10 Modules</div>
-            <div className="text-[10px] text-slate-500 mt-0.5">Musculoskeletal MVP Ready</div>
+            <div className="text-slate-400 text-[11px]">Medical & Sports Disciplines</div>
+            <div className="text-xl font-bold font-mono tabular-nums text-slate-900 mt-0.5">18 Active</div>
+            <div className="text-[10px] text-teal-700 mt-0.5">India & Global Guidelines</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Featured Indian Sports Science & Diagnostics Hub Cards */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-sm font-bold text-slate-900">Sports Science, S&C, Nutrition & Indian Diagnostics</h2>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Comprehensive athletic preparation and hospital diagnostics aligned with SAI, BCCI, ICMR-NIN, and Ayushman Bharat.
+            </p>
+          </div>
+          <span className="text-xs text-emerald-800 font-mono font-semibold">5 Integrated Hubs</span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+          <div
+            onClick={() => onNavigate('athlete')}
+            className="p-4 rounded-xl border border-emerald-200 bg-emerald-50/40 hover:bg-emerald-50 hover:border-emerald-400 transition-all cursor-pointer shadow-xs group"
+          >
+            <div className="w-8 h-8 rounded-lg bg-emerald-700 text-white flex items-center justify-center mb-2">
+              <Trophy className="w-4 h-4" />
+            </div>
+            <div className="font-bold text-sm text-slate-900 group-hover:text-emerald-900">
+              Sports Performance & RTS
+            </div>
+            <p className="text-[11px] text-slate-600 mt-1 line-clamp-2">
+              Cricket, Kabaddi, Badminton, Football, Hockey & Wrestling screening, testing & return to sport.
+            </p>
+            <div className="mt-3 text-[10px] text-emerald-800 font-semibold flex items-center gap-1">
+              <span>Open Sport Pathways</span>
+              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </div>
+
+          <div
+            onClick={() => onNavigate('sandc')}
+            className="p-4 rounded-xl border border-teal-200 bg-teal-50/40 hover:bg-teal-50 hover:border-teal-400 transition-all cursor-pointer shadow-xs group"
+          >
+            <div className="w-8 h-8 rounded-lg bg-teal-700 text-white flex items-center justify-center mb-2">
+              <Dumbbell className="w-4 h-4" />
+            </div>
+            <div className="font-bold text-sm text-slate-900 group-hover:text-teal-900">
+              Strength & Conditioning
+            </div>
+            <p className="text-[11px] text-slate-600 mt-1 line-clamp-2">
+              Periodisation (Block, DUP, Linear), 1RM estimators, volume loads, Indian gym adaptations.
+            </p>
+            <div className="mt-3 text-[10px] text-teal-800 font-semibold flex items-center gap-1">
+              <span>Plan S&C Programs</span>
+              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </div>
+
+          <div
+            onClick={() => onNavigate('nutrition')}
+            className="p-4 rounded-xl border border-amber-200 bg-amber-50/40 hover:bg-amber-50 hover:border-amber-400 transition-all cursor-pointer shadow-xs group"
+          >
+            <div className="w-8 h-8 rounded-lg bg-amber-600 text-white flex items-center justify-center mb-2">
+              <Apple className="w-4 h-4" />
+            </div>
+            <div className="font-bold text-sm text-slate-900 group-hover:text-amber-900">
+              Sports Nutrition (ICMR-NIN)
+            </div>
+            <p className="text-[11px] text-slate-600 mt-1 line-clamp-2">
+              Indian diet plans (Sattu, Paneer, Soya, Dahi), budget meal schedules, hydration & RED-S.
+            </p>
+            <div className="mt-3 text-[10px] text-amber-800 font-semibold flex items-center gap-1">
+              <span>Build Diet Schedule</span>
+              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </div>
+
+          <div
+            onClick={() => onNavigate('investigations')}
+            className="p-4 rounded-xl border border-cyan-200 bg-cyan-50/40 hover:bg-cyan-50 hover:border-cyan-400 transition-all cursor-pointer shadow-xs group"
+          >
+            <div className="w-8 h-8 rounded-lg bg-cyan-700 text-white flex items-center justify-center mb-2">
+              <Microscope className="w-4 h-4" />
+            </div>
+            <div className="font-bold text-sm text-slate-900 group-hover:text-cyan-900">
+              Indian Diagnostics Atlas
+            </div>
+            <p className="text-[11px] text-slate-600 mt-1 line-clamp-2">
+              AIIMS vs District Hospital costs in INR, Ayushman Bharat PM-JAY packages, visual landmarks.
+            </p>
+            <div className="mt-3 text-[10px] text-cyan-800 font-semibold flex items-center gap-1">
+              <span>Explore Imaging Atlas</span>
+              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </div>
+
+          <div
+            onClick={() => onNavigate('mdt')}
+            className="p-4 rounded-xl border border-indigo-200 bg-indigo-50/40 hover:bg-indigo-50 hover:border-indigo-400 transition-all cursor-pointer shadow-xs group"
+          >
+            <div className="w-8 h-8 rounded-lg bg-indigo-700 text-white flex items-center justify-center mb-2">
+              <Users className="w-4 h-4" />
+            </div>
+            <div className="font-bold text-sm text-slate-900 group-hover:text-indigo-900">
+              MDT Case Discussions
+            </div>
+            <p className="text-[11px] text-slate-600 mt-1 line-clamp-2">
+              Ortho, Physio, Sports Physician, S&C Coach, and Dietitian collaborative consensus.
+            </p>
+            <div className="mt-3 text-[10px] text-indigo-800 font-semibold flex items-center gap-1">
+              <span>View Case Conferences</span>
+              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+            </div>
           </div>
         </div>
       </div>
