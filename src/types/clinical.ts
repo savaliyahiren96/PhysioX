@@ -116,15 +116,68 @@ export interface DifferentialCandidate {
   }[];
 }
 
+export type InvestigationModality =
+  | 'Plain Radiograph (X-ray)'
+  | 'MRI Scan'
+  | 'CT Scan'
+  | 'Diagnostic Ultrasound (MSK US)'
+  | 'Pathology & Lab Diagnostics'
+  | 'Arthrocentesis / Synovial Fluid'
+  | 'Recent Technological Advance';
+
+export interface ResearchArticleReference {
+  id: string;
+  title: string;
+  authors: string;
+  journal: string;
+  year: number;
+  doi: string;
+  studyType: string;
+  sampleSize?: string;
+  clinicalSummary: string;
+  keyTakeaway: string;
+}
+
 export interface InvestigationGuidance {
   id: string;
-  modality: 'Plain Radiograph (X-ray)' | 'MRI Scan' | 'Diagnostic Ultrasound' | 'CT Scan' | 'Laboratory (ESR/CRP/WBC)' | 'Joint Aspiration';
+  modality: InvestigationModality;
+  modalitySubtype?: string; // e.g. "Standing 3-View Rosenberg / Skyline", "3T T2-Mapping / Cartilage", "Dual-Energy CT (DECT)", "High-Resolution Power Doppler"
   isIndicated: boolean;
-  urgencyLevel: 'Emergency' | 'Urgent (< 2 weeks)' | 'Elective / Post-Conservative' | 'Not Indicated';
+  urgencyLevel: 'Emergency' | 'Urgent (< 2 weeks)' | 'Elective / Post-Conservative' | 'Not Indicated' | 'Specialist Consultation Only';
   clinicalIndicationRules: string;
   limitationsAndRisks: string;
   guidelineReference: string;
   choosingWiselyStatement: string;
+  diagnosticAccuracy?: {
+    sensitivity?: string;
+    specificity?: string;
+    positiveLikelihoodRatio?: string;
+    negativeLikelihoodRatio?: string;
+  };
+  sampleFindings?: string;
+  recentResearchPaper?: ResearchArticleReference;
+}
+
+export interface ConditionInvestigationProfile {
+  conditionName: string;
+  specialty: SpecialtyId;
+  summaryGuideline: string;
+  investigations: InvestigationGuidance[];
+  recentAdvances: {
+    technologyName: string;
+    clinicalImpact: string;
+    readinessLevel: 'Routine Clinical Standard' | 'Emerging Guideline Option' | 'Translational Research';
+    keyJournalArticle: ResearchArticleReference;
+  }[];
+  pathLabProfile?: {
+    testName: string;
+    normalReference: string;
+    pathologicalThreshold: string;
+    clinicalSignificance: string;
+    evidenceJournal: string;
+    doi: string;
+  }[];
+  newResearchPapers: ResearchArticleReference[];
 }
 
 export interface TreatmentRecommendation {
