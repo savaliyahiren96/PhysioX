@@ -5,11 +5,12 @@ import { AssessmentWizard } from './components/AssessmentWizard';
 import { EvidenceLibraryView } from './components/EvidenceLibraryView';
 import { ResearchWatchlistView } from './components/ResearchWatchlistView';
 import { ClinicalGovernanceView } from './components/ClinicalGovernanceView';
+import { JointProtocolsEncyclopedia } from './components/JointProtocolsEncyclopedia';
 import { PatientIntake } from './types/clinical';
 import { DEMO_PATIENTS } from './data/clinicalKnowledge';
 
 export default function App() {
-  const [activeView, setActiveView] = useState<'dashboard' | 'wizard' | 'evidence' | 'watchlists' | 'governance'>('dashboard');
+  const [activeView, setActiveView] = useState<'dashboard' | 'wizard' | 'evidence' | 'watchlists' | 'governance' | 'protocols'>('dashboard');
   const [selectedPatient, setSelectedPatient] = useState<PatientIntake>(DEMO_PATIENTS[0]);
 
   const handleSelectPatient = (patient: PatientIntake) => {
@@ -78,6 +79,8 @@ export default function App() {
             onExit={() => setActiveView('dashboard')}
           />
         )}
+
+        {activeView === 'protocols' && <JointProtocolsEncyclopedia />}
 
         {activeView === 'evidence' && <EvidenceLibraryView />}
 

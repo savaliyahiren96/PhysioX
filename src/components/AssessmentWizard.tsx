@@ -338,6 +338,8 @@ export const AssessmentWizard: React.FC<AssessmentWizardProps> = ({ initialPatie
         {currentStep === 7 && (
           <TreatmentPlanView
             treatment={treatment}
+            patient={patient}
+            primaryDiagnosis={selectedPrimaryDiagnosis}
             onUpdateTreatment={setTreatment}
             onProceed={() => setCurrentStep(8)}
           />

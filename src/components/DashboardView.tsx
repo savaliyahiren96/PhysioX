@@ -18,7 +18,7 @@ import { DEMO_PATIENTS, SPECIALTIES_CONFIG } from '../data/clinicalKnowledge';
 interface DashboardViewProps {
   onSelectPatient: (patient: PatientIntake) => void;
   onNewAssessment: () => void;
-  onNavigate: (view: 'dashboard' | 'wizard' | 'evidence' | 'watchlists' | 'governance') => void;
+  onNavigate: (view: 'dashboard' | 'wizard' | 'evidence' | 'watchlists' | 'governance' | 'protocols') => void;
 }
 
 export const DashboardView: React.FC<DashboardViewProps> = ({
@@ -60,6 +60,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             >
               <Plus className="w-4 h-4 text-teal-400" />
               <span>Start New Patient Encounter</span>
+            </button>
+            <button
+              onClick={() => onNavigate('protocols')}
+              className="px-4 py-3 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-colors"
+            >
+              <Activity className="w-4 h-4 text-teal-600" />
+              <span>Joint Protocols & Dosing</span>
             </button>
             <button
               onClick={() => onNavigate('evidence')}

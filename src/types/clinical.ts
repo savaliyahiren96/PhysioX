@@ -180,6 +180,70 @@ export interface ConditionInvestigationProfile {
   newResearchPapers: ResearchArticleReference[];
 }
 
+export type JointRegion =
+  | 'Knee'
+  | 'Lumbar Spine & Pelvis'
+  | 'Shoulder'
+  | 'Cervical Spine'
+  | 'Hip & Groin'
+  | 'Ankle & Foot';
+
+export interface PhysiotherapyProtocolPhase {
+  phaseNumber: number;
+  phaseName: string;
+  timeline: string;
+  clinicalGoals: string[];
+  exercisePrescription: {
+    category: string;
+    exerciseName: string;
+    dosage: string;
+    clinicalRationale: string;
+  }[];
+  progressionCriteria: string[];
+  precautionsAndContraindications: string[];
+}
+
+export interface JointConditionMaster {
+  id: string;
+  joint: JointRegion;
+  name: string;
+  category: string;
+  isRedFlag: boolean;
+  redFlagSeverity?: 'EMERGENCY_IMMEDIATE' | 'URGENT_SAME_DAY';
+  clinicalPresentation: string;
+  bedsideAssessmentTests: {
+    testName: string;
+    sensitivity: string;
+    specificity: string;
+    positiveLikelihoodRatio?: string;
+    techniqueAndInterpretation: string;
+    evidenceCitation: string;
+    doi?: string;
+  }[];
+  investigationsProfile: {
+    modality: InvestigationModality;
+    description: string;
+    indications: string;
+    keyFindings: string;
+    accuracyOrYield: string;
+    recentAdvanceNote?: string;
+    evidencePaper?: ResearchArticleReference;
+  }[];
+  recentAdvancesAndResearch: {
+    advanceTitle: string;
+    description: string;
+    readinessLevel: 'Routine Clinical Standard' | 'Emerging Guideline Option' | 'Translational Research';
+    journalPaper: ResearchArticleReference;
+  }[];
+  physiotherapyProtocol: {
+    summary: string;
+    guidelineBasis: string;
+    phases: PhysiotherapyProtocolPhase[];
+    dischargeAndReturnToActivityCriteria: string[];
+    patientEducationSummary: string;
+  };
+}
+
 export interface TreatmentRecommendation {
   conservativeRehab: string[];
   patientEducation: string[];

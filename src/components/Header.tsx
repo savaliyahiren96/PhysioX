@@ -1,9 +1,9 @@
 import React from 'react';
-import { ShieldAlert, BookOpen, Search, UserCheck, Stethoscope, FileText } from 'lucide-react';
+import { ShieldAlert, BookOpen, Search, UserCheck, Stethoscope, FileText, Activity } from 'lucide-react';
 
 interface HeaderProps {
-  activeView: 'dashboard' | 'wizard' | 'evidence' | 'watchlists' | 'governance';
-  onNavigate: (view: 'dashboard' | 'wizard' | 'evidence' | 'watchlists' | 'governance') => void;
+  activeView: 'dashboard' | 'wizard' | 'evidence' | 'watchlists' | 'governance' | 'protocols';
+  onNavigate: (view: 'dashboard' | 'wizard' | 'evidence' | 'watchlists' | 'governance' | 'protocols') => void;
   onStartNewAssessment: () => void;
 }
 
@@ -34,6 +34,15 @@ export const Header: React.FC<HeaderProps> = ({ activeView, onNavigate, onStartN
               }`}
             >
               Patient Registry
+            </button>
+            <button
+              onClick={() => onNavigate('protocols')}
+              className={`hover:text-slate-900 transition-colors whitespace-nowrap shrink-0 flex items-center gap-1.5 ${
+                activeView === 'protocols' ? 'text-teal-700 font-semibold' : ''
+              }`}
+            >
+              <Activity className="w-4 h-4 text-teal-600" />
+              <span>Joint Protocols & Rehab</span>
             </button>
             <button
               onClick={() => onNavigate('evidence')}
