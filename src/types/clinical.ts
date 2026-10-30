@@ -296,6 +296,114 @@ export interface SpecialtyConditionMaster {
   };
 }
 
+// ==========================================
+// MASTER NAMED PHYSIOTHERAPY PROTOCOLS (MODULE 20B / 20C)
+// ==========================================
+export type ProtocolCategory =
+  | 'Achilles & Foot Tendinopathy / Overload'
+  | 'Patellar Tendon & Knee Cartilage / Ligament'
+  | 'Hip & Gluteal Tendinopathy / Post-Arthroscopy'
+  | 'Shoulder & Rotator Cuff / Instability'
+  | 'Elbow, Wrist & Hand Tendon / Nerve / Post-Op'
+  | 'ACL & Knee Ligament / Arthroplasty'
+  | 'Ankle & Foot Sprain / Rupture / Deformity'
+  | 'Spinal, Neck & TMJ Mechanical / Stabilisation'
+  | 'Fracture Classification & Post-Op Guidelines'
+  | 'Neurological & Neuromuscular Rehabilitation'
+  | 'Cardiopulmonary & Critical Care Rehabilitation'
+  | 'Paediatric & Developmental Approaches'
+  | 'Geriatric, Balance & Frailty Programmes'
+  | 'Pelvic Health, Incontinence & Postpartum Care';
+
+export type ProtocolType =
+  | 'Active Exercise Protocol'
+  | 'Manual Therapy Mobilisation'
+  | 'Postoperative Milestone Pathway'
+  | 'Injury Prevention Programme'
+  | 'Taping & Biomechanical Support'
+  | 'Orthopaedic Fracture Classification'
+  | 'Clinical Prediction Rule'
+  | 'Conservative Consensus Guideline';
+
+export interface NamedProtocolExercise {
+  exerciseName: string;
+  patientPositioning: string;
+  dosageSetsReps: string;
+  frequency: string;
+  duration: string;
+  techniqueDescription: string;
+}
+
+export interface NamedProtocolReference {
+  authorsYear: string;
+  title: string;
+  journal: string;
+  doi?: string;
+}
+
+export interface NamedProtocolMaster {
+  id: string;
+  protocolName: string;
+  associatedMedicalCondition: string;
+  relevantSpeciality: SpecialtyId | string;
+  anatomicalRegion: string;
+  protocolCategory: ProtocolCategory;
+  protocolType: ProtocolType;
+  clinicalIndication: string;
+  treatmentObjectives: string[];
+  patientSelectionCriteria: string[];
+  exerciseInterventions: NamedProtocolExercise[];
+  progressionCriteria: string[];
+  precautions: string[];
+  contraindications: string[];
+  expectedClinicalOutcomes: string;
+  reassessmentCriteria: string[];
+  supportingReferences: NamedProtocolReference[];
+  evidenceLevel:
+    | 'Level I (Systematic Review / Meta-Analysis / High-Quality RCTs)'
+    | 'Level II (Prospective Cohort Study / Pragmatic Trial)'
+    | 'Level III (Case-Control / Retrospective Cohort)'
+    | 'Level IV (Case Series / Expert Consensus Guidelines)';
+  surgicalVsNonsurgical: 'Nonsurgical / Conservative' | 'Postoperative / Surgical' | 'Both / Perioperative';
+  publicationYear: number;
+  supersededStatus?: 'Current Gold Standard' | 'Valid Guideline Alternative' | 'Historical / Replaced by Modern Evidence';
+  version: string;
+  lastUpdatedDate: string;
+}
+
+export interface ProtocolComparison {
+  protocolA: NamedProtocolMaster;
+  protocolB: NamedProtocolMaster;
+  comparisonPoints: {
+    feature: string;
+    protocolAValue: string;
+    protocolBValue: string;
+    clinicalTakeaway: string;
+  }[];
+  clinicalDecisionGuidance: string;
+}
+
+// ==========================================
+// FEATURE AUDIT & SMART INTEGRATION (MODULE 20A)
+// ==========================================
+export type FeatureAuditStatus =
+  | 'Existing & Functional'
+  | 'Existing but Incomplete'
+  | 'Existing but Needs Correction'
+  | 'Not Available – Needs Development'
+  | 'Implemented & Tested';
+
+export interface FeatureAuditItem {
+  id: string;
+  moduleCode: string;
+  featureName: string;
+  domain: 'Clinical Assessment' | 'Protocol Library' | 'Sports Performance' | 'Diagnostics' | 'System & Governance';
+  status: FeatureAuditStatus;
+  inspectionSummary: string;
+  actionTaken: string;
+  verificationEvidence: string;
+}
+
 export interface TreatmentRecommendation {
   conservativeRehab: string[];
   patientEducation: string[];
@@ -540,6 +648,36 @@ export type IndianHospitalTier =
   | 'Tier 2 District Hospital / State Medical College / ESI Hospital'
   | 'Tier 3 Sub-District / Community Health Centre (CHC) / Private Clinic';
 
+export interface RadiographicImageFinding {
+  id: string;
+  label: string;
+  x: number; // percentage 0-100% on scan
+  y: number; // percentage 0-100% on scan
+  description: string;
+  significance: 'Critical Pathology' | 'Diagnostic Landmark' | 'Normal Reference';
+}
+
+export interface RadiographicViewerData {
+  modalityType: 'X-RAY' | 'MRI' | 'CT' | 'ULTRASOUND' | 'EMG_NCS' | 'LAB_REPORT';
+  projectionView: string;
+  pathologyTitle: string;
+  normalPlateDescription: string;
+  pathologicalPlateDescription: string;
+  svgGraphicType:
+    | 'xray-knee-oa'
+    | 'mri-knee-acl'
+    | 'ct-lumbar-pars'
+    | 'mri-lumbar-herniation'
+    | 'msk-us-rotator-cuff'
+    | 'ct-gout-dect'
+    | 'xray-ankle-boehler'
+    | 'xray-scoliosis-cobb'
+    | 'emg-radiculopathy'
+    | 'lab-pathology-panel';
+  findingsHotspots: RadiographicImageFinding[];
+  diagnosticCriteriaSummary: string[];
+}
+
 export interface IndianInvestigationAtlasItem {
   id: string;
   modalityName: string;
@@ -562,6 +700,7 @@ export interface IndianInvestigationAtlasItem {
   };
   evidenceGuidelineCitation: string;
   doi?: string;
+  radiographicViewer?: RadiographicViewerData;
 }
 
 // ==========================================

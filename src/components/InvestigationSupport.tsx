@@ -14,6 +14,7 @@ import {
   Check,
   Plus,
   BookOpen,
+  Image,
 } from 'lucide-react';
 import {
   InvestigationGuidance,
@@ -22,6 +23,8 @@ import {
   ConditionInvestigationProfile,
 } from '../types/clinical';
 import { WORLDWIDE_INVESTIGATION_PROFILES } from '../data/worldwideInvestigations';
+import { INDIAN_INVESTIGATIONS_ATLAS } from '../data/investigationReferenceData';
+import { RadiographicImageViewer } from './RadiographicImageViewer';
 
 interface InvestigationSupportProps {
   investigations: InvestigationGuidance[];
@@ -47,6 +50,48 @@ export const InvestigationSupport: React.FC<InvestigationSupportProps> = ({
   const [activeConditionKey, setActiveConditionKey] = useState<string>(defaultCondition);
   const [selectedModalityFilter, setSelectedModalityFilter] = useState<string>('All');
   const [selectedInvestigations, setSelectedInvestigations] = useState<string[]>([]);
+  const [expandedScanModalityId, setExpandedScanModalityId] = useState<string | null>(null);
+
+  const getMatchingRadiographicItem = (modality: string) => {
+    const modLower = modality.toLowerCase();
+    const condLower = activeConditionKey.toLowerCase();
+    if (modLower.includes('radiograph') || modLower.includes('x-ray')) {
+      if (condLower.includes('scoliosis') || condLower.includes('pediatric')) {
+        return INDIAN_INVESTIGATIONS_ATLAS.find((x) => x.id === 'inv-xray-scoliosis-cobb');
+      }
+      if (condLower.includes('ankle') || condLower.includes('calcane') || condLower.includes('foot')) {
+        return INDIAN_INVESTIGATIONS_ATLAS.find((x) => x.id === 'inv-xray-ankle-boehler');
+      }
+      return INDIAN_INVESTIGATIONS_ATLAS.find((x) => x.id === 'inv-xray-knee-weightbearing');
+    }
+    if (modLower.includes('mri')) {
+      if (
+        condLower.includes('lumbar') ||
+        condLower.includes('radiculopathy') ||
+        condLower.includes('disc') ||
+        condLower.includes('spine')
+      ) {
+        return INDIAN_INVESTIGATIONS_ATLAS.find((x) => x.id === 'inv-mri-lumbar-herniation');
+      }
+      return INDIAN_INVESTIGATIONS_ATLAS.find((x) => x.id === 'inv-mri-knee-3t');
+    }
+    if (modLower.includes('ct')) {
+      if (condLower.includes('gout') || condLower.includes('crystal') || condLower.includes('arthrop')) {
+        return INDIAN_INVESTIGATIONS_ATLAS.find((x) => x.id === 'inv-ct-dect-gout-bone');
+      }
+      return INDIAN_INVESTIGATIONS_ATLAS.find((x) => x.id === 'inv-ct-lumbar-pars');
+    }
+    if (modLower.includes('ultrasound')) {
+      return INDIAN_INVESTIGATIONS_ATLAS.find((x) => x.id === 'inv-msk-ultrasound-shoulder');
+    }
+    if (modLower.includes('emg') || modLower.includes('electrodiagnostic') || modLower.includes('nerve conduction')) {
+      return INDIAN_INVESTIGATIONS_ATLAS.find((x) => x.id === 'inv-emg-ncs-radiculopathy');
+    }
+    if (modLower.includes('pathology') || modLower.includes('lab') || modLower.includes('blood')) {
+      return INDIAN_INVESTIGATIONS_ATLAS.find((x) => x.id === 'inv-path-rheum-panel-india');
+    }
+    return null;
+  };
 
   const activeProfile: ConditionInvestigationProfile =
     WORLDWIDE_INVESTIGATION_PROFILES[activeConditionKey] ||
@@ -174,6 +219,8 @@ export const InvestigationSupport: React.FC<InvestigationSupportProps> = ({
             const isAddedToPlan = selectedInvestigations.includes(
               `${item.modality} (${item.modalitySubtype || item.modality})`
             );
+            const matchingScan = getMatchingRadiographicItem(item.modality);
+            const isScanExpanded = expandedScanModalityId === item.id;
 
             return (
               <div
@@ -202,7 +249,7 @@ export const InvestigationSupport: React.FC<InvestigationSupportProps> = ({
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 shrink-0">
+                  <div className="flex items-center gap-2 shrink-0 flex-wrap">
                     <span
                       className={`text-[11px] font-mono px-2 py-0.5 rounded font-semibold ${
                         item.urgencyLevel === 'Emergency'
@@ -215,6 +262,17 @@ export const InvestigationSupport: React.FC<InvestigationSupportProps> = ({
                       Urgency: {item.urgencyLevel}
                     </span>
 
+                    {matchingScan?.radiographicViewer && (
+                      <button
+                        type="button"
+                        onClick={() => setExpandedScanModalityId(isScanExpanded ? null : item.id)}
+                        className="px-2.5 py-1 text-xs font-semibold rounded-lg border border-teal-200 bg-teal-50 text-teal-800 hover:bg-teal-100 transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                      >
+                        <Image className="w-3.5 h-3.5 text-teal-600" />
+                        <span>{isScanExpanded ? 'Close Scan Plate' : 'View Radiographic Scan & Findings'}</span>
+                      </button>
+                    )}
+
                     <button
                       type="button"
                       onClick={() =>
@@ -222,7 +280,7 @@ export const InvestigationSupport: React.FC<InvestigationSupportProps> = ({
                           `${item.modality} (${item.modalitySubtype || item.modality})`
                         )
                       }
-                      className={`px-3 py-1 text-xs font-semibold rounded-lg border transition-all flex items-center gap-1 ${
+                      className={`px-3 py-1 text-xs font-semibold rounded-lg border transition-all flex items-center gap-1 cursor-pointer ${
                         isAddedToPlan
                           ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
                           : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
@@ -242,6 +300,16 @@ export const InvestigationSupport: React.FC<InvestigationSupportProps> = ({
                     </button>
                   </div>
                 </div>
+
+                {/* Inline Radiographic Image Viewer (PACS Scan) when expanded */}
+                {isScanExpanded && matchingScan?.radiographicViewer && (
+                  <div className="pt-2 animate-in fade-in duration-150">
+                    <RadiographicImageViewer
+                      viewerData={matchingScan.radiographicViewer}
+                      modalityName={matchingScan.modalityName}
+                    />
+                  </div>
+                )}
 
                 {/* Diagnostic Accuracy Strip (if available) */}
                 {item.diagnosticAccuracy && (

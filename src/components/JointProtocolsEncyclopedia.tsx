@@ -34,7 +34,10 @@ import {
   HeartPulse,
   Flame,
   Users,
+  BookOpen,
 } from 'lucide-react';
+import { NamedProtocolsLibrary } from './NamedProtocolsLibrary';
+import { MASTER_NAMED_PROTOCOLS } from '../data/namedProtocolsLibrary';
 
 // Unified condition type for both joints and medical specialties
 export type UnifiedCondition = (JointConditionMaster | SpecialtyConditionMaster) & {
@@ -51,7 +54,7 @@ export const JointProtocolsEncyclopedia: React.FC<JointProtocolsEncyclopediaProp
   initialConditionId,
   onApplyToPatient,
 }) => {
-  const [viewMode, setViewMode] = useState<'joints' | 'specialties'>('joints');
+  const [viewMode, setViewMode] = useState<'named-library' | 'joints' | 'specialties'>('named-library');
   const [selectedJoint, setSelectedJoint] = useState<JointRegion>('Knee');
   const [selectedSpecialty, setSelectedSpecialty] = useState<SpecialtyId>('neurology');
   const [searchQuery, setSearchQuery] = useState('');
@@ -200,9 +203,27 @@ ${p.patientEducationSummary}
         </div>
       </div>
 
-      {/* Domain Switcher: Joint Complexes vs Medical Specialties */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
-        <div className="flex items-center gap-1">
+      {/* Domain Switcher: Named Protocols Library vs Joint Complexes vs Medical Specialties */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
+        <div className="flex flex-wrap items-center gap-1.5">
+          <button
+            onClick={() => {
+              setViewMode('named-library');
+              setSearchQuery('');
+            }}
+            className={`px-4 py-2 text-xs font-bold rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
+              viewMode === 'named-library'
+                ? 'bg-slate-900 text-white shadow-xs'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <BookOpen className="w-3.5 h-3.5 text-teal-400" />
+            <span>Named Protocols Library (Word Doc Master)</span>
+            <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-slate-800 text-teal-300">
+              {MASTER_NAMED_PROTOCOLS.length} Protocols
+            </span>
+          </button>
+
           <button
             onClick={() => {
               setViewMode('joints');
@@ -210,14 +231,14 @@ ${p.patientEducationSummary}
               const firstJoint = allUnifiedConditions.find((c) => c.domainType === 'joint' && 'joint' in c && c.joint === selectedJoint);
               if (firstJoint) setSelectedConditionId(firstJoint.id);
             }}
-            className={`px-4 py-2 text-xs font-bold rounded-lg transition-all flex items-center gap-2 ${
+            className={`px-4 py-2 text-xs font-bold rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
               viewMode === 'joints' && !searchQuery
                 ? 'bg-white text-slate-900 shadow-xs ring-1 ring-slate-200'
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <Activity className="w-3.5 h-3.5 text-teal-600" />
-            <span>Musculoskeletal & Orthopaedic Joints</span>
+            <span>Musculoskeletal Joint Complexes</span>
             <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-slate-100 text-slate-600">
               {ALL_JOINT_CONDITIONS.length}
             </span>
@@ -230,14 +251,14 @@ ${p.patientEducationSummary}
               const firstSpec = allUnifiedConditions.find((c) => c.domainType === 'specialty' && 'specialty' in c && c.specialty === selectedSpecialty);
               if (firstSpec) setSelectedConditionId(firstSpec.id);
             }}
-            className={`px-4 py-2 text-xs font-bold rounded-lg transition-all flex items-center gap-2 ${
+            className={`px-4 py-2 text-xs font-bold rounded-lg transition-all flex items-center gap-2 cursor-pointer ${
               viewMode === 'specialties' && !searchQuery
                 ? 'bg-white text-slate-900 shadow-xs ring-1 ring-slate-200'
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <Brain className="w-3.5 h-3.5 text-indigo-600" />
-            <span>Medical Specialties Requiring Physiotherapy</span>
+            <span>Medical Specialties</span>
             <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-full bg-slate-100 text-slate-600">
               {ALL_SPECIALTY_CONDITIONS.length}
             </span>
@@ -245,11 +266,15 @@ ${p.patientEducationSummary}
         </div>
 
         <div className="text-[11px] text-slate-500 px-2 font-mono">
-          {allUnifiedConditions.length} Total Conditions Indexed
+          {MASTER_NAMED_PROTOCOLS.length + allUnifiedConditions.length} Total Clinical Records Indexed
         </div>
       </div>
 
-      {/* Subcategory Selectors */}
+      {viewMode === 'named-library' ? (
+        <NamedProtocolsLibrary />
+      ) : (
+        <>
+          {/* Subcategory Selectors */}
       {!searchQuery && viewMode === 'joints' && (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
           {JOINT_REGIONS_LIST.map((joint) => {
@@ -903,6 +928,8 @@ ${p.patientEducationSummary}
           </div>
         </div>
       </div>
+      </>
+      )}
     </div>
   );
 };
