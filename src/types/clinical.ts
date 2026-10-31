@@ -194,7 +194,11 @@ export type JointRegion =
   | 'Shoulder'
   | 'Cervical Spine'
   | 'Hip & Groin'
-  | 'Ankle & Foot';
+  | 'Elbow'
+  | 'Wrist & Hand'
+  | 'Ankle & Foot'
+  | 'Temporomandibular Joint (TMJ)'
+  | 'Thoracic Spine & Ribs';
 
 export interface PhysiotherapyProtocolPhase {
   phaseNumber: number;

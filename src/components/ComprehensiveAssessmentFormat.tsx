@@ -233,6 +233,17 @@ Generated via ClinicaAI Medical Evidence & Clinical Decision Support System.`;
   const conditionAdviceKey = useMemo(() => {
     const id = currentTemplate.id.toLowerCase();
     if (id.includes('acl')) return 'acl';
+    if (id.includes('menisc')) return 'meniscal';
+    if (id.includes('patello') || id.includes('pfps')) return 'patellofemoral';
+    if (id.includes('adhesive') || id.includes('frozen')) return 'frozen_shoulder';
+    if (id.includes('stenosis')) return 'lumbar_stenosis';
+    if (id.includes('cervical')) return 'cervical_radiculopathy';
+    if (id.includes('epicondyl') || id.includes('tennis')) return 'tennis_elbow';
+    if (id.includes('carpal') || id.includes('cts')) return 'carpal_tunnel';
+    if (id.includes('ankle') || id.includes('sprain')) return 'ankle_sprain';
+    if (id.includes('plantar') || id.includes('fasci')) return 'plantar_fasciitis';
+    if (id.includes('tmj') || id.includes('temporomandibular')) return 'tmj';
+    if (id.includes('thoracic') || id.includes('tos')) return 'thoracic_outlet';
     if (id.includes('oa') || id.includes('osteoarthritis')) return 'oa_knee';
     if (id.includes('lumbar') || id.includes('spine') || id.includes('radiculopathy')) return 'lumbar';
     if (id.includes('rotator') || id.includes('shoulder')) return 'rotator';
@@ -405,7 +416,19 @@ Generated via ClinicaAI Medical Evidence & Clinical Decision Support System.`;
 
         {/* Joint Category Filter Pills */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none text-xs">
-          {['All', 'Knee', 'Lumbar Spine', 'Shoulder', 'Ankle & Foot'].map((filter) => (
+          {[
+            'All',
+            'Knee',
+            'Shoulder',
+            'Lumbar Spine',
+            'Cervical Spine',
+            'Hip & Groin',
+            'Elbow',
+            'Wrist & Hand',
+            'Ankle & Foot',
+            'TMJ',
+            'Thoracic Spine',
+          ].map((filter) => (
             <button
               key={filter}
               onClick={() => setSelectedJointFilter(filter)}

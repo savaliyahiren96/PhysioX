@@ -410,6 +410,358 @@ const PATIENT_ADVICE: Record<
       warning: 'જો રાત્રે અસહ્ય દુખાવો રહેતો હોય, હાથ જરાય ઊંચો ન થઈ શકતો હોય કે હાથમાં ખાલી ચડી જતી હોય તો ઓર્થોપેડિક ડૉક્ટરને તાત્કાલિક બતાવવું.',
     },
   },
+  meniscal: {
+    en: {
+      title: 'Knee Meniscal Tear Recovery & Joint Protection',
+      points: [
+        'Avoid deep squatting beyond 90 degrees and pivoting twists on planted foot.',
+        'Perform seated knee extensions and straight leg raises with towel roll under ankle.',
+        'Stationary cycling with elevated saddle height to minimize joint pinch.',
+        'Apply cold compress for 15 minutes after exercise to control joint swelling.',
+      ],
+      warning: 'Contact doctor immediately if your knee becomes locked (unable to straighten) or exhibits severe sudden swelling.',
+    },
+    hi: {
+      title: 'घुटने की गद्दी (Meniscus) चोट एवं बचाव निर्देश',
+      points: [
+        'गहरे उकड़ू (Deep Squat) बैठने और पैर जमाकर अचानक घूमने (Twisting) से बचें।',
+        'कुर्सी पर बैठकर पैर सीधा उठाने और जांघ के स्नायु कसने की कसरत दिन में 3 बार करें।',
+        'साइकिल की सीट ऊंची रखकर बिना अधिक लोड के रोजाना 15-20 मिनट चलाएं।',
+        'कसरत के बाद सूजन रोकने के लिए 15 मिनट बर्फ की सिकाई करें।',
+      ],
+      warning: 'यदि घुटना मुड़कर लॉक (Locked Knee) हो जाए या पूरा सीधा न हो सके, तो तुरंत डॉक्टर से संपर्क करें।',
+    },
+    gu: {
+      title: 'ઘૂંટણની ગાદી (Meniscus Tear) ની સંભાળ અને કસરત',
+      points: [
+        'જમીન પર ઉભડક બેસવાનું અને પગ જમીન પર રાખીને અચાનક વળાંક લેવાનું ટાળવું.',
+        'ખુરશી પર બેસીને પગ સીધો કરવાની અને જાંઘના સ્નાયુ ખેંચવાની કસરત દિવસમાં 3 વખત કરવી.',
+        'સ્ટેશનરી સાયકલની સીટ ઊંચી રાખીને રોજના 15-20 મિનિટ હળવા પેડલ મારવા.',
+        'કસરત બાદ 15 મિનિટ બરફનો શેક કરવો જેથી સોજો ન ચડે.',
+      ],
+      warning: 'જો ઘૂંટણ અચાનક લોક થઈ જાય (સીધો ન થઈ શકે) કે તીવ્ર સોજો આવે તો તાત્કાલિક ઓર્થોપેડિક ડૉક્ટરને બતાવવું.',
+    },
+  },
+  patellofemoral: {
+    en: {
+      title: 'Runner’s Knee & Patellofemoral Care Guidelines',
+      points: [
+        'Strengthen hip abductors and glutes: Side-lying leg lifts and clamshells.',
+        'Spanish squats with strap behind knees to offload kneecap pressure.',
+        'Increase running cadence by 5-10% to reduce impact shock on kneecap.',
+        'Take regular breaks from prolonged sitting with bent knees (avoid theater sign).',
+      ],
+      warning: 'Seek evaluation if large fluid effusion or inability to bear weight develops.',
+    },
+    hi: {
+      title: 'घुटने की कटोरी का दर्द (Runner’s Knee / PFPS) निर्देश',
+      points: [
+        'कूल्हे और जांघ की बाहरी मांसपेशियों को मजबूत करने के लिए करवट लेकर पैर उठाने का व्यायाम करें।',
+        'घुटने के पीछे बेल्ट या पट्टा लगाकर स्पैनिश स्क्वाट (Spanish Squat) करें।',
+        'दौड़ते समय छोटे कदम लें और कदम दर (Cadence) 5-10% बढ़ाएं।',
+        'लगातार घुटने मोड़कर लंबे समय तक बैठने से बचें; हर 45 मिनट में पैर सीधा करें।',
+      ],
+      warning: 'यदि घुटने में अधिक पानी भर जाए या पैर मुड़ने लगे तो विशेषज्ञ से परामर्श लें।',
+    },
+    gu: {
+      title: 'ઘૂંટણની વાટકીનો દુખાવો (Runner’s Knee) કાળજી માર્ગદર્શિકા',
+      points: [
+        'થાપા અને સાથળના બાજુના સ્નાયુઓ માટે પડખું ફરીને પગ ઊંચો કરવાની કસરત (Leg Lifts) કરવી.',
+        'ઘૂંટણ પાછળ પટ્ટો રાખીને કસરત (Spanish Squat) કરવાથી વાટકી પર ભાર ઘટશે.',
+        'દોડતી વખતે ઝડપી અને નાના પગલાં લેવા જેથી ઘૂંટણ પર આંચકો ન લાગે.',
+        'લાંબો સમય ઘૂંટણ વાળીને બેસવાનું ટાળવું; દર 40 મિનિટે પગ સીધો કરવો.',
+      ],
+      warning: 'જો ઘૂંટણમાં વધુ પાણી ભરાય કે પગ લથડતો હોય તો ડૉક્ટરની સલાહ લેવી.',
+    },
+  },
+  frozen_shoulder: {
+    en: {
+      title: 'Frozen Shoulder (Adhesive Capsulitis) Phase-Based Guide',
+      points: [
+        'Perform gentle cane/wand external rotation stretches with elbow supported at your side.',
+        'Doorway chest and overhead wall ladder walks within comfortable tolerance.',
+        'Never force aggressive stretching through severe sharp pain during the freezing phase.',
+        'Apply moist warm compress for 15 minutes prior to mobility exercises.',
+      ],
+      warning: 'Consult orthopaedist if pain radiates to chest or hand turns pale/cold.',
+    },
+    hi: {
+      title: 'फ्रोजन शोल्डर (कंधे का जाम होना) घरेलू देखभाल',
+      points: [
+        'डंडे या छड़ी की सहायता से कोहनी को बगल में रखकर धीरे-धीरे बाहर की ओर घुमाने का व्यायाम करें।',
+        'दीवार पर उंगलियां चलाकर हाथ ऊपर ले जाने की कसरत (Wall Ladder) दिन में 3 बार करें।',
+        'अत्यधिक तेज दर्द के दौरान जबरदस्ती हाथ को खींचने से बचें।',
+        'कसरत से पहले कंधे पर 15 मिनट गर्म पानी की थैली या टॉवल से गर्म शेक करें।',
+      ],
+      warning: 'यदि कंधे का दर्द छाती की ओर फैले या हाथ ठंडा पड़ जाए तो तुरंत डॉक्टर से मिलें।',
+    },
+    gu: {
+      title: 'જામ થયેલા ખભા (Frozen Shoulder) માટે ઘરેલુ કસરત',
+      points: [
+        'લાકડી કે વાંસના ટેકાથી કોણી અડીને રાખી ખભાને બહારની બાજુ ફેરવવાની હળવી કસરત કરવી.',
+        'દિવાલ પર આંગળીઓ ચડાવીને ધીમે-ધીમે હાથ ઊંચો કરવો (Wall Crawl).',
+        'ખૂબ તીવ્ર દુખાવો થતો હોય ત્યારે આંચકો મારીને હાથ ખેંચવો નહીં.',
+        'કસરત કરતાં પહેલાં ખભા પર 15 મિનિટ ગરમ પાણીની થેલીનો શેક કરવો.',
+      ],
+      warning: 'જો દુખાવો છાતી તરફ જાય અથવા હાથ ઠંડો પડી જાય તો તાત્કાલિક ડૉક્ટરનો સંપર્ક કરવો.',
+    },
+  },
+  lumbar_stenosis: {
+    en: {
+      title: 'Spinal Stenosis Walking & Flexion Protocol',
+      points: [
+        'Practice double knee-to-chest stretches in bed to open spinal canals.',
+        'Lean forward onto shopping cart or wheeled walker when walking outdoors.',
+        'Use stationary bicycle for 20-30 minutes of painless cardiovascular exercise.',
+        'Avoid backward bending and prolonged standing upright without resting.',
+      ],
+      warning: 'EMERGENCY: Sudden loss of bladder/bowel control or numbness in groin requires emergency hospital admission.',
+    },
+    hi: {
+      title: 'स्पाइनल स्टेनोसिस (रीढ़ की नस दबना) देखभाल निर्देश',
+      points: [
+        'पीठ के बल लेटकर दोनों घुटनों को छाती की ओर खींचने का व्यायाम (Knee-to-Chest) करें।',
+        'चलते समय आगे की ओर हल्का झुकें या वॉकर का सहारा लें।',
+        'समतल जमीन पर पैदल चलने के बजाय स्थिर साइकिल चलाएं जो दर्द रहित होती है।',
+        'कमर को पीछे की ओर मोड़ने वाले आसनों और ज्यादा देर सीधे खड़े रहने से बचें।',
+      ],
+      warning: 'आपातकाल: पेशाब-शौच पर नियंत्रण न रहना या पैरों में अचानक भारी कमजोरी आना रीढ़ की इमरजेंसी है।',
+    },
+    gu: {
+      title: 'કરોડરજ્જુની નસ દબાવી (Spinal Stenosis) સંભાળ નિયમો',
+      points: [
+        'ચત્તા સૂઈને બંને ઘૂંટણ છાતી તરફ ખેંચવાની કસરત સવારે અને સાંજે 10 વખત કરવી.',
+        'ચાલતી વખતે સહેજ આગળ ઝૂકીને ચાલવું અથવા વ્હીલ વાળા વૉકરનો ઉપયોગ કરવો.',
+        'કાર્ડિયો કસરત માટે સ્ટેશનરી સાયકલ ચલાવવી જે કરોડરજ્જુને ખુલ્લી રાખે છે.',
+        'કમરને પાછળ વાળવાની કે લાંબો સમય સીધા ટટ્ટાર ઊભા રહેવાની સ્થિતિ ટાળવી.',
+      ],
+      warning: 'કટોકટી: પેશાબ-ઝાડા પર કાબૂ જતો રહે કે બંને પગ અચાનક ઢીલા પડી જાય તો તાત્કાલિક ઇમરજન્સી હૉસ્પિટલ પહોંચવું.',
+    },
+  },
+  cervical_radiculopathy: {
+    en: {
+      title: 'Neck Disc & Cervical Radiculopathy Home Care',
+      points: [
+        'Perform McKenzie chin tucks (retraction) every 2 hours at your desk.',
+        'Maintain laptop screen at eye level to stop downward neck craning.',
+        'Perform median nerve sliding exercises smoothly without sharp tension.',
+        'Sleep on a supportive cervical contoured pillow under neck curve.',
+      ],
+      warning: 'Urgent consult needed if progressive arm/grip weakness or hand clumsiness (dropping cups) occurs.',
+    },
+    hi: {
+      title: 'गर्दन की नस दबना (Cervical Radiculopathy) निर्देश',
+      points: [
+        'गर्दन को पीछे की ओर सीधा खींचने (Chin Tuck) की कसरत हर 2 घंटे में 10 बार करें।',
+        'लैपटॉप या मोबाइल की स्क्रीन आंखों के बिल्कुल सामने रखें, गर्दन झुकाकर काम न करें।',
+        'हाथ की नसों की स्लाइडिंग कसरत बिना खिंचाव के आराम से करें।',
+        'सोते समय गर्दन के नीचे सपोर्ट देने वाला सर्वाइकल तकिया उपयोग करें।',
+      ],
+      warning: 'यदि हाथ से वस्तुएं छूटने लगें, पकड़ कमजोर हो या उंगलियों की कमजोरी बढ़े तो तुरंत न्यूरोलॉजिस्ट से मिलें।',
+    },
+    gu: {
+      title: 'ગરદનનો દુખાવો અને નસ દબાવી (Cervical Pain) સંભાળ',
+      points: [
+        'દાઢી પાછળ ખેંચવાની કસરત (Chin Tuck) દિવસમાં દર બે કલાકે 10 વાર કરવી.',
+        'લેપટોપ કે મોબાઈલ સ્ક્રીન આંખની સામે સીધી રાખવી, ગરદન વાંકી વાળીને ન બેસવું.',
+        'હાથની નસને લચક આપતી નર્વ સ્લાઇડિંગ કસરત હળવેથી કરવી.',
+        'રાત્રે સૂતી વખતે ગરદન નીચે યોગ્ય ટેકો રહે તેવો ઓર્થોપેડિક તકિયો વાપરવો.',
+      ],
+      warning: 'જો હાથની પકડ ઢીલી પડે, કપ કે ગ્લાસ હાથમાંથી છૂટી જવા લાગે તો તરત જ ડૉક્ટરને બતાવવું.',
+    },
+  },
+  tennis_elbow: {
+    en: {
+      title: 'Tennis Elbow (Lateral Epicondylalgia) Tyler Twist Routine',
+      points: [
+        'Perform Tyler Twist with rubber flexbar or table-edge dumbbell eccentric wrist lowers.',
+        'Lift grocery bags and cups with PALM FACING UP (supinated) rather than palm down.',
+        'Wear forearm counterforce strap 2 inches below elbow during manual tasks.',
+        'Perform 45-second isometric wrist extension holds against table for pain relief.',
+      ],
+      warning: 'Consult specialist if resting burning pain radiates to wrist or joint swelling develops.',
+    },
+    hi: {
+      title: 'टेनिस एल्बो (कोहनी का दर्द) घरेलू व्यायाम एवं निर्देश',
+      points: [
+        'फ्लेक्सबार या हल्के डंबल से कलाई नीचे झुकाने की धीमी कसरत (Eccentric Tyler Twist) करें।',
+        'भारी सामान या कप उठाते समय हथेली ऊपर की ओर (Palm Up) रखें, हथेली नीचे न रखें।',
+        'काम करते समय कोहनी से 2 इंच नीचे टेनिस एल्बो स्ट्रैप (Counterforce Band) पहनें।',
+        'दर्द कम करने के लिए कलाई को 45 सेकंड तक टेबल पर दबाकर रोकने का व्यायाम करें।',
+      ],
+      warning: 'यदि कोहनी में सूजन आ जाए या हाथ की उंगलियों में सुन्नपन फैले तो जांच कराएं।',
+    },
+    gu: {
+      title: 'ટેનિસ એલ્બો (કોણીનો બહારનો દુખાવો) કાળજી યોજના',
+      points: [
+        'રબર બાર અથવા હળવા વજનથી કાંડું ધીમે-ધીમે નીચે લઈ જવાની કસરત (Tyler Twist) કરવી.',
+        'કોઈપણ સામાન કે કપ ઉપાડતી વખતે હથેળી ઉપરની તરફ (Palm Up) રાખવાની ટેવ પાડો.',
+        'કામ કરતી વખતે કોણીથી બે આંગળ નીચે ટેનિસ એલ્બો પટ્ટો (Counterforce Brace) બાંધવો.',
+        'ટેબલ પર હાથ દબાવીને 45 સેકન્ડ રોકી રાખવાથી દુખાવામાં તાત્કાલિક રાહત મળશે.',
+      ],
+      warning: 'જો કોણીમાં સોજો આવે કે હાથમાં સતત ઝણઝણાટી રહે તો ફિઝિયોથેરાપિસ્ટ પાસે જવું.',
+    },
+  },
+  carpal_tunnel: {
+    en: {
+      title: 'Carpal Tunnel Syndrome Night Splint & Nerve Care',
+      points: [
+        'Wear rigid neutral wrist brace (0 degree straight) every night during sleep.',
+        'Perform Totten & Hunter 5-position finger tendon glides 3 times daily.',
+        'Switch to a vertical ergonomic mouse to stop sustained forearm pronation.',
+        'Take 2-minute microbreaks every 30 minutes of computer keyboard work.',
+      ],
+      warning: 'Seek surgical evaluation immediately if persistent thenar thumb muscle wasting or permanent numbness occurs.',
+    },
+    hi: {
+      title: 'कार्पल टनल सिंड्रोम (कलाई की नस दबना) देखभाल निर्देश',
+      points: [
+        'रात को सोते समय कलाई का सीधा ब्रेस (Neutral Splint) जरूर पहनें ताकि नस न दबे।',
+        'उंगलियों की 5 मुद्राओं वाली टेंडन ग्लाइडिंग कसरत दिन में 3 बार करें।',
+        'कंप्यूटर पर काम करते समय सीधा वर्टिकल माउस इस्तेमाल करें।',
+        'हर 30 मिनट में 2 मिनट के लिए टाइपिंग रोककर हाथों को आराम दें।',
+      ],
+      warning: 'यदि अंगूठे के नीचे का मांस सूखने लगे (Thenar Wasting) या उंगलियां हमेशा के लिए सुन्न हो जाएं तो तुरंत सर्जन से मिलें।',
+    },
+    gu: {
+      title: 'કાંડાની નસ દબાવી (Carpal Tunnel) રાત્રિ સંભાળ નિયમો',
+      points: [
+        'રાત્રે સૂતી વખતે કાંડું સીધું રહે તેવો ન્યુટ્રલ બ્રેસ (Wrist Splint) નિયમિત પહેરવો.',
+        'આંગળીઓના સ્નાયુઓ લચકદાર રાખવા દિવસમાં 3 વખત કસરત (Tendon Glides) કરવી.',
+        'કમ્પ્યુટર વાપરતી વખતે ઊભો વર્ટિકલ માઉસ (Vertical Mouse) વાપરવો.',
+        'દર અડધા કલાકે 2 મિનિટ ટાઇપિંગ બંધ કરીને કાંડાને મુક્ત કરવું.',
+      ],
+      warning: 'જો અંગૂઠા પાસેના સ્નાયુ સુકાઈ જવા લાગે કે આંગળીઓ કાયમી સુન્ન થઈ જાય તો તાત્કાલિક ઓપરેશનની તપાસ કરાવવી.',
+    },
+  },
+  ankle_sprain: {
+    en: {
+      title: 'Acute Ankle Inversion Sprain Functional Rehab',
+      points: [
+        'Wear a semi-rigid lace-up ankle brace during all walking and sport activities for 6 weeks.',
+        'Perform knee-to-wall weightbearing calf lunges to restore dorsiflexion mobility.',
+        'Single-leg balance training on floor and balance board 15 minutes daily.',
+        'Resisted ankle eversion with elastic band to strengthen lateral peroneal checkreins.',
+      ],
+      warning: 'Obtain radiograph if unable to take 4 steps or bone tenderness on malleoli exists (Ottawa Rules).',
+    },
+    hi: {
+      title: 'टखने की मोच (Ankle Sprain) पुनर्वास निर्देश',
+      points: [
+        'चलते और खेलते समय 6 सप्ताह तक फीते वाला एंकल ब्रेस (Lace-up Brace) अनिवार्य रूप से पहनें।',
+        'दीवार के सहारे घुटना आगे झुकाकर एंकल का लचीलापन (Dorsiflexion) बढ़ाने की कसरत करें।',
+        'एक पैर पर खड़े होकर संतुलन बनाने की कसरत (Single Leg Balance) रोज 15 मिनट करें।',
+        'रबर बैंड से पैर का पंजा बाहर की ओर मोड़ने वाली कसरत करें ताकि नसें मजबूत हों।',
+      ],
+      warning: 'यदि 4 कदम भी न चला जाए या टखने की हड्डी छूने पर तेज दर्द हो तो तुरंत एक्स-रे कराएं।',
+    },
+    gu: {
+      title: 'ઘૂંટી મચકોડાવી / મોચ (Ankle Sprain) ની રિકવરી પ્લાન',
+      points: [
+        'ચાલતી વખતે 6 અઠવાડિયા માટે દોરી વાળો એંકલ બ્રેસ (Lace-up Ankle Brace) પહેરવો.',
+        'દિવાલના ટેકે પંજો જમીન પર રાખી ઘૂંટણ આગળ લઈ જવાની કસરત કરવી.',
+        'એક પગ પર ઊભા રહીને બેલેન્સ જાળવવાની કસરત રોજ 15 મિનિટ કરવી.',
+        'રબર બેન્ડ વડે પંજો બહારની તરફ ખેંચવાની કસરતથી બાજુના સ્નાયુ મજબૂત કરવા.',
+      ],
+      warning: 'જો પગ જમીન પર મૂકીને 4 ડગલાં પણ ન ચાલી શકાય કે હાડકામાં અસહ્ય દુખાવો હોય તો તાત્કાલિક એક્સ-રે કરાવવો.',
+    },
+  },
+  plantar_fasciitis: {
+    en: {
+      title: 'Plantar Fasciitis Heel Pain Elimination Plan',
+      points: [
+        'NEVER walk barefoot on hard tile/marble floors; wear cushioned indoor supportive footwear.',
+        'Perform DiGiovanni toe stretch 10 times BEFORE taking your first step out of bed.',
+        'Rathleff high-load heel raises on a step with a rolled towel propping up big toes.',
+        'Roll arch of foot over a frozen water bottle for 10 minutes after standing shifts.',
+      ],
+      warning: 'Consult doctor if severe constant bone pain or heel squeezing causes intolerable agony (calcaneal fracture rule-out).',
+    },
+    hi: {
+      title: 'एड़ी का दर्द (प्लांटर फैसीसाइटिस) संपूर्ण घरेलू उपचार',
+      points: [
+        'मार्बल, टाइल्स या कठोर फर्श पर नंगे पैर कभी न चलें; घर में भी नरम तलवे वाली चप्पल पहनें।',
+        'सुबह बिस्तर से पहला कदम रखने से पहले उंगलियों को पीछे खींचने की कसरत (DiGiovanni Stretch) जरूर करें।',
+        'सीढ़ी के किनारे पर पैर के अंगूठे के नीचे तौलिया रखकर एड़ी उठाने की भारी कसरत (Rathleff Protocol) करें।',
+        'दिन भर खड़े रहने के बाद जमे हुए पानी की ठंडी बोतल पर तलवे को 10 मिनट रोल करें।',
+      ],
+      warning: 'यदि एड़ी की दोनों हड्डियों को दबाने पर असहनीय दर्द हो या दर्द रात में भी न थमे तो डॉक्टर से मिलें।',
+    },
+    gu: {
+      title: 'પગની પાનીનો અસહ્ય દુખાવો (Plantar Fasciitis) કાયમી ઉપાય',
+      points: [
+        'ઘરમાં માર્બલ કે ટાઇલ્સ પર ઉઘાડા પગે ક્યારેય ન ચાલવું; સોફ્ટ ગાદી વાળા ચંપલ ઘરમાં પણ પહેરવા.',
+        'સવારે પથારીમાંથી પહેલો પગ નીચે મુકતાં પહેલાં પગના અંગૂઠા પાછળ ખેંચવાની કસરત કરવી.',
+        'પગથિયાં પર અંગૂઠા નીચે ટુવાલ રાખીને એડી ઊંચી-નીચી કરવાની રાથલેફ કસરત (Rathleff Protocol) કરવી.',
+        'બરફની બોટલ પર પગનો તળિયું 10 મિનિટ રગડવાથી બળતરા અને સોજામાં તરત આરામ થશે.',
+      ],
+      warning: 'જો પાનીના હાડકાને બંને બાજુથી દબાવતાં તીવ્ર કંપારી છૂટે કે આરામમાં પણ દુખે તો એક્સ-રે કરાવવો.',
+    },
+  },
+  tmj: {
+    en: {
+      title: 'Jaw Joint (TMJ) Relaxation & Rocabado Routine',
+      points: [
+        'Keep teeth apart: Teeth should ONLY touch when chewing; maintain the "N-position" with tongue resting on palate.',
+        'Soft food diet: Avoid chewing gum, tough meats, nuts, and large crusty bread.',
+        'Perform tongue-up controlled opening: Open jaw only as far as your tongue stays glued to palate.',
+        'Support your chin with your fist whenever you yawn to avoid jaw dislocation.',
+      ],
+      warning: 'Seek emergency evaluation if jaw locks completely closed (< 20mm) or temporal artery is tender/swollen with vision blur.',
+    },
+    hi: {
+      title: 'जबड़े का जोड़ एवं दर्द (TMJ) घरेलू प्रबंधन',
+      points: [
+        'दांत अलग रखें: केवल खाना चबाते समय ही दांत मिलने चाहिए; बाकी समय जीभ तालू पर रखें और दांतों में गैप रखें।',
+        'नरम भोजन करें: च्युइंग गम, कड़क मेवे और बड़े बर्गर खाने से बचें।',
+        'जीभ को तालू से सटाकर रखकर ही मुंह धीरे-धीरे खोलने की कसरत करें।',
+        'जम्हाई (उबासी) लेते समय ठुड्डी के नीचे मुट्ठी लगाकर जबड़ा संभालें ताकि जोड़ न खिसके।',
+      ],
+      warning: 'यदि जबड़ा पूरी तरह लॉक हो जाए और मुंह न खुले, या सिर की नस में तेज दर्द के साथ धुंधला दिखे तो तुरंत अस्पताल जाएं।',
+    },
+    gu: {
+      title: 'જડબાનો દુખાવો અને અવાજ (TMJ Disorder) કાળજી માર્ગદર્શિકા',
+      points: [
+        'દાંત વચ્ચે જગ્યા રાખો: માત્ર ખોરાક ચાવતી વખતે જ દાંત અડવા જોઈએ; બાકીના સમયે જીભ તાળવે અડાવીને રાખવી.',
+        'નરમ ખોરાક ખાવો: ચ્યુઇંગમ, કઠણ ડ્રાયફ્રૂટ્સ કે મોટી વસ્તુઓ બચકાં ભરીને ખાવાનું ટાળવું.',
+        'જીભ તાળવે ચોંટાડી રાખીને જ મોં ધીમે-ધીમે ખોલવાની કસરત (Rocabado Exercise) કરવી.',
+        'બગાસું ખાતી વખતે દાઢી નીચે મુઠ્ઠીનો ટેકો રાખવો જેથી જડબું ખસી ન જાય.',
+      ],
+      warning: 'જો જડબું સાવ લોક થઈ જાય અને મોં ન ખૂલે તો 48 કલાકમાં ફિઝિયોથેરાપિસ્ટ કે ઓરલ સર્જન પાસે જવું.',
+    },
+  },
+  thoracic_outlet: {
+    en: {
+      title: 'Thoracic Outlet (TOS) Postural Decompression',
+      points: [
+        'Practice 360-degree diaphragmatic belly breathing to quiet tense scalene neck muscles.',
+        'Perform self-mobilization of the first rib with a towel pulled toward opposite hip.',
+        'Doorway corner chest stretch with arms below shoulder height to decompress nerves.',
+        'Avoid carrying heavy shoulder bags or sleeping with arms tucked overhead.',
+      ],
+      warning: 'EMERGENCY: If your hand turns blue/cold or veins across shoulder swell suddenly, seek immediate emergency hospital care (vein thrombosis risk).',
+    },
+    hi: {
+      title: 'थोरैसिक आउटलेट (गर्दन-कंधे की नस दबना) निर्देश',
+      points: [
+        'पेट से गहरी सांस (Diaphragmatic Breathing) लें ताकि गर्दन के स्नायुओं पर तनाव न पड़े।',
+        'तौलिए की सहायता से पहली पसली (First Rib) को नीचे दबाने का व्यायाम करें।',
+        'दरवाजे के कोने में खड़े होकर सीने के स्नायु खींचने की कसरत हाथ कंधे से नीचे रखकर करें।',
+        'कंधे पर भारी बैग टांगने और हाथ सिर के नीचे दबाकर सोने से बचें।',
+      ],
+      warning: 'इमरजेंसी: यदि हाथ अचानक नीला पड़ जाए, ठंडा हो जाए या कंधे की नसें फूल जाएं तो तुरंत अस्पताल जाएं (रक्त का थक्का बनने का खतरा)।',
+    },
+    gu: {
+      title: 'થોરેસિક આઉટલેટ (ખભા-હાથની નસ દબાવી) સંભાળ યોજના',
+      points: [
+        'પેટથી ઊંડા શ્વાસ (Diaphragmatic Breathing) લેવાની ટેવ પાડો જેથી ગરદનના સ્નાયુ રિલેક્સ થાય.',
+        'ટુવાલની મદદથી પહેલી પાંસળી (First Rib) ને નીચે દબાવવાની કસરત કરવી.',
+        'દરવાજાની ફ્રેમમાં ઊભા રહીને છાતીના સ્નાયુ હળવેથી ખેંચવા (હાથ ખભાથી નીચા રાખવા).',
+        'ખભા પર ભારે બેગ લટકાવવી નહીં અને માથા નીચે હાથ દબાવીને સૂવું નહીં.',
+      ],
+      warning: 'તાત્કાલિક ચેતવણી: જો હાથ અચાનક વાદળી (Blue) થઈ જાય, બરફ જેવો ઠંડો પડે કે ખભાની નસો ફૂલી જાય તો તાત્કાલિક ઇમરજન્સી હૉસ્પિટલ જવું.',
+    },
+  },
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);

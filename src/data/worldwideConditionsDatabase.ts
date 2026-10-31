@@ -1,4 +1,6 @@
 import { JointRegion, SpecialtyId } from '../types/clinical';
+import { ADDITIONAL_JOINT_CONDITIONS } from './jointConditionTemplates';
+import { ADDITIONAL_JOINT_CONDITIONS_PART2 } from './jointConditionTemplatesPart2';
 
 export interface RomAssessmentItem {
   movement: string;
@@ -1403,4 +1405,6 @@ export const WORLDWIDE_CONDITIONS_DATABASE: WorldwideConditionTemplate[] = [
       },
     },
   },
+  ...ADDITIONAL_JOINT_CONDITIONS,
+  ...ADDITIONAL_JOINT_CONDITIONS_PART2,
 ];
