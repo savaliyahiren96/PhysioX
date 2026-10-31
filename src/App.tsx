@@ -13,6 +13,12 @@ import { IndianInvestigationsModule } from './components/IndianInvestigationsMod
 import { MultidisciplinaryCaseView } from './components/MultidisciplinaryCaseView';
 import { ComprehensiveAssessmentFormat } from './components/ComprehensiveAssessmentFormat';
 import { DoctorPatientDashboard } from './components/DoctorPatientDashboard';
+import { PatientProfileHub } from './components/PatientProfileHub';
+import { AIMotionGaitAnalysis } from './components/AIMotionGaitAnalysis';
+import { AIPostureAnalysis } from './components/AIPostureAnalysis';
+import { AdvancedBiomechanicsModule } from './components/AdvancedBiomechanicsModule';
+import { OutcomeMeasuresCalculator } from './components/OutcomeMeasuresCalculator';
+import { ProgressTrackingView } from './components/ProgressTrackingView';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { PatientIntake } from './types/clinical';
 import { DoctorPatient } from './types/doctorPatient';
@@ -148,6 +154,46 @@ function AppContent() {
           />
         )}
 
+        {activeView === 'patient-profile' && (
+          <PatientProfileHub
+            onOpenAssessmentFormat={(patient: DoctorPatient) => {
+              const converted: PatientIntake = {
+                id: patient.id,
+                mrn: patient.id,
+                name: patient.name,
+                age: typeof patient.age === 'number' ? patient.age : 50,
+                sex: patient.gender === 'Female' ? 'Female' : patient.gender === 'Male' ? 'Male' : 'Unknown',
+                heightCm: 165,
+                weightKg: 65,
+                occupation: `Resident of ${patient.location}`,
+                activityLevel: 'Light',
+                chiefComplaint: patient.presentingComplaints,
+                anatomicalLocation: patient.primaryDiagnosis,
+                onset: 'Subacute (2 - 6 weeks)',
+                duration: '6 weeks',
+                severityNprs: 5,
+                progression: 'Fluctuating',
+                injuryMechanism: patient.surgicalHistory || 'Post-surgical / chronic strain',
+                aggravatingFactors: ['Walking', 'Bending', 'Sit-to-stand'],
+                relievingFactors: ['Rest'],
+                functionalLimitations: patient.presentingComplaints,
+                patientGoals: 'Pain-free ambulation and functional mobility',
+                medicalHistory: patient.medicalHistory,
+                surgicalHistory: patient.surgicalHistory,
+                comorbidities: [],
+                medications: 'Prescribed analgesics PRN',
+                allergies: 'NKDA',
+                priorInvestigations: 'Plain radiographs and post-op films',
+                priorTreatments: 'Physical therapy',
+                notes: `Assigned to ${patient.doctorAssigned}`,
+              };
+              setSelectedPatient(converted);
+              setActiveView('assessment-format');
+            }}
+            onNavigateToDoctorDashboard={() => setActiveView('doctor-dashboard')}
+          />
+        )}
+
         {activeView === 'dashboard' && (
           <DashboardView
             onSelectPatient={handleSelectPatient}
@@ -178,6 +224,16 @@ function AppContent() {
         )}
 
         {activeView === 'protocols' && <JointProtocolsEncyclopedia />}
+
+        {activeView === 'motion' && <AIMotionGaitAnalysis />}
+
+        {activeView === 'posture' && <AIPostureAnalysis />}
+
+        {activeView === 'biomechanics' && <AdvancedBiomechanicsModule />}
+
+        {activeView === 'outcomes' && <OutcomeMeasuresCalculator />}
+
+        {activeView === 'progress' && <ProgressTrackingView />}
 
         {activeView === 'athlete' && <AthletePerformanceModule />}
 

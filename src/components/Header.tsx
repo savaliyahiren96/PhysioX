@@ -15,12 +15,19 @@ import {
   HelpCircle,
   Globe,
   UserCheck,
+  User,
+  Camera,
+  Compass,
+  TrendingUp,
+  Calculator,
+  RotateCcw,
 } from 'lucide-react';
 import { AudienceScopeModal } from './AudienceScopeModal';
 import { useLanguage, SupportedLanguage } from '../context/LanguageContext';
 
 export type AppView =
   | 'doctor-dashboard'
+  | 'patient-profile'
   | 'dashboard'
   | 'assessment-format'
   | 'wizard'
@@ -28,6 +35,11 @@ export type AppView =
   | 'watchlists'
   | 'governance'
   | 'protocols'
+  | 'motion'
+  | 'posture'
+  | 'biomechanics'
+  | 'outcomes'
+  | 'progress'
   | 'athlete'
   | 'sandc'
   | 'nutrition'
@@ -43,10 +55,18 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ activeView, onNavigate, onStartNewAssessment }) => {
   const { language, setLanguage, t } = useLanguage();
   const [sportsMenuOpen, setSportsMenuOpen] = useState(false);
+  const [aiMenuOpen, setAiMenuOpen] = useState(false);
   const [scopeModalOpen, setScopeModalOpen] = useState(false);
 
   const isSportsActive =
     activeView === 'athlete' || activeView === 'sandc' || activeView === 'nutrition';
+
+  const isAiActive =
+    activeView === 'motion' ||
+    activeView === 'posture' ||
+    activeView === 'biomechanics' ||
+    activeView === 'outcomes' ||
+    activeView === 'progress';
 
   return (
     <header className="border-b border-slate-200 bg-white sticky top-0 z-40">
@@ -83,6 +103,19 @@ export const Header: React.FC<HeaderProps> = ({ activeView, onNavigate, onStartN
               <span>{t('nav.doctorDashboard')}</span>
             </button>
 
+            {/* Dedicated Patient Profiles Aspect Nav Button */}
+            <button
+              onClick={() => onNavigate('patient-profile')}
+              className={`hover:text-slate-900 transition-colors whitespace-nowrap shrink-0 flex items-center gap-1.5 cursor-pointer px-2.5 py-1 rounded-lg ${
+                activeView === 'patient-profile'
+                  ? 'bg-indigo-900 text-indigo-200 font-bold shadow-xs'
+                  : 'bg-indigo-50 text-indigo-800 hover:bg-indigo-100 font-semibold border border-indigo-200'
+              }`}
+            >
+              <User className="w-3.5 h-3.5 text-indigo-600" />
+              <span>{t('nav.patientProfile')}</span>
+            </button>
+
             <button
               onClick={() => onNavigate('dashboard')}
               className={`hover:text-slate-900 transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
@@ -113,6 +146,107 @@ export const Header: React.FC<HeaderProps> = ({ activeView, onNavigate, onStartN
               <Activity className="w-3.5 h-3.5 text-teal-600" />
               <span>{t('nav.protocols')}</span>
             </button>
+
+            {/* AI Motion, Posture & Biomechanics Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setAiMenuOpen(!aiMenuOpen)}
+                className={`hover:text-slate-900 transition-colors whitespace-nowrap shrink-0 flex items-center gap-1.5 cursor-pointer py-1 px-2 rounded-lg ${
+                  isAiActive ? 'bg-teal-50 text-teal-900 font-bold border border-teal-200' : 'text-slate-700 hover:text-teal-700'
+                }`}
+              >
+                <Camera className="w-3.5 h-3.5 text-teal-600" />
+                <span>{t('nav.aiBiomechanics')}</span>
+                <ChevronDown className="w-3 h-3 text-slate-400" />
+              </button>
+
+              {aiMenuOpen && (
+                <div
+                  onMouseLeave={() => setAiMenuOpen(false)}
+                  className="absolute left-0 mt-1 w-72 bg-white border border-slate-200 rounded-xl shadow-xl p-1.5 z-50 text-xs space-y-0.5"
+                >
+                  <button
+                    onClick={() => {
+                      onNavigate('motion');
+                      setAiMenuOpen(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 rounded-lg flex items-center gap-2 hover:bg-slate-50 cursor-pointer ${
+                      activeView === 'motion' ? 'bg-teal-50 text-teal-900 font-bold' : 'text-slate-700'
+                    }`}
+                  >
+                    <Activity className="w-4 h-4 text-teal-600" />
+                    <div>
+                      <div className="font-semibold">{t('nav.motion')}</div>
+                      <div className="text-[10px] text-slate-400">8 Gait phases, cadence, symmetry index</div>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      onNavigate('posture');
+                      setAiMenuOpen(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 rounded-lg flex items-center gap-2 hover:bg-slate-50 cursor-pointer ${
+                      activeView === 'posture' ? 'bg-indigo-50 text-indigo-900 font-bold' : 'text-slate-700'
+                    }`}
+                  >
+                    <Camera className="w-4 h-4 text-indigo-600" />
+                    <div>
+                      <div className="font-semibold">{t('nav.posture')}</div>
+                      <div className="text-[10px] text-slate-400">4 Views (Anterior/Lateral), plumb line</div>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      onNavigate('biomechanics');
+                      setAiMenuOpen(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 rounded-lg flex items-center gap-2 hover:bg-slate-50 cursor-pointer ${
+                      activeView === 'biomechanics' ? 'bg-teal-50 text-teal-900 font-bold' : 'text-slate-700'
+                    }`}
+                  >
+                    <Compass className="w-4 h-4 text-teal-600" />
+                    <div>
+                      <div className="font-semibold">{t('nav.biomechanics')}</div>
+                      <div className="text-[10px] text-slate-400">10 Joint complexes, open/closed chain</div>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      onNavigate('outcomes');
+                      setAiMenuOpen(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 rounded-lg flex items-center gap-2 hover:bg-slate-50 cursor-pointer ${
+                      activeView === 'outcomes' ? 'bg-emerald-50 text-emerald-900 font-bold' : 'text-slate-700'
+                    }`}
+                  >
+                    <Calculator className="w-4 h-4 text-emerald-600" />
+                    <div>
+                      <div className="font-semibold">{t('nav.outcomes')}</div>
+                      <div className="text-[10px] text-slate-400">LEFS, QuickDASH, Berg Balance, TUG</div>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      onNavigate('progress');
+                      setAiMenuOpen(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 rounded-lg flex items-center gap-2 hover:bg-slate-50 cursor-pointer ${
+                      activeView === 'progress' ? 'bg-teal-50 text-teal-900 font-bold' : 'text-slate-700'
+                    }`}
+                  >
+                    <TrendingUp className="w-4 h-4 text-teal-600" />
+                    <div>
+                      <div className="font-semibold">{t('nav.progress')}</div>
+                      <div className="text-[10px] text-slate-400">Multi-visit session progression & targets</div>
+                    </div>
+                  </button>
+                </div>
+              )}
+            </div>
 
             {/* Sports & Athlete Dropdown */}
             <div className="relative">

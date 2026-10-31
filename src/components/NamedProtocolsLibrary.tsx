@@ -77,6 +77,8 @@ export const NamedProtocolsLibrary: React.FC<NamedProtocolsLibraryProps> = ({
   // Categories list
   const categoryOptions: { label: string; value: string }[] = [
     { label: 'All Categories', value: 'ALL' },
+    { label: 'Knee Arthroplasty & Joint Replacement', value: 'Knee Arthroplasty & Joint Replacement' },
+    { label: 'Fractures & Trauma Rehabilitation', value: 'Fractures & Trauma Rehabilitation' },
     { label: 'Achilles & Foot', value: 'Achilles & Foot Tendinopathy / Overload' },
     { label: 'Patellar & Knee Cartilage', value: 'Patellar Tendon & Knee Cartilage / Ligament' },
     { label: 'Hip & Gluteal Tendinopathy', value: 'Hip & Gluteal Tendinopathy / Post-Arthroscopy' },
@@ -85,7 +87,7 @@ export const NamedProtocolsLibrary: React.FC<NamedProtocolsLibraryProps> = ({
     { label: 'ACL & Knee Ligament', value: 'ACL & Knee Ligament / Arthroplasty' },
     { label: 'Ankle & Foot Sprains', value: 'Ankle & Foot Sprain / Rupture / Deformity' },
     { label: 'Spinal, Neck & TMJ', value: 'Spinal, Neck & TMJ Mechanical / Stabilisation' },
-    { label: 'Fracture Classifications & Post-Op', value: 'Fracture Classification & Post-Op Guidelines' },
+    { label: 'Fracture Classifications & Post-Op (Legacy)', value: 'Fracture Classification & Post-Op Guidelines' },
     { label: 'Neurology & Stroke', value: 'Neurological & Neuromuscular Rehabilitation' },
     { label: 'Cardiopulmonary & Critical Care', value: 'Cardiopulmonary & Critical Care Rehabilitation' },
     { label: 'Paediatrics & Scoliosis', value: 'Paediatric & Developmental Approaches' },
