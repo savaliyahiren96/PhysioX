@@ -16,6 +16,7 @@ import {
   Apple,
   Microscope,
   HelpCircle,
+  UserCheck,
 } from 'lucide-react';
 import { PatientIntake } from '../types/clinical';
 import { DEMO_PATIENTS, SPECIALTIES_CONFIG } from '../data/clinicalKnowledge';
@@ -119,6 +120,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             >
               <HelpCircle className="w-4 h-4 text-teal-700" />
               <span>{t('app.whoFor')}</span>
+            </button>
+            <button
+              onClick={() => onNavigate('doctor-dashboard')}
+              className="px-4 py-3 bg-teal-800 hover:bg-teal-700 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-2 shadow-xs transition-colors cursor-pointer"
+            >
+              <UserCheck className="w-4 h-4 text-teal-300" />
+              <span>Dr. Darpan Vanavi (11 Patients)</span>
             </button>
             <button
               onClick={onNewAssessment}

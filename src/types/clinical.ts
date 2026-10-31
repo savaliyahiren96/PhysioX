@@ -127,6 +127,7 @@ export interface DifferentialCandidate {
 export type InvestigationModality =
   | 'Plain Radiograph (X-ray)'
   | 'MRI Scan'
+  | 'Magnetic Resonance Imaging (MRI)'
   | 'CT Scan'
   | 'Diagnostic Ultrasound (MSK US)'
   | 'Pathology & Lab Diagnostics'
@@ -134,16 +135,16 @@ export type InvestigationModality =
   | 'Recent Technological Advance';
 
 export interface ResearchArticleReference {
-  id: string;
+  id?: string;
   title: string;
   authors: string;
   journal: string;
   year: number;
   doi: string;
-  studyType: string;
+  studyType?: string;
   sampleSize?: string;
-  clinicalSummary: string;
-  keyTakeaway: string;
+  clinicalSummary?: string;
+  keyTakeaway?: string;
 }
 
 export interface InvestigationGuidance {
@@ -215,12 +216,48 @@ export interface PhysiotherapyProtocolPhase {
   precautionsAndContraindications: string[];
 }
 
+export type TissueGroup = 'hard' | 'soft';
+
+export type TissueType =
+  | 'Bone'
+  | 'Articular Surface'
+  | 'Ligament'
+  | 'Muscle & Tendon'
+  | 'Meniscus/Labrum/Cartilage'
+  | 'Nerve / Neural'
+  | 'Disc'
+  | 'Bursa & Fascia';
+
+export type ConditionAcuity = 'acute' | 'chronic' | 'post-op';
+export type IrritabilityLevel = 'Low' | 'Mod' | 'High';
+export type HealingStage = 'inflammatory' | 'proliferative' | 'remodelling';
+
+export interface OutcomeMeasureMCID {
+  name: string;
+  mcid: string;
+  target?: string;
+}
+
 export interface JointConditionMaster {
   id: string;
   joint: JointRegion;
   specialty?: SpecialtyId;
   name: string;
   category: string;
+  tissue_group: TissueGroup;
+  tissue_types: TissueType[];
+  acuity: ConditionAcuity;
+  irritability?: IrritabilityLevel;
+  healing_stage?: HealingStage;
+  red_flags?: string[];
+  when_to_refer?: string[];
+  outcome_measures?: OutcomeMeasureMCID[];
+  evidence_strength?: 'Guideline' | 'Systematic review' | 'RCT' | 'Expert consensus';
+  last_reviewed: string;
+  teaching_notes?: {
+    clinicalReasoning: string;
+    vivaQuestions: { question: string; answer: string }[];
+  };
   isRedFlag: boolean;
   redFlagSeverity?: 'EMERGENCY_IMMEDIATE' | 'URGENT_SAME_DAY';
   clinicalPresentation: string;
@@ -242,19 +279,21 @@ export interface JointConditionMaster {
     recentAdvanceNote?: string;
     evidencePaper?: ResearchArticleReference;
   }[];
-  recentAdvancesAndResearch: {
+  recentAdvancesAndResearch?: {
     advanceTitle: string;
     description: string;
     readinessLevel: 'Routine Clinical Standard' | 'Emerging Guideline Option' | 'Translational Research';
     journalPaper: ResearchArticleReference;
   }[];
   physiotherapyProtocol: {
-    summary: string;
-    guidelineBasis: string;
+    protocolName?: string;
+    summary?: string;
+    guidelineBasis?: string;
     phases: PhysiotherapyProtocolPhase[];
-    dischargeAndReturnToActivityCriteria: string[];
-    patientEducationSummary: string;
+    dischargeAndReturnToActivityCriteria?: string[];
+    patientEducationSummary?: string;
   };
+  clinicalPearls?: string[];
 }
 
 export interface SpecialtyConditionMaster {
@@ -263,6 +302,16 @@ export interface SpecialtyConditionMaster {
   joint?: JointRegion;
   name: string;
   category: string;
+  tissue_group?: TissueGroup;
+  tissue_types?: TissueType[];
+  acuity?: ConditionAcuity;
+  irritability?: IrritabilityLevel;
+  healing_stage?: HealingStage;
+  red_flags?: string[];
+  when_to_refer?: string[];
+  outcome_measures?: OutcomeMeasureMCID[];
+  evidence_strength?: 'Guideline' | 'Systematic review' | 'RCT' | 'Expert consensus';
+  last_reviewed?: string;
   isRedFlag: boolean;
   redFlagSeverity?: 'EMERGENCY_IMMEDIATE' | 'URGENT_SAME_DAY';
   targetPopulation?: string;

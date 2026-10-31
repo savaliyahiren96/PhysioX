@@ -1,8 +1,11 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { GoogleGenAI } from '@google/genai';
+import { INITIAL_DOCTOR, INITIAL_PATIENTS } from './src/data/initialDoctorPatientData';
+import { DoctorProfile, DoctorPatient, DashboardMetrics } from './src/types/doctorPatient';
 
 dotenv.config();
 
@@ -13,6 +16,66 @@ const app = express();
 const port = parseInt(process.env.PORT || '3000', 10);
 
 app.use(express.json());
+
+// Persistent Database Setup for Doctors and Patients
+const dataDir = path.resolve(__dirname, 'data');
+const dbFilePath = path.resolve(dataDir, 'clinic_db.json');
+
+interface ClinicDatabase {
+  doctors: DoctorProfile[];
+  patients: DoctorPatient[];
+}
+
+let dbMemory: ClinicDatabase = {
+  doctors: [INITIAL_DOCTOR],
+  patients: [...INITIAL_PATIENTS],
+};
+
+function initDatabase() {
+  try {
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+    if (fs.existsSync(dbFilePath)) {
+      const fileData = fs.readFileSync(dbFilePath, 'utf-8');
+      const parsed = JSON.parse(fileData);
+      if (parsed && Array.isArray(parsed.doctors) && Array.isArray(parsed.patients)) {
+        // Ensure Dr. Darpan Vanavi exists in doctors
+        const hasDarpan = parsed.doctors.some((d: DoctorProfile) => d.id === INITIAL_DOCTOR.id || d.fullName.toLowerCase().includes('darpan'));
+        if (!hasDarpan) {
+          parsed.doctors.unshift(INITIAL_DOCTOR);
+        }
+        // Ensure 11 reference patients exist
+        for (const initPatient of INITIAL_PATIENTS) {
+          const exists = parsed.patients.some((p: DoctorPatient) => p.id === initPatient.id || p.name === initPatient.name);
+          if (!exists) {
+            parsed.patients.push(initPatient);
+          }
+        }
+        dbMemory = parsed;
+        saveDatabase();
+        return;
+      }
+    }
+    // Write fresh seed
+    saveDatabase();
+  } catch (err) {
+    console.error('Error initializing database file, falling back to memory seed:', err);
+  }
+}
+
+function saveDatabase() {
+  try {
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+    fs.writeFileSync(dbFilePath, JSON.stringify(dbMemory, null, 2), 'utf-8');
+  } catch (err) {
+    console.error('Error saving database to disk:', err);
+  }
+}
+
+initDatabase();
 
 // Initialize server-side Gemini client if API key is present
 const geminiApiKey = process.env.GEMINI_API_KEY;
@@ -384,6 +447,561 @@ app.post('/api/governance/incident', (req: Request, res: Response) => {
     incidentId: `INC-${Date.now().toString(36).toUpperCase()}`,
     loggedAt: new Date().toISOString(),
     message: 'Incident recorded for review by the Clinical Informatics Board.',
+  });
+});
+
+// =========================================================================
+// MODULE 1: DOCTOR PROFILE MANAGEMENT API
+// =========================================================================
+
+// List all registered doctors
+app.get('/api/doctors', (_req: Request, res: Response) => {
+  res.json({
+    total: dbMemory.doctors.length,
+    doctors: dbMemory.doctors,
+  });
+});
+
+// Get specific doctor profile
+app.get('/api/doctors/:id', (req: Request, res: Response) => {
+  const doctor = dbMemory.doctors.find((d) => d.id === req.params.id);
+  if (!doctor) {
+    return res.status(404).json({ error: 'Doctor profile not found' });
+  }
+  res.json(doctor);
+});
+
+// Create new doctor profile
+app.post('/api/doctors', (req: Request, res: Response) => {
+  const {
+    fullName,
+    username,
+    designation,
+    qualification,
+    specialisation,
+    registrationNumber,
+    hospitalClinicName,
+    clinicAddress,
+    contactNumber,
+    email,
+    profilePhotoUrl,
+    professionalExperience,
+    workingLocation,
+    professionalStatus,
+  } = req.body;
+
+  if (!fullName) {
+    return res.status(400).json({ error: 'Full name is required for doctor registration' });
+  }
+
+  const newDoctor: DoctorProfile = {
+    id: `DOC-${Date.now().toString(36).toUpperCase()}`,
+    username: username || `doc_${Date.now().toString().slice(-4)}`,
+    fullName,
+    designation: designation || 'Physiotherapist',
+    qualification: qualification || 'BPT',
+    specialisation: specialisation || 'Physiotherapy',
+    registrationNumber: registrationNumber || '',
+    hospitalClinicName: hospitalClinicName || 'Physiotherapy Clinic',
+    clinicAddress: clinicAddress || 'Gujarat, India',
+    contactNumber: contactNumber || '',
+    email: email || '',
+    profilePhotoUrl: profilePhotoUrl || '',
+    professionalExperience: professionalExperience || 'Physiotherapy Practitioner',
+    workingLocation: workingLocation || 'Gujarat',
+    professionalStatus: professionalStatus || 'Physiotherapy Practitioner',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+
+  dbMemory.doctors.push(newDoctor);
+  saveDatabase();
+
+  res.status(201).json(newDoctor);
+});
+
+// Update doctor profile (credentials, clinic details, location, etc.)
+app.put('/api/doctors/:id', (req: Request, res: Response) => {
+  const doctorIndex = dbMemory.doctors.findIndex((d) => d.id === req.params.id);
+  if (doctorIndex === -1) {
+    return res.status(404).json({ error: 'Doctor profile not found' });
+  }
+
+  const existing = dbMemory.doctors[doctorIndex];
+  const updated: DoctorProfile = {
+    ...existing,
+    ...req.body,
+    id: existing.id, // Immutable ID
+    updatedAt: new Date().toISOString(),
+  };
+
+  dbMemory.doctors[doctorIndex] = updated;
+  saveDatabase();
+
+  res.json(updated);
+});
+
+// =========================================================================
+// MODULE 2 & 7: INDIVIDUAL DOCTOR PATIENT MANAGEMENT & ISOLATION
+// =========================================================================
+
+// List patients with strict Doctor Isolation and Search/Filter support
+app.get('/api/patients', (req: Request, res: Response) => {
+  const { doctorId, q, status, location, condition } = req.query as Record<string, string>;
+
+  // Multi-doctor isolation: Filter by doctorId if specified
+  let filtered = dbMemory.patients;
+  if (doctorId) {
+    filtered = filtered.filter((p) => p.doctorId === doctorId);
+  }
+
+  // Search by name, age, condition, or location
+  if (q && q.trim()) {
+    const query = q.trim().toLowerCase();
+    filtered = filtered.filter(
+      (p) =>
+        p.name.toLowerCase().includes(query) ||
+        p.location.toLowerCase().includes(query) ||
+        p.primaryDiagnosis.toLowerCase().includes(query) ||
+        p.presentingComplaints.toLowerCase().includes(query) ||
+        String(p.age).includes(query)
+    );
+  }
+
+  // Filter by status
+  if (status && status !== 'all') {
+    filtered = filtered.filter((p) => p.status.toLowerCase() === status.toLowerCase());
+  }
+
+  // Filter by location (e.g. Pipaliya, Khandha)
+  if (location && location !== 'all') {
+    filtered = filtered.filter((p) => p.location.toLowerCase() === location.toLowerCase());
+  }
+
+  // Filter by condition
+  if (condition && condition !== 'all') {
+    filtered = filtered.filter((p) => p.primaryDiagnosis.toLowerCase().includes(condition.toLowerCase()));
+  }
+
+  res.json({
+    total: filtered.length,
+    patients: filtered,
+  });
+});
+
+// Get individual patient record by ID
+app.get('/api/patients/:id', (req: Request, res: Response) => {
+  const patient = dbMemory.patients.find((p) => p.id === req.params.id);
+  if (!patient) {
+    return res.status(404).json({ error: 'Patient not found' });
+  }
+  res.json(patient);
+});
+
+// Add new patient
+app.post('/api/patients', (req: Request, res: Response) => {
+  const {
+    name,
+    age,
+    gender,
+    location,
+    contactNumber,
+    doctorId,
+    doctorAssigned,
+    registrationDate,
+    primaryDiagnosis,
+    presentingComplaints,
+    medicalHistory,
+    surgicalHistory,
+    clinicalAssessment,
+    probableConditions,
+    physiotherapyManagement,
+    status,
+  } = req.body;
+
+  if (!name || !primaryDiagnosis) {
+    return res.status(400).json({ error: 'Patient name and primary diagnosis are required' });
+  }
+
+  const assignedDocId = doctorId || INITIAL_DOCTOR.id;
+  const assignedDocName = doctorAssigned || (dbMemory.doctors.find((d) => d.id === assignedDocId)?.fullName || 'Dr. Darpan Vanavi');
+
+  const newPatient: DoctorPatient = {
+    id: `PT-${new Date().getFullYear()}-${Math.floor(100 + Math.random() * 900)}`,
+    doctorId: assignedDocId,
+    doctorAssigned: assignedDocName,
+    name,
+    age: age || '',
+    gender: gender || 'Not Specified',
+    location: location || 'Vadodara',
+    contactNumber: contactNumber || '',
+    registrationDate: registrationDate || new Date().toISOString().split('T')[0],
+    primaryDiagnosis,
+    presentingComplaints: presentingComplaints || '',
+    medicalHistory: medicalHistory || 'None reported',
+    surgicalHistory: surgicalHistory || 'None reported',
+    clinicalAssessment: clinicalAssessment || {
+      romFindings: '',
+      mmtFindings: '',
+      gaitAbnormality: '',
+      mobilityTransfer: '',
+      balanceScore: '',
+      specialTests: '',
+      outcomeScore: '',
+      redFlagsScreening: 'Negative',
+      clinicalImpressionNotes: '',
+    },
+    probableConditions: probableConditions || [
+      {
+        conditionName: primaryDiagnosis,
+        status: 'Suspected',
+        clinicalRationale: 'Initial registration clinical consideration',
+        evidenceLevel: 'Evidence',
+      },
+    ],
+    physiotherapyManagement: physiotherapyManagement || {
+      currentRehabPhase: 'Initial Assessment & Acute Care',
+      shortTermGoals: '',
+      longTermGoals: '',
+      interventions: [],
+      exerciseDosage: '',
+      frequencyWeekly: '3 sessions/week',
+      precautions: '',
+      contraindications: '',
+      progressionCriteria: '',
+    },
+    dailyProgressNotes: [],
+    followUpHistory: [],
+    status: status || 'Active',
+    auditLogs: [
+      {
+        id: `LOG-${Date.now().toString(36).toUpperCase()}`,
+        timestamp: new Date().toISOString(),
+        doctorName: assignedDocName,
+        action: 'PATIENT_REGISTERED',
+        details: `Initial registration under ${assignedDocName}`,
+      },
+    ],
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+
+  dbMemory.patients.unshift(newPatient);
+  saveDatabase();
+
+  res.status(201).json(newPatient);
+});
+
+// Update patient details & clinical assessment
+app.put('/api/patients/:id', (req: Request, res: Response) => {
+  const patientIndex = dbMemory.patients.findIndex((p) => p.id === req.params.id);
+  if (patientIndex === -1) {
+    return res.status(404).json({ error: 'Patient not found' });
+  }
+
+  const existing = dbMemory.patients[patientIndex];
+  const modifierName = req.body.modifiedBy || existing.doctorAssigned || 'Dr. Darpan Vanavi';
+
+  const newAuditEntry = {
+    id: `LOG-${Date.now().toString(36).toUpperCase()}`,
+    timestamp: new Date().toISOString(),
+    doctorName: modifierName,
+    action: req.body.auditAction || 'RECORD_UPDATED',
+    details: req.body.auditDetails || 'Clinical record information updated',
+  };
+
+  const updated: DoctorPatient = {
+    ...existing,
+    ...req.body,
+    id: existing.id, // Immutable ID
+    auditLogs: [newAuditEntry, ...(existing.auditLogs || [])],
+    updatedAt: new Date().toISOString(),
+  };
+
+  dbMemory.patients[patientIndex] = updated;
+  saveDatabase();
+
+  res.json(updated);
+});
+
+// Delete patient
+app.delete('/api/patients/:id', (req: Request, res: Response) => {
+  const patientIndex = dbMemory.patients.findIndex((p) => p.id === req.params.id);
+  if (patientIndex === -1) {
+    return res.status(404).json({ error: 'Patient not found' });
+  }
+
+  const removed = dbMemory.patients.splice(patientIndex, 1)[0];
+  saveDatabase();
+
+  res.json({ message: 'Patient removed successfully', patientId: removed.id });
+});
+
+// Record Daily Treatment Progress Note (SOAP format)
+app.post('/api/patients/:id/progress-notes', (req: Request, res: Response) => {
+  const patient = dbMemory.patients.find((p) => p.id === req.params.id);
+  if (!patient) {
+    return res.status(404).json({ error: 'Patient not found' });
+  }
+
+  const {
+    date,
+    subjectiveNotes,
+    objectiveNotes,
+    treatmentGiven,
+    responseToTreatment,
+    planForNextSession,
+    clinicianName,
+  } = req.body;
+
+  const currentNotes = patient.dailyProgressNotes || [];
+  const nextSessionNumber = currentNotes.length + 1;
+
+  const newNote = {
+    id: `NOTE-${patient.id}-${Date.now().toString(36).toUpperCase()}`,
+    sessionNumber: nextSessionNumber,
+    date: date || new Date().toISOString().split('T')[0],
+    subjectiveNotes: subjectiveNotes || '',
+    objectiveNotes: objectiveNotes || '',
+    treatmentGiven: treatmentGiven || '',
+    responseToTreatment: responseToTreatment || '',
+    planForNextSession: planForNextSession || '',
+    clinicianName: clinicianName || patient.doctorAssigned,
+  };
+
+  patient.dailyProgressNotes = [newNote, ...currentNotes];
+  patient.updatedAt = new Date().toISOString();
+
+  // Add audit log
+  patient.auditLogs = [
+    {
+      id: `LOG-${Date.now().toString(36).toUpperCase()}`,
+      timestamp: new Date().toISOString(),
+      doctorName: clinicianName || patient.doctorAssigned,
+      action: 'PROGRESS_NOTE_RECORDED',
+      details: `Session #${nextSessionNumber} SOAP clinical note recorded`,
+    },
+    ...(patient.auditLogs || []),
+  ];
+
+  saveDatabase();
+
+  res.status(201).json({
+    message: 'Progress note added successfully',
+    note: newNote,
+    patient,
+  });
+});
+
+// Schedule Follow-up Appointment
+app.post('/api/patients/:id/follow-ups', (req: Request, res: Response) => {
+  const patient = dbMemory.patients.find((p) => p.id === req.params.id);
+  if (!patient) {
+    return res.status(404).json({ error: 'Patient not found' });
+  }
+
+  const { scheduledDate, timeSlot, purpose, notes, status } = req.body;
+
+  const newFollowUp = {
+    id: `FU-${Date.now().toString(36).toUpperCase()}`,
+    scheduledDate: scheduledDate || new Date().toISOString().split('T')[0],
+    timeSlot: timeSlot || '10:00 AM',
+    status: status || 'Scheduled',
+    purpose: purpose || 'Follow-up clinical review and rehabilitation reassessment',
+    notes: notes || '',
+  };
+
+  patient.followUpHistory = [newFollowUp, ...(patient.followUpHistory || [])];
+  patient.updatedAt = new Date().toISOString();
+
+  saveDatabase();
+
+  res.status(201).json({
+    message: 'Follow-up appointment scheduled',
+    appointment: newFollowUp,
+    patient,
+  });
+});
+
+// =========================================================================
+// MODULE 5: DOCTOR-WISE DASHBOARD METRICS API
+// =========================================================================
+
+app.get('/api/dashboard-metrics', (req: Request, res: Response) => {
+  const { doctorId } = req.query as { doctorId?: string };
+
+  let doctorPatients = dbMemory.patients;
+  if (doctorId) {
+    doctorPatients = doctorPatients.filter((p) => p.doctorId === doctorId);
+  }
+
+  const totalPatients = doctorPatients.length;
+  const activePatients = doctorPatients.filter((p) => p.status === 'Active').length;
+  const underRehab = doctorPatients.filter((p) => p.status === 'Under Rehabilitation').length;
+  const awaitingFollowUp = doctorPatients.filter((p) => p.status === 'Awaiting Follow-up').length;
+  const dischargedPatients = doctorPatients.filter((p) => p.status === 'Discharged').length;
+  const onHoldPatients = doctorPatients.filter((p) => p.status === 'On Hold').length;
+
+  const locationDistribution: Record<string, number> = {};
+  const conditionDistribution: Record<string, number> = {};
+
+  for (const p of doctorPatients) {
+    const loc = p.location || 'Unknown';
+    locationDistribution[loc] = (locationDistribution[loc] || 0) + 1;
+
+    const cond = p.primaryDiagnosis || 'Unspecified';
+    conditionDistribution[cond] = (conditionDistribution[cond] || 0) + 1;
+  }
+
+  const recentPatients = [...doctorPatients]
+    .sort((a, b) => new Date(b.updatedAt || b.createdAt).getTime() - new Date(a.updatedAt || a.createdAt).getTime())
+    .slice(0, 5);
+
+  const metrics: DashboardMetrics = {
+    totalPatients,
+    activePatients,
+    underRehab,
+    awaitingFollowUp,
+    dischargedPatients,
+    onHoldPatients,
+    locationDistribution,
+    conditionDistribution,
+    recentPatients,
+  };
+
+  res.json(metrics);
+});
+
+// =========================================================================
+// MODULE 6: AI CLINICAL REFERENCE & MATCHING API
+// =========================================================================
+
+app.post('/api/clinical-match', (req: Request, res: Response) => {
+  const { complaint, age, gender, location, primaryDiagnosis } = req.body;
+  const textToAnalyze = `${complaint || ''} ${primaryDiagnosis || ''}`.toLowerCase();
+
+  // Match against known conditions with strict certainty categorization
+  const conditionMatches: Array<{
+    condition: string;
+    certainty: 'Confirmed' | 'Suspected' | 'Probable' | 'Differential';
+    confidence: number;
+    rationale: string;
+    evidenceLevel: 'Strong Evidence' | 'Evidence' | 'Expert Opinion';
+    recommendedAssessments: string[];
+    outcomeMeasures: string[];
+    rehabConsiderations: string[];
+  }> = [];
+
+  // Match: Tibial Shaft Fracture
+  if (textToAnalyze.includes('tibi') || textToAnalyze.includes('shin') || textToAnalyze.includes('shaft')) {
+    conditionMatches.push({
+      condition: 'Tibial Shaft Fracture (Post-Union Functional Reconditioning)',
+      certainty: textToAnalyze.includes('fracture') ? 'Confirmed' : 'Probable',
+      confidence: 94,
+      rationale: 'Presentation aligns with post-tibial diaphyseal trauma, ankle dorsiflexion stiffness, and triceps surae deficit.',
+      evidenceLevel: 'Strong Evidence',
+      recommendedAssessments: ['Knee-to-Wall Lunge Test', 'Mid-Calf Girth Measurement', 'Single-Leg Heel Raise Repetitions', 'Wells DVT Score'],
+      outcomeMeasures: ['Lower Extremity Functional Scale (LEFS)', 'NPRS Walking Pain'],
+      rehabConsiderations: ['Prioritize weight-bearing ankle dorsiflexion >= 15°', 'Progressive gastrocnemius eccentric loading', 'Metronome gait retraining for symmetric stance time'],
+    });
+  }
+
+  // Match: Femur Fracture
+  if (textToAnalyze.includes('femur') || textToAnalyze.includes('thigh') || textToAnalyze.includes('persistent limp') || textToAnalyze.includes('trendelenburg')) {
+    conditionMatches.push({
+      condition: 'Femur Fracture (Chronic Post-Trauma Abductor Insufficiency)',
+      certainty: textToAnalyze.includes('femur') ? 'Confirmed' : 'Suspected',
+      confidence: 91,
+      rationale: 'Long-standing limp, abductor weakness, and possible limb-length discrepancy following femoral trauma.',
+      evidenceLevel: 'Strong Evidence',
+      recommendedAssessments: ['Trendelenburg 30s Single-Leg Test', 'True & Apparent Leg Length Measurement', 'Thigh Circumference Girth', 'Ober Test for ITB Contracture'],
+      outcomeMeasures: ['Harris Hip Score (HHS)', 'Lower Extremity Functional Scale (LEFS)'],
+      rehabConsiderations: ['Intensive gluteus medius kinetic chain strengthening', 'Evaluate for compensatory shoe lift if true discrepancy > 1.0 cm', 'Mirror biofeedback to correct Duchenne lateral trunk lurch'],
+    });
+  }
+
+  // Match: Total Knee Replacement (TKR)
+  if (textToAnalyze.includes('tkr') || textToAnalyze.includes('total knee') || textToAnalyze.includes('knee bending') || textToAnalyze.includes('sit-to-stand')) {
+    conditionMatches.push({
+      condition: 'Post-operative Total Knee Replacement (TKR)',
+      certainty: textToAnalyze.includes('tkr') || textToAnalyze.includes('total knee') ? 'Confirmed' : 'Probable',
+      confidence: 96,
+      rationale: 'Classic triad of pain during knee flexion, habituated antalgic limp, and struggle with sit-to-stand transfers.',
+      evidenceLevel: 'Strong Evidence',
+      recommendedAssessments: ['Extensor Lag Measurement on SLR', 'Patellar Mobility Glides (Medial & Inferior)', '30s Chair Stand Test', 'Timed Up and Go (TUG)'],
+      outcomeMeasures: ['Oxford Knee Score (OKS)', 'Knee Injury and Osteoarthritis Outcome Score (KOOS)', 'WOMAC Osteoarthritis Index'],
+      rehabConsiderations: ['Never place a pillow under the knee during bed rest (strictly achieve 0° extension)', 'High-intensity NMES on VMO to reverse arthrogenic muscle inhibition', 'Transfer biomechanics retraining from elevated 50cm surface down to 45cm standard chair'],
+    });
+  }
+
+  // Match: ACL Reconstruction
+  if (textToAnalyze.includes('acl') || textToAnalyze.includes('cruciate') || textToAnalyze.includes('giving way') || textToAnalyze.includes('pivot')) {
+    conditionMatches.push({
+      condition: 'Post ACL Reconstruction',
+      certainty: textToAnalyze.includes('reconstruction') ? 'Confirmed' : 'Probable',
+      confidence: 95,
+      rationale: 'Post-surgical joint stiffness, quad inhibition, and transfer hesitation following graft reconstruction and immobilisation.',
+      evidenceLevel: 'Strong Evidence',
+      recommendedAssessments: ['Prone Hang Heel Height Difference Test', 'Lachman Test & Pivot Shift Test', 'Limb Symmetry Index (LSI) Testing', 'Y-Balance Lower Quarter Test'],
+      outcomeMeasures: ['IKDC Subjective Form', 'ACL-RSI (Psychological Readiness)', 'Single & Triple Hop Battery'],
+      rehabConsiderations: ['Achieve equal symmetric extension (0°) immediately to prevent cyclops arthrofibrosis', 'Protect graft remodeling vulnerability during weeks 6-12', 'Strict return-to-sport testing (LSI >= 90%) before competitive sports'],
+    });
+  }
+
+  // Match: Unicondylar Knee Replacement (UKR)
+  if (textToAnalyze.includes('ukr') || textToAnalyze.includes('unicondylar') || textToAnalyze.includes('partial knee')) {
+    conditionMatches.push({
+      condition: 'Unicondylar Knee Replacement (UKR)',
+      certainty: 'Confirmed',
+      confidence: 98,
+      rationale: 'Isolated compartment arthroplasty with preserved native ACL/PCL mechanics and rapid early flexion potential.',
+      evidenceLevel: 'Strong Evidence',
+      recommendedAssessments: ['Anterior Drawer Test (verify intact native ACL)', 'Valgus/Varus Ligamentous Balance', '30s Chair Stand Test'],
+      outcomeMeasures: ['Oxford Knee Score (OKS)', 'Forgotten Joint Score (FJS-12)'],
+      rehabConsiderations: ['Accelerated full weight-bearing progression from Day 1', 'Avoid forceful twisting or extreme hyperextension if mobile bearing', 'Target flexion >= 120° by week 4-6'],
+    });
+  }
+
+  // Match: Elbow Fracture
+  if (textToAnalyze.includes('elbow') || textToAnalyze.includes('humerus') || textToAnalyze.includes('radial head') || textToAnalyze.includes('gripping') || textToAnalyze.includes('eating') || textToAnalyze.includes('bathing')) {
+    conditionMatches.push({
+      condition: 'Fracture Around Elbow Region',
+      certainty: textToAnalyze.includes('fracture') ? 'Confirmed' : 'Probable',
+      confidence: 97,
+      rationale: 'Severe elbow joint stiffness, loss of Morrey functional arc (flexion < 120°, extension > -30°), grip strength weakness, and ADL limitations.',
+      evidenceLevel: 'Strong Evidence',
+      recommendedAssessments: ['Goniometric Functional Arc Measurement (Flexion, Extension, Pronation, Supination)', 'Jamar Hand Dynamometer Grip Strength', 'Tinel Sign at Cubital Tunnel', 'Functional ADL Simulation Battery'],
+      outcomeMeasures: ['Disabilities of the Arm, Shoulder and Hand (QuickDASH)', 'Mayo Elbow Performance Score (MEPS)'],
+      rehabConsiderations: ['NEVER aggressively passively crank a stiff elbow (triggers severe Heterotopic Ossification)', 'Utilize Low-Load Prolonged Stretch (LLPS) of 20-30 min with static progressive splinting', 'Graduated therapeutic putty hand grip retraining'],
+    });
+  }
+
+  // Cross-reference with existing patients in Dr. Darpan Vanavi's database
+  const matchingCohortPatients = dbMemory.patients.filter((p) => {
+    const pDiag = p.primaryDiagnosis.toLowerCase();
+    const pComp = p.presentingComplaints.toLowerCase();
+    return (
+      (primaryDiagnosis && pDiag.includes(primaryDiagnosis.toLowerCase())) ||
+      (textToAnalyze.includes('tkr') && pDiag.includes('tkr')) ||
+      (textToAnalyze.includes('fracture') && pDiag.includes('fracture')) ||
+      (textToAnalyze.includes('limp') && (pComp.includes('limp') || pDiag.includes('limp')))
+    );
+  }).slice(0, 4);
+
+  res.json({
+    analyzedText: textToAnalyze,
+    conditionMatches,
+    matchingCohortPatients: matchingCohortPatients.map((p) => ({
+      id: p.id,
+      name: p.name,
+      age: p.age,
+      location: p.location,
+      primaryDiagnosis: p.primaryDiagnosis,
+      complaints: p.presentingComplaints,
+      currentStatus: p.status,
+    })),
+    clinicalGuidanceDisclaimer:
+      'ClinicaAI Decision Support: Suggestions are evidence-informed clinical references based on AAOS, IOA, and JOSPT guidelines. Final diagnostic confirmation and rehabilitation progression remain the professional responsibility of the treating clinician.',
   });
 });
 

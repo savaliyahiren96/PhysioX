@@ -12,13 +12,15 @@ import { SportsNutritionModule } from './components/SportsNutritionModule';
 import { IndianInvestigationsModule } from './components/IndianInvestigationsModule';
 import { MultidisciplinaryCaseView } from './components/MultidisciplinaryCaseView';
 import { ComprehensiveAssessmentFormat } from './components/ComprehensiveAssessmentFormat';
+import { DoctorPatientDashboard } from './components/DoctorPatientDashboard';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { PatientIntake } from './types/clinical';
+import { DoctorPatient } from './types/doctorPatient';
 import { DEMO_PATIENTS } from './data/clinicalKnowledge';
 
 function AppContent() {
   const { t, language } = useLanguage();
-  const [activeView, setActiveView] = useState<AppView>('dashboard');
+  const [activeView, setActiveView] = useState<AppView>('doctor-dashboard');
   const [selectedPatient, setSelectedPatient] = useState<PatientIntake>(DEMO_PATIENTS[0]);
 
   const handleSelectPatient = (patient: PatientIntake) => {
@@ -73,6 +75,79 @@ function AppContent() {
 
       {/* Main Viewport Content */}
       <main className="flex-1">
+        {activeView === 'doctor-dashboard' && (
+          <DoctorPatientDashboard
+            onOpenAssessmentWizard={(patient: DoctorPatient) => {
+              const converted: PatientIntake = {
+                id: patient.id,
+                mrn: patient.id,
+                name: patient.name,
+                age: typeof patient.age === 'number' ? patient.age : 50,
+                sex: patient.gender === 'Female' ? 'Female' : patient.gender === 'Male' ? 'Male' : 'Unknown',
+                heightCm: 165,
+                weightKg: 65,
+                occupation: `Resident of ${patient.location}`,
+                activityLevel: 'Light',
+                chiefComplaint: patient.presentingComplaints,
+                anatomicalLocation: patient.primaryDiagnosis,
+                onset: 'Subacute (2 - 6 weeks)',
+                duration: '6 weeks',
+                severityNprs: 5,
+                progression: 'Fluctuating',
+                injuryMechanism: patient.surgicalHistory || 'Post-surgical / chronic strain',
+                aggravatingFactors: ['Walking', 'Bending', 'Sit-to-stand'],
+                relievingFactors: ['Rest'],
+                functionalLimitations: patient.presentingComplaints,
+                patientGoals: 'Pain-free ambulation and functional mobility',
+                medicalHistory: patient.medicalHistory,
+                surgicalHistory: patient.surgicalHistory,
+                comorbidities: [],
+                medications: 'Prescribed analgesics PRN',
+                allergies: 'NKDA',
+                priorInvestigations: 'Plain radiographs and post-op films',
+                priorTreatments: 'Physical therapy',
+                notes: `Assigned to ${patient.doctorAssigned}`,
+              };
+              setSelectedPatient(converted);
+              setActiveView('wizard');
+            }}
+            onOpenAssessmentFormat={(patient: DoctorPatient) => {
+              const converted: PatientIntake = {
+                id: patient.id,
+                mrn: patient.id,
+                name: patient.name,
+                age: typeof patient.age === 'number' ? patient.age : 50,
+                sex: patient.gender === 'Female' ? 'Female' : patient.gender === 'Male' ? 'Male' : 'Unknown',
+                heightCm: 165,
+                weightKg: 65,
+                occupation: `Resident of ${patient.location}`,
+                activityLevel: 'Light',
+                chiefComplaint: patient.presentingComplaints,
+                anatomicalLocation: patient.primaryDiagnosis,
+                onset: 'Subacute (2 - 6 weeks)',
+                duration: '6 weeks',
+                severityNprs: 5,
+                progression: 'Fluctuating',
+                injuryMechanism: patient.surgicalHistory || 'Post-surgical / chronic strain',
+                aggravatingFactors: ['Walking', 'Bending', 'Sit-to-stand'],
+                relievingFactors: ['Rest'],
+                functionalLimitations: patient.presentingComplaints,
+                patientGoals: 'Pain-free ambulation and functional mobility',
+                medicalHistory: patient.medicalHistory,
+                surgicalHistory: patient.surgicalHistory,
+                comorbidities: [],
+                medications: 'Prescribed analgesics PRN',
+                allergies: 'NKDA',
+                priorInvestigations: 'Plain radiographs and post-op films',
+                priorTreatments: 'Physical therapy',
+                notes: `Assigned to ${patient.doctorAssigned}`,
+              };
+              setSelectedPatient(converted);
+              setActiveView('assessment-format');
+            }}
+          />
+        )}
+
         {activeView === 'dashboard' && (
           <DashboardView
             onSelectPatient={handleSelectPatient}

@@ -1,0 +1,1890 @@
+import { JointConditionMaster } from '../../types/clinical';
+
+export const LOWER_EXTREMITY_CONDITIONS: JointConditionMaster[] = [
+  // ==========================================
+  // HIP & GROIN (7 Conditions)
+  // ==========================================
+  {
+    id: 'hip-fai-labral-tear',
+    joint: 'Hip & Groin',
+    name: 'Femoroacetabular Impingement (FAI) & Acetabular Labral Tear',
+    category: 'Mechanical Hip Impingement / Intra-Articular Labrum',
+    tissue_group: 'soft',
+    tissue_types: ['Meniscus/Labrum/Cartilage', 'Articular Surface', 'Bone'],
+    acuity: 'chronic',
+    irritability: 'Mod',
+    healing_stage: 'remodelling',
+    red_flags: [
+      'Avascular necrosis (AVN) of femoral head: Severe resting groin pain, night pain, history of corticosteroid use or alcohol excess.',
+      'Slipped Capital Femoral Epiphysis (SCFE): Overweight adolescent presenting with knee/groin pain and obligate external rotation on hip flexion (Emergency orthopaedic pin fixation).',
+      'Undisplaced femoral neck stress fracture with severe weight-bearing pain.',
+    ],
+    when_to_refer: [
+      'Mechanical catching, locked hip, or failure of 3–6 months conservative therapy in an active individual (hip arthroscopy consideration).',
+      'Suspected pediatric hip emergencies (SCFE, Perthes).',
+    ],
+    outcome_measures: [
+      { name: 'iHOT-33 (International Hip Outcome Tool)', mcid: '6.1 points', target: '>= 75/100' },
+      { name: 'HAGOS (Hip and Groin Outcome Score)', mcid: '10 points', target: '>= 80/100' },
+      { name: 'NRS Groin Pain', mcid: '2 points', target: '<= 2/10' },
+    ],
+    evidence_strength: 'Guideline',
+    last_reviewed: '2026-08-16',
+    teaching_notes: {
+      clinicalReasoning: 'FADIR test (Flexion, Adduction, Internal Rotation) is highly sensitive (96–99%) for anterior-superior labral impingement; if negative, FAI is effectively ruled out. C-sign describes the patient cupping their hand above the greater trochanter with thumb extending into the groin.',
+      vivaQuestions: [
+        {
+          question: 'What is the morphological difference between Cam and Pincer impingement?',
+          answer: 'Cam morphology is an aspherical femoral head-neck junction with loss of concavity (pistol-grip deformity) that shears against the acetabulum; Pincer morphology is focal or general acetabular overcoverage (e.g., retroversion or coxa profunda) that pinches the labrum.',
+        },
+      ],
+    },
+    isRedFlag: false,
+    clinicalPresentation: 'Deep anterior groin pain, frequently described with the "C-sign". Aggravated by deep hip flexion, pivoting, sitting low in cars or chairs, and sports. May report clicking, catching, or giving-way sensations.',
+    bedsideAssessmentTests: [
+      {
+        testName: 'FADIR Test (Flexion, Adduction, Internal Rotation)',
+        sensitivity: '96–99%',
+        specificity: '25–40%',
+        positiveLikelihoodRatio: '1.6',
+        techniqueAndInterpretation: 'Passive 90° hip flexion, full adduction, and internal rotation. Positive if reproduces sharp concordant anterior groin pain.',
+        evidenceCitation: 'Reiman et al. Br J Sports Med (Warwick Agreement).',
+      },
+      {
+        testName: 'FABER (Patrick\'s) Test',
+        sensitivity: '82%',
+        specificity: '57%',
+        techniqueAndInterpretation: 'Flexion, Abduction, External Rotation with foot resting on opposite knee. Measure distance to table and assess anterior hip/groin pain.',
+        evidenceCitation: 'Martin et al. JOSPT.',
+      },
+    ],
+    investigationsProfile: [
+      {
+        modality: 'Plain Radiograph (X-ray)',
+        description: 'AP Pelvis and Dunn 45°/90° lateral views',
+        indications: 'Assess alpha angle (Cam > 60°), crossover sign (Pincer retroversion), and lateral center-edge angle.',
+        keyFindings: 'Cam deformity (alpha angle > 60°), Pincer crossover sign, pistol-grip deformity.',
+        accuracyOrYield: 'First-line screening modality.',
+      },
+      {
+        modality: 'MRI Scan',
+        description: 'MR Arthrography (MRA) with intra-articular gadolinium',
+        indications: 'Confirm acetabular labral tear and chondral delamination.',
+        keyFindings: 'Tear of anterosuperior labrum with dye tracking into chondrolabral junction; subchondral cysts.',
+        accuracyOrYield: 'MRA sensitivity 90%, specificity 91% for labral tears.',
+      },
+    ],
+    physiotherapyProtocol: {
+      protocolName: 'Physiotherapist-Led Personalised Hip Therapy (Warwick Agreement / FASH-IOr)',
+      phases: [
+        {
+          phaseNumber: 1,
+          phaseName: 'Joint Calming, Impingement Avoidance & Deep Gluteal Activation',
+          timeline: 'Weeks 0–4',
+          clinicalGoals: ['Avoid provocative end-range hip flexion and internal rotation', 'Modulate intra-articular inflammation', 'Recruit deep hip external rotators and gluteus medius'],
+          exercisePrescription: [
+            { category: 'Activity Modification', exerciseName: 'Ergonomic Sitting Elevation (Hip Angle > 90°) & Car Seat Wedge', dosage: 'Continuous', clinicalRationale: 'Prevents repetitive abutment of the femoral neck against the anterior acetabular rim.' },
+            { category: 'Deep Stabilizers', exerciseName: 'Side-Lying Isometric Hip Abduction and External Rotation (Clamshells in 30° Flexion)', dosage: '3 sets of 12 reps, 3s hold', clinicalRationale: 'Centers the femoral head posteriorly in the acetabular socket, reducing anterior capsular shear.' },
+            { category: 'Core Control', exerciseName: 'Supine Bridge with Abductor Band Tension', dosage: '3 sets of 10 reps', clinicalRationale: 'Engages gluteus maximus to drive femoral head posterior glide during hip extension.' },
+          ],
+          progressionCriteria: ['NRS groin pain reduced to <= 3/10', 'Able to sit for 45 minutes without impingement ache', 'FADIR test reproduction of pain diminished by >= 50%'],
+          precautionsAndContraindications: ['STRICTLY AVOID: Deep squats past 90°, hurdles, aggressive internal rotation stretching, end-range hip flexion'],
+        },
+        {
+          phaseNumber: 2,
+          phaseName: 'Pelvic Dissociation & Multi-Planar Hip Strengthening',
+          timeline: 'Weeks 4–8',
+          clinicalGoals: ['Strengthen hip abductors, adductors, and rotators through pain-free arc', 'Improve lumbopelvic motor control'],
+          exercisePrescription: [
+            { category: 'Closed Chain', exerciseName: 'Step-Ups and Controlled Step-Downs (Focus on No Knee Valgus / Pelvic Drop)', dosage: '3 sets of 10 reps per leg', clinicalRationale: 'Builds dynamic coronal plane pelvic control via gluteus medius and minimus.' },
+            { category: 'Posterior Loading', exerciseName: 'Romanian Deadlifts with Dumbbells (Hips to 70° Flexion)', dosage: '3 sets of 8–10 reps', clinicalRationale: 'Strengthens posterior chain without driving femoral head into anterior labral impingement.' },
+          ],
+          progressionCriteria: ['Painless single-leg balance for 30 seconds', 'Demonstrates good pelvic stability without Trendelenburg sign'],
+          precautionsAndContraindications: ['Maintain hip flexion strictly within pain-free boundaries (< 80–90°)'],
+        },
+        {
+          phaseNumber: 3,
+          phaseName: 'Functional Strength & Dynamic Movement Control',
+          timeline: 'Weeks 8–12',
+          clinicalGoals: ['High-load multi-joint strengthening', 'Deceleration and rotational control in functional stances'],
+          exercisePrescription: [
+            { category: 'Functional Strength', exerciseName: 'Goblet Box Squats (to 80° flexion) with Resistance Band Around Knees', dosage: '3 sets of 10 reps', clinicalRationale: 'Loads quadriceps and gluteals while band cues external rotation to clear the anterior impingement zone.' },
+            { category: 'Dynamic Stability', exerciseName: 'Lateral Band Walks / Monster Walks', dosage: '3 sets of 15 steps each way', clinicalRationale: 'Conditions endurance of hip abductors in athletic athletic ready stance.' },
+          ],
+          progressionCriteria: ['iHOT-33 score > 70/100', 'Symmetric hip strength >= 85% LSI', 'Zero pain with daily stair climbing and walking'],
+          precautionsAndContraindications: ['Avoid explosive pivoting on a planted foot until cleared'],
+        },
+        {
+          phaseNumber: 4,
+          phaseName: 'Return to Running, Sport & Resiliency',
+          timeline: 'Weeks 12–16+',
+          clinicalGoals: ['Graduated return to running and cutting agility', 'Maintenance hip conditioning'],
+          exercisePrescription: [
+            { category: 'Sports Return', exerciseName: 'Linear Jogging to Multi-Directional Agility Drills (T-Drill, Shuttle Runs)', dosage: '2–3x weekly', clinicalRationale: 'Re-exposes the hip to athletic ground reaction forces under neuromuscular control.' },
+          ],
+          progressionCriteria: ['HAGOS score > 80 across all subscales', 'Full clearance in functional hop testing'],
+          precautionsAndContraindications: ['Maintain lifelong hip mobility and gluteal activation routines'],
+        },
+      ],
+    },
+    clinicalPearls: [
+      'Stretching hip flexors into hyperextension or forcing hip internal rotation in FAI actually exacerbates anterior labral shear; focus on gluteal strengthening to decompress the anterior joint.',
+    ],
+  },
+
+  {
+    id: 'hip-osteoarthritis',
+    joint: 'Hip & Groin',
+    name: 'Hip Osteoarthritis (Coxarthrosis)',
+    category: 'Degenerative Articular Cartilage & Subchondral Sclerosis',
+    tissue_group: 'hard',
+    tissue_types: ['Articular Surface', 'Bone'],
+    acuity: 'chronic',
+    irritability: 'Mod',
+    healing_stage: 'remodelling',
+    red_flags: [
+      'Rapidly destructive coxarthrosis (severe joint destruction within 6–12 months).',
+      'Resting unremitting nocturnal bone pain or unexplained weight loss (malignancy).',
+      'Sudden loss of weight-bearing capacity with shortening and external rotation (insufficiency or pathological femoral neck fracture).',
+    ],
+    when_to_refer: [
+      'Severe end-stage OA (Kellgren-Lawrence Grade IV) with intractable pain, sleep disturbance, and profound functional limitation failing conservative therapy (THA candidate).',
+    ],
+    outcome_measures: [
+      { name: 'HOOS (Hip Disability and Osteoarthritis Outcome Score)', mcid: '9.1 points', target: '>= 75/100' },
+      { name: 'WOMAC Hip Index', mcid: '10 points (or 12%)', target: '<= 25/96' },
+      { name: 'Timed Up and Go (TUG)', mcid: '2.5 seconds', target: '< 10 seconds' },
+    ],
+    evidence_strength: 'Guideline',
+    last_reviewed: '2026-08-18',
+    teaching_notes: {
+      clinicalReasoning: 'American College of Rheumatology (ACR) clinical criteria: Hip pain + at least 2 of: 1. ESR < 20 mm/hr; 2. Radiographic femoral or acetabular osteophytes; 3. Radiographic joint space narrowing (superior, axial, or medial). Sensitivity 89%, Specificity 91%.',
+      vivaQuestions: [
+        {
+          question: 'What is the characteristic early pattern of range of motion loss in hip osteoarthritis?',
+          answer: 'Internal rotation is the first and most severely restricted motion (often < 15° at 90° flexion), followed by flexion and abduction, leading to an external rotation and adduction contracture in advanced stages.',
+        },
+      ],
+    },
+    isRedFlag: false,
+    clinicalPresentation: 'Deep groin, buttock, or anterior thigh pain (often referring to the ipsilateral knee). Morning stiffness lasting < 60 minutes, difficulty donning socks and shoes, limping gait (antalgic or Trendelenburg), and progressive loss of hip internal rotation.',
+    bedsideAssessmentTests: [
+      {
+        testName: 'Hip Internal Rotation at 90° Flexion',
+        sensitivity: '86%',
+        specificity: '75%',
+        techniqueAndInterpretation: 'Passive internal rotation measured with hip at 90° flexion. Positive if restricted < 15° and accompanied by pain.',
+        evidenceCitation: 'Sutlive et al. Phys Ther; Altmann et al. Arthritis Rheum.',
+      },
+      {
+        testName: 'Trendelenburg Sign',
+        sensitivity: '73%',
+        specificity: '77%',
+        techniqueAndInterpretation: 'Patient stands on one leg for 30s. Positive if contralateral pelvis drops, indicating gluteus medius weakness or mechanical hip insufficiency.',
+        evidenceCitation: 'Youdas et al. Physiother Theory Pract.',
+      },
+    ],
+    investigationsProfile: [
+      {
+        modality: 'Plain Radiograph (X-ray)',
+        description: 'Standing Weight-Bearing AP Pelvis and Lateral Hip views',
+        indications: 'Confirm Kellgren-Lawrence grading (Grade I to IV) and evaluate joint space narrowing.',
+        keyFindings: 'Superior or medial joint space narrowing < 2 mm, subchondral sclerosis, marginal osteophytosis, and subchondral cyst formation.',
+        accuracyOrYield: 'Gold standard diagnostic modality.',
+      },
+    ],
+    physiotherapyProtocol: {
+      protocolName: 'OARSI / EULAR First-Line High-Value Exercise Therapy Protocol for Hip OA',
+      phases: [
+        {
+          phaseNumber: 1,
+          phaseName: 'Joint Calming, Non-Impact Conditioning & Capsular Mobilization',
+          timeline: 'Weeks 0–4',
+          clinicalGoals: ['Modulate joint pain and morning stiffness', 'Restore capsular glide and internal rotation', 'Initiate low-impact aerobic conditioning'],
+          exercisePrescription: [
+            { category: 'Aerobic Exercise', exerciseName: 'Stationary Upright Cycling (Low Resistance, High Cadence)', dosage: '20 minutes, 4–5x weekly', clinicalRationale: 'Promotes synovial fluid circulation and articular cartilage nourishment without high ground reaction forces.' },
+            { category: 'Capsular Mobility', exerciseName: 'Gentle Distraction Long-Axis Mobilization & Seated Hip IR Oscillations', dosage: '3 sets of 15 gentle reps', clinicalRationale: 'Improves capsular compliance and reduces intra-articular pressure.' },
+            { category: 'Weight Relief', exerciseName: 'Prescription of Walking Stick in Contralateral Hand', dosage: 'During community ambulation', clinicalRationale: 'Reduces hip contact force by up to 50% via moment arm leverage.' },
+          ],
+          progressionCriteria: ['Morning stiffness duration reduced to < 20 minutes', 'Able to cycle 20 minutes without symptom exacerbation', 'NRS pain reduced by >= 2 points'],
+          precautionsAndContraindications: ['Avoid high-impact running, jumping, and deep heavy loaded hip flexion'],
+        },
+        {
+          phaseNumber: 2,
+          phaseName: 'Gluteal & Quadriceps Progressive Resistance Training',
+          timeline: 'Weeks 4–8',
+          clinicalGoals: ['Strengthen gluteus medius, maximus, and quadriceps', 'Correct Trendelenburg pelvic tilt during stance phase'],
+          exercisePrescription: [
+            { category: 'Abductor Strength', exerciseName: 'Side-Lying Hip Abduction with Ankle Weight (Progression to Standing Cable)', dosage: '3 sets of 10–12 reps at RPE 7', clinicalRationale: 'Increases gluteus medius strength to stabilize the coronal pelvic tilt during walking.' },
+            { category: 'Extensor Strength', exerciseName: 'Bilateral Glute Bridges on Floor with Squeeze', dosage: '3 sets of 12 reps, 3s hold', clinicalRationale: 'Builds hip extensor thrust necessary for sit-to-stand and stair climbing.' },
+            { category: 'Functional', exerciseName: 'Chair Rise / Sit-to-Stand from Firm High Chair', dosage: '3 sets of 10 reps', clinicalRationale: 'Directly improves transfer independence and quadriceps dynamic strength.' },
+          ],
+          progressionCriteria: ['TUG score improves by >= 2.5 seconds', 'Able to stand on affected leg for 20 seconds without pelvic drop', 'HOOS score improves by >= 9 points'],
+          precautionsAndContraindications: ['Ensure pain during exercise remains <= 3–4/10 and settles within 24 hours'],
+        },
+        {
+          phaseNumber: 3,
+          phaseName: 'Functional Closed-Chain Loading & Walking Capacity',
+          timeline: 'Weeks 8–12',
+          clinicalGoals: ['Progressive load tolerance in functional closed kinetic chain', 'Increase continuous walking distance to > 1 km', 'Improve balance and stair ascent/descent'],
+          exercisePrescription: [
+            { category: 'Closed Chain', exerciseName: 'Leg Press Machine (60° to 10° Flexion Arc)', dosage: '3 sets of 10 reps at 60–70% 1RM', clinicalRationale: 'Provides high muscular hypertrophy stimulus with controlled joint excursion.' },
+            { category: 'Step Training', exerciseName: 'Forward and Lateral Step-Ups onto 15cm Box', dosage: '3 sets of 12 reps per leg', clinicalRationale: 'Retrains eccentric quadriceps and gluteal deceleration for community stairs.' },
+          ],
+          progressionCriteria: ['Continuous walking tolerance > 30 minutes', 'WOMAC score < 25/96', 'Independent stair negotiation'],
+          precautionsAndContraindications: ['Avoid uncontrolled heavy impact'],
+        },
+        {
+          phaseNumber: 4,
+          phaseName: 'Lifelong Self-Management & Physical Activity Maintenance',
+          timeline: 'Weeks 12–16+',
+          clinicalGoals: ['Sustain independent physical exercise routine', 'Weight management counseling', 'Delay or prevent need for joint arthroplasty'],
+          exercisePrescription: [
+            { category: 'Maintenance', exerciseName: 'Community Walking, Aquatic Exercise, or Cycling 3x Weekly', dosage: '150 minutes moderate activity weekly', clinicalRationale: 'Maintains long-term joint function and systemic cardiovascular health.' },
+          ],
+          progressionCriteria: ['Patient adheres independently to long-term exercise plan with stable functional scores'],
+          precautionsAndContraindications: ['Seek orthopaedic re-evaluation if resting nocturnal pain becomes refractory'],
+        },
+      ],
+    },
+    clinicalPearls: [
+      'Using a cane in the CONTRALATERAL hand dramatically reduces the required force of the ipsilateral hip abductors, instantly lowering joint contact stress by up to 50%.',
+    ],
+  },
+
+  {
+    id: 'hip-gtps-gluteal-tendinopathy',
+    joint: 'Hip & Groin',
+    name: 'Greater Trochanteric Pain Syndrome (GTPS / Gluteal Tendinopathy)',
+    category: 'Peritrochanteric Tendon Compression & Bursopathy',
+    tissue_group: 'soft',
+    tissue_types: ['Muscle & Tendon', 'Bursa & Fascia'],
+    acuity: 'chronic',
+    irritability: 'Mod',
+    healing_stage: 'remodelling',
+    red_flags: [
+      'Elderly patient unable to bear weight following minor fall (femoral neck or intertrochanteric fracture).',
+      'Infection: Septic trochanteric bursitis with overlying spreading cellulitis, erythema, warmth, and systemic fever.',
+    ],
+    when_to_refer: [
+      'High-grade full-thickness gluteus medius/minimus tendon tear with pronounced abductor lag sign (orthopaedic repair evaluation).',
+      'Refractory pain unresponsive to 6 months progressive tendon loading.',
+    ],
+    outcome_measures: [
+      { name: 'VISA-G (Victorian Institute of Sport Assessment - Gluteal)', mcid: '11 points', target: '>= 75/100' },
+      { name: 'NRS Lateral Hip Pain', mcid: '2 points', target: '<= 2/10' },
+      { name: 'Sleep Disturbance Scale (nights awakened/week)', mcid: 'Resolution', target: '0 nights/week' },
+    ],
+    evidence_strength: 'Guideline',
+    last_reviewed: '2026-08-17',
+    teaching_notes: {
+      clinicalReasoning: 'Single-leg stance test held for 30 seconds has 97% specificity for gluteal tendinopathy. Pain reproduced by direct greater trochanter palpation and hip adduction across the midline (compression of tendon over bony prominence).',
+      vivaQuestions: [
+        {
+          question: 'Why should passive IT-band and gluteal stretching be avoided in GTPS?',
+          answer: 'Stretching pulls the iliotibial band taut across the greater trochanter, creating high compressive loads on the inserting gluteus medius/minimus tendons and underlying bursa, perpetuating the tendinopathy.',
+        },
+      ],
+    },
+    isRedFlag: false,
+    clinicalPresentation: 'Aching pain over the lateral aspect of the hip, exquisitely tender to direct touch over the greater trochanter. Aggravated by lying on the symptomatic side at night, crossing legs, sitting in low chairs, and climbing stairs.',
+    bedsideAssessmentTests: [
+      {
+        testName: 'Single-Leg Stance Test (30 seconds)',
+        sensitivity: '38%',
+        specificity: '97%',
+        positiveLikelihoodRatio: '12.7',
+        techniqueAndInterpretation: 'Patient stands on symptomatic leg for 30s. Positive if lateral hip pain reproduced within 30 seconds.',
+        evidenceCitation: 'Lequesne et al. Arthritis Rheum; Grimaldi et al. Br J Sports Med.',
+      },
+      {
+        testName: 'FOGS (Flexion, Adduction, External Rotation / Palpation)',
+        sensitivity: '83%',
+        specificity: '77%',
+        techniqueAndInterpretation: 'Direct palpation of greater trochanter facet insertions with the hip adducted. Positive if reproduces concordant sharp lateral hip tenderness.',
+        evidenceCitation: 'Mellor et al. BMJ (LEAP Trial).',
+      },
+    ],
+    investigationsProfile: [
+      {
+        modality: 'Diagnostic Ultrasound (MSK US)',
+        description: 'High-Resolution Ultrasound of Peritrochanteric Space',
+        indications: 'Confirm gluteus medius/minimus insertional thickening, partial vs full-thickness tear, and trochanteric bursa effusion.',
+        keyFindings: 'Hypoechogenicity and loss of fibrillar pattern at anterior/lateral facet of greater trochanter, cortical irregularity, bursa fluid > 2mm.',
+        accuracyOrYield: 'Ultrasound sensitivity 79–90%, specificity 95% for gluteal tendon tears.',
+      },
+      {
+        modality: 'MRI Scan',
+        description: 'Pelvis / Hip MRI Coronal T1 and T2 Fat-Suppressed sequences',
+        indications: 'Assess muscle atrophy, fatty infiltration of gluteus medius/minimus, and exclude avascular necrosis or stress fracture.',
+        keyFindings: 'T2 hyperintensity and tendon discontinuity at greater trochanter insertion; gluteal muscle belly fatty degeneration.',
+        accuracyOrYield: 'Gold standard for surgical tendon repair planning.',
+      },
+    ],
+    physiotherapyProtocol: {
+      protocolName: 'LEAP Trial Load-Optimization & Gluteal Tendon Rehabilitation Protocol',
+      phases: [
+        {
+          phaseNumber: 1,
+          phaseName: 'De-Compression Education, Night Sleeping & Isometric Loading',
+          timeline: 'Weeks 0–3',
+          clinicalGoals: ['Eliminate tendon compressive positions (crossing legs, hanging on hip)', 'Restore uninterrupted sleep with pillow between knees', 'Initiate analgesic isometric abductor contractions'],
+          exercisePrescription: [
+            { category: 'De-Compression', exerciseName: 'Pillow Between Knees for Side-Sleeping & Flat Standing Posture', dosage: 'Continuous', clinicalRationale: 'Keeps hip in slight abduction, preventing the IT-band from compressing the gluteal tendon over the trochanter.' },
+            { category: 'Analgesic Isometrics', exerciseName: 'Isometric Supine Hip Abduction Against Belt / Wall (0° Adduction)', dosage: '5 sets of 45s holds at 70% effort, 2x daily', clinicalRationale: 'Cortical inhibition and immediate tendon pain relief via isometric mechanotransduction.' },
+            { category: 'Core Pelvic Control', exerciseName: 'Double-Leg Pelvic Bridge with Neutral Hip Width', dosage: '3 sets of 10 reps, hold 3s', clinicalRationale: 'Engages gluteus maximus without generating lateral compressive shearing.' },
+          ],
+          progressionCriteria: ['Able to sleep without waking from lateral hip pain', 'Single-leg stance pain-free for 15 seconds', 'NRS resting pain <= 3/10'],
+          precautionsAndContraindications: ['STRICTLY AVOID: Crossing legs, piriformis/ITB stretches across midline, standing with hip hitched/hung out'],
+        },
+        {
+          phaseNumber: 2,
+          phaseName: 'Low-Velocity High-Load Isotonic Abductor Strengthening',
+          timeline: 'Weeks 3–8',
+          clinicalGoals: ['Progress to slow heavy resistance (HSR) loading of gluteal tendons', 'Improve dynamic pelvic control on stairs'],
+          exercisePrescription: [
+            { category: 'Heavy Slow Resistance', exerciseName: 'Standing Cable / Band Hip Abduction in Slight Extension', dosage: '3 sets of 8–10 reps, 3s concentric / 3s eccentric tempo', clinicalRationale: 'Promotes collagen realignment and tendon tensile load capacity without compression.' },
+            { category: 'Pelvic Dissociation', exerciseName: 'Side-Lying Straight Leg Raise (Slight Abduction and Extension, Toe Pointed Neutral)', dosage: '3 sets of 10 reps', clinicalRationale: 'Isolates gluteus medius posterior fibers without hip flexion substitution.' },
+            { category: 'Functional Weight-Bearing', exerciseName: 'Step-Ups with Focus on Level Pelvis (Mirror Biofeedback)', dosage: '3 sets of 10 reps per leg', clinicalRationale: 'Translates abductor strength into functional gait stance phase.' },
+          ],
+          progressionCriteria: ['Single-leg stance test negative at 30 seconds', 'VISA-G score improves by >= 11 points', 'Able to walk 30 minutes without lateral hip flare'],
+          precautionsAndContraindications: ['Never allow the leg to adduct past midline during exercises'],
+        },
+        {
+          phaseNumber: 3,
+          phaseName: 'Functional Closed-Chain & Kinetic Chain Integration',
+          timeline: 'Weeks 8–12',
+          clinicalGoals: ['Dynamic multi-planar stability', 'Controlled lateral loading and return to running/hiking'],
+          exercisePrescription: [
+            { category: 'Closed Chain', exerciseName: 'Split Squats and Curtsey Squats (Avoid End-Range Adduction)', dosage: '3 sets of 8–10 reps', clinicalRationale: 'Builds functional quad and glute strength in staggered stance.' },
+            { category: 'Lateral Strength', exerciseName: 'Lateral Band Monster Walks with Band Around Knees', dosage: '3 sets of 12 steps each direction', clinicalRationale: 'Builds sustained isometric/isotonic abductor endurance under athletic postures.' },
+          ],
+          progressionCriteria: ['VISA-G score > 75/100', 'Full painless gait and stair climbing without Trendelenburg lurch'],
+          precautionsAndContraindications: ['Maintain gradual progression into sports drills'],
+        },
+        {
+          phaseNumber: 4,
+          phaseName: 'Return to Full Activity & Long-Term Resilience',
+          timeline: 'Weeks 12–16+',
+          clinicalGoals: ['Unrestricted return to recreational sports and physical work', 'Lifelong avoidance of compressive habits'],
+          exercisePrescription: [
+            { category: 'Maintenance', exerciseName: 'Weekly High-Load Gluteal Strengthening Maintenance Session', dosage: '2x weekly', clinicalRationale: 'Maintains tendon stiffness and prevents recurrent degeneration.' },
+          ],
+          progressionCriteria: ['Full return to sports/daily life with zero nocturnal symptoms'],
+          precautionsAndContraindications: ['Continue avoiding crossing legs during prolonged sitting'],
+        },
+      ],
+    },
+    clinicalPearls: [
+      'The landmark BMJ LEAP trial (Mellor et al.) proved education + exercise was vastly superior to corticosteroid injection; injections had high short-term relief but 70% relapse at 1 year.',
+    ],
+  },
+
+  {
+    id: 'hip-athletic-pubalgia-adductor',
+    joint: 'Hip & Groin',
+    name: 'Athletic Pubalgia / Adductor Longus Tendinopathy ("Sports Hernia")',
+    category: 'Groin Pain in Athletes / Myotendinous Enthesopathy',
+    tissue_group: 'soft',
+    tissue_types: ['Muscle & Tendon', 'Bursa & Fascia'],
+    acuity: 'chronic',
+    irritability: 'Mod',
+    healing_stage: 'remodelling',
+    red_flags: [
+      'Strangulated inguinal hernia: Non-reducible tender groin lump with nausea, vomiting, and intestinal obstruction (Surgical emergency).',
+      'Testicular torsion: Sudden acute severe scrotal pain and swelling.',
+      'Pubic symphysis osteomyelitis (osteitis pubis with infection).',
+    ],
+    when_to_refer: [
+      'Signs of incarcerated/strangulated hernia (immediate surgical emergency).',
+      'True posterior inguinal wall deficiency refractory to 3 months structured rehab (consider surgical pelvic floor repair).',
+    ],
+    outcome_measures: [
+      { name: 'HAGOS (Hip and Groin Outcome Score)', mcid: '10 points', target: '>= 80/100' },
+      { name: 'Squeeze Test Pain Score (NRS 0–10)', mcid: '2 points', target: '<= 1/10' },
+      { name: 'Adductor Squeeze Force (Dynamometer in mmHg/N)', mcid: '15% increase', target: '>= 95% of pre-season baseline' },
+    ],
+    evidence_strength: 'Guideline',
+    last_reviewed: '2026-08-18',
+    teaching_notes: {
+      clinicalReasoning: 'Doha agreement classifies groin pain in athletes into 4 clinical entities: 1. Adductor-related; 2. Iliopsoas-related; 3. Inguinal-related; 4. Pubic-related. Adductor squeeze test with hips at 0° and 45° isolates pubic aponeurosis tension.',
+      vivaQuestions: [
+        {
+          question: 'What is the "pubic plate" and how does muscle imbalance lead to athletic pubalgia?',
+          answer: 'The pubic plate is the fibrocartilaginous confluence of the rectus abdominis insertion and adductor longus origin on the anterior pubic ramus. Strong adductors exerting downward pull against a weak abdominal wall shear the aponeurosis across the pubic symphysis.',
+        },
+      ],
+    },
+    isRedFlag: false,
+    clinicalPresentation: 'Sharp or aching pain in the adductor insertion / medial groin and lower abdominal wall. Exacerbated by kicking, sprinting, rapid change of direction, and coughing/sneezing. Palpation reveals point tenderness over adductor longus tubercle and pubic ramus.',
+    bedsideAssessmentTests: [
+      {
+        testName: 'Adductor Squeeze Test (0°, 45°, and 90° Hip Flexion)',
+        sensitivity: '89%',
+        specificity: '88%',
+        positiveLikelihoodRatio: '7.4',
+        techniqueAndInterpretation: 'Clinician\'s fist or sphygmomanometer cuff placed between knees; patient squeezes maximally for 5s. Positive if concordant medial groin pain elicited and pressure is diminished.',
+        evidenceCitation: 'Weir et al. Br J Sports Med (Doha Agreement); Delahunt et al. Br J Sports Med.',
+      },
+      {
+        testName: 'Resisted Abdominal Curl-Up with Cough (Inguinal Provocation)',
+        sensitivity: '76%',
+        specificity: '82%',
+        techniqueAndInterpretation: 'Patient performs isometric crunch against resistance while coughing. Positive if sharp lower abdominal/pubic tubercle pain elicited.',
+        evidenceCitation: 'Holmich et al. Lancet.',
+      },
+    ],
+    investigationsProfile: [
+      {
+        modality: 'MRI Scan',
+        description: 'Pelvis / Pubic Symphysis MRI with specialized small FOV coronal oblique sequences',
+        indications: 'Evaluate secondary cleft sign, adductor longus enthesopathy, and pubic bone marrow edema.',
+        keyFindings: 'T2 hyperintense "cleft sign" representing partial tear of common adductor-rectus aponeurosis; subchondral pubic bone marrow edema.',
+        accuracyOrYield: 'Gold standard for sports hernia / aponeurotic tears.',
+      },
+    ],
+    physiotherapyProtocol: {
+      protocolName: 'Holmich & Copenhagen Adduction Progressive Strengthening Protocol',
+      phases: [
+        {
+          phaseNumber: 1,
+          phaseName: 'Tendon De-Loading, Core Balance & Isometric Adduction',
+          timeline: 'Weeks 0–3',
+          clinicalGoals: ['Modulate acute enthesis pain', 'Restore isometric adductor torque without pain flare', 'Re-train transversus abdominis and pelvic floor'],
+          exercisePrescription: [
+            { category: 'Isometric Adduction', exerciseName: 'Submaximal Isometric Knee Squeeze on Foam Block (0° and 45°)', dosage: '5 sets of 30s holds at 50–70% MVC, 2x daily', clinicalRationale: 'Provides mechanotransductive pain relief and preserves motor unit recruitment without tendon elongation.' },
+            { category: 'Trunk Control', exerciseName: 'Supine Dead Bug with Contralateral Limb Extension', dosage: '3 sets of 10 reps', clinicalRationale: 'Engages rectus abdominis and obliques to counterbalance downward adductor pull on the pubic symphysis.' },
+            { category: 'Cross-Training', exerciseName: 'Stationary Recumbent Cycling & Upper Body Ergometer', dosage: '20–30 minutes daily', clinicalRationale: 'Maintains aerobic capacity while eliminating explosive kicking/sprinting shear.' },
+          ],
+          progressionCriteria: ['Adductor squeeze test pain reduced to <= 2/10', 'Painless normal walking and jogging in straight line', 'HAGOS score improved by >= 10 points'],
+          precautionsAndContraindications: ['NO ballistic kicking, sudden direction changes, or aggressive adductor stretching'],
+        },
+        {
+          phaseNumber: 2,
+          phaseName: 'Copenhagen Adduction Progression & Eccentric Loading',
+          timeline: 'Weeks 3–6',
+          clinicalGoals: ['Progress eccentric adductor capacity', 'Increase abdominal wall stiffness across pubic plate'],
+          exercisePrescription: [
+            { category: 'Eccentric Adduction', exerciseName: 'Copenhagen Adduction Exercise (Level 1: Knees Supported by Partner/Bench)', dosage: '2 sets of 8 reps per side, 3x weekly', clinicalRationale: 'Harøy et al. proved this exercise produces massive eccentric adductor gains and prevents groin injuries in athletes.' },
+            { category: 'Anti-Extension', exerciseName: 'Swiss Ball Rollouts and Front Planks with Squeeze', dosage: '3 sets of 8–10 reps', clinicalRationale: 'Strengthens rectus abdominis in eccentric-concentric functional actions.' },
+          ],
+          progressionCriteria: ['Adductor squeeze force >= 85% of baseline', 'Able to complete Level 1 Copenhagen without groin pain'],
+          precautionsAndContraindications: ['Monitor for next-day tendon stiffness or pubic bone tenderness'],
+        },
+        {
+          phaseNumber: 3,
+          phaseName: 'High-Load Copenhagen & Dynamic Athletic Drills',
+          timeline: 'Weeks 6–10',
+          clinicalGoals: ['Copenhagen Level 2 (ankles supported)', 'Accelerations, decelerations, and submaximal kicking'],
+          exercisePrescription: [
+            { category: 'High-Load Copenhagen', exerciseName: 'Copenhagen Adduction Exercise (Level 2: Ankles Supported on Bench)', dosage: '3 sets of 8–10 reps per side', clinicalRationale: 'Maximizes lever-arm adductor loading for high-level athletic resilience.' },
+            { category: 'Sport-Specific', exerciseName: 'Curvilinear Running and Graduated Kicking Drills (Short Passes to Long Balls)', dosage: '3x weekly progression', clinicalRationale: 'Re-exposes pubic plate to rotational and kicking shear under controlled fatigue.' },
+          ],
+          progressionCriteria: ['HAGOS score > 85%', 'Squeeze test completely pain-free (0/10) with full dynamometer force', 'Painless 100% straight-line sprinting'],
+          precautionsAndContraindications: ['Progress kicking volume gradually'],
+        },
+        {
+          phaseNumber: 4,
+          phaseName: 'Full Return to Competitive Sport & In-Season Prevention',
+          timeline: 'Weeks 10–14+',
+          clinicalGoals: ['Full clearance for match play', 'Implementation of Copenhagen adduction 2x weekly in-season'],
+          exercisePrescription: [
+            { category: 'Injury Prevention', exerciseName: 'Copenhagen Adduction Maintenance Protocol', dosage: '2 sets of 8 reps, 2x weekly in-season', clinicalRationale: 'Reduces in-season groin injury recurrence by 41% in elite athletes.' },
+          ],
+          progressionCriteria: ['Full clearance by sports physician / physiotherapist in match simulation'],
+          precautionsAndContraindications: ['Continue ongoing eccentric adductor maintenance program'],
+        },
+      ],
+    },
+    clinicalPearls: [
+      'The landmark Holmich (Lancet) and Copenhagen (Harøy Br J Sports Med) trials demonstrate that active progressive eccentric adductor loading cures > 80% of sports hernia cases without surgical intervention.',
+    ],
+  },
+
+  {
+    id: 'hip-proximal-hamstring-tendinopathy',
+    joint: 'Hip & Groin',
+    name: 'Proximal Hamstring Tendinopathy (Ischial Tuberosity)',
+    category: 'Insertional Tendon Compression & Enthesopathy',
+    tissue_group: 'soft',
+    tissue_types: ['Muscle & Tendon', 'Bone'],
+    acuity: 'chronic',
+    irritability: 'Mod',
+    healing_stage: 'remodelling',
+    red_flags: [
+      'Acute complete proximal hamstring 3-tendon avulsion: Sudden pop during sprinting/water-skiing with large posterior thigh hematoma and palpable defect at ischial tuberosity (Surgical emergency within 2–3 weeks).',
+      'Pelvic osteosarcoma or Ewing sarcoma in adolescent/young adult presenting with night bone pain.',
+    ],
+    when_to_refer: [
+      'Acute complete 2- or 3-tendon avulsion with > 2 cm retraction (urgent orthopaedic surgical repair).',
+      'Chronic refractory tendinopathy with sciatic nerve tethering failing 6 months loading.',
+    ],
+    outcome_measures: [
+      { name: 'VISA-H (Victorian Institute of Sport Assessment - Hamstring)', mcid: '12 points', target: '>= 80/100' },
+      { name: 'NRS Ischial Tuberosity Pain', mcid: '2 points', target: '<= 2/10' },
+      { name: 'Sitting Tolerance on Hard Surface (minutes)', mcid: '30 mins', target: '>= 60 mins' },
+    ],
+    evidence_strength: 'Systematic review',
+    last_reviewed: '2026-08-16',
+    teaching_notes: {
+      clinicalReasoning: 'Purdam stretch tests (Bent-knee stretch, Modified bent-knee stretch, Puranen-Orava test) place the proximal hamstring tendon in compressive abutment against the ischial tuberosity at high hip flexion angles, confirming compressive enthesopathy.',
+      vivaQuestions: [
+        {
+          question: 'Why does seated position on a hard chair aggravate proximal hamstring tendinopathy?',
+          answer: 'Sitting at 90° hip flexion places the proximal hamstring tendon under combined tensile stretch and direct compressive force against the bony ischial tuberosity, inducing tenocyte stress and ischemic irritation.',
+        },
+      ],
+    },
+    isRedFlag: false,
+    clinicalPresentation: 'Deep focal ache at the lower buttock / ischial tuberosity ("pain in the sit-bone"). Aggravated by prolonged sitting on hard surfaces, driving, uphill running, lunging, and bending forward at the hips.',
+    bedsideAssessmentTests: [
+      {
+        testName: 'Bent-Knee Stretch Test & Modified Bent-Knee Stretch',
+        sensitivity: '84%',
+        specificity: '87%',
+        positiveLikelihoodRatio: '6.5',
+        techniqueAndInterpretation: 'Supine; hip and knee flexed to 90°, then knee is maximally straightened. Positive if deep concordant pain reproduced at the ischial tuberosity.',
+        evidenceCitation: 'Cacchio et al. Am J Sports Med.',
+      },
+      {
+        testName: 'Puranen-Orava Test (Standing Hamstring Stretch)',
+        sensitivity: '76%',
+        specificity: '82%',
+        techniqueAndInterpretation: 'Standing; heel placed on examination table at 90° hip flexion with knee extended, patient leans torso forward. Positive if concordant ischial pain elicited.',
+        evidenceCitation: 'Puranen & Orava. Br J Sports Med.',
+      },
+    ],
+    investigationsProfile: [
+      {
+        modality: 'MRI Scan',
+        description: 'Pelvis / Hip MRI with Coronal and Sagittal T2 Fat-Suppressed sequences',
+        indications: 'Confirm proximal hamstring tendinosis, partial vs complete avulsion tear, and peritendinous fluid.',
+        keyFindings: 'Tendon thickening, intrasubstance T2 hyperintensity, bone marrow edema at ischial tuberosity, peritendinous fluid.',
+        accuracyOrYield: 'Gold standard for grading hamstring pathology.',
+      },
+    ],
+    physiotherapyProtocol: {
+      protocolName: 'Goom-Malliaras Compression-Minimizing Proximal Hamstring Protocol',
+      phases: [
+        {
+          phaseNumber: 1,
+          phaseName: 'Compression Avoidance, Sitting Cushion & Isometric Loading',
+          timeline: 'Weeks 0–3',
+          clinicalGoals: ['Remove direct ischial compression (incline sitting, gel pad)', 'Avoid loaded hip flexion > 60°', 'Analgesic isometric hamstring contractions in low hip flexion'],
+          exercisePrescription: [
+            { category: 'Sitting Ergonomics', exerciseName: 'Gel Cushion / Cut-Out Wedge & Frequent Standing Breaks', dosage: 'Continuous', clinicalRationale: 'Decreases focal ischial bone pressure on the tendon insertion.' },
+            { category: 'Isometric Loading', exerciseName: 'Prone Isometric Knee Flexion Against Belt (30° Knee Flexion, 0° Hip Flexion)', dosage: '5 sets of 45s holds at 70% effort, 2x daily', clinicalRationale: 'Produces cortical inhibition and relieves tendon pain without tendon-on-bone compression.' },
+            { category: 'Posterior Chain', exerciseName: 'Bilateral Glute Bridge on Floor (Short Lever, 0° Hip Flexion)', dosage: '3 sets of 12 reps', clinicalRationale: 'Engages gluteals to assist hamstrings during hip extension.' },
+          ],
+          progressionCriteria: ['Able to sit on firm chair for 45 minutes without buttock pain', 'Isometric loading pain <= 2/10', 'VISA-H improved by >= 10 points'],
+          precautionsAndContraindications: ['STRICTLY CONTRAINDICATED: Hamstring stretching, yoga forward folds, deep lunges, hurdles'],
+        },
+        {
+          phaseNumber: 2,
+          phaseName: 'Heavy Slow Resistance (HSR) in Low-to-Moderate Hip Flexion',
+          timeline: 'Weeks 3–8',
+          clinicalGoals: ['Progress tensile tendon load without high compressive angles (< 60° hip flexion)', 'Restore eccentric hamstring strength'],
+          exercisePrescription: [
+            { category: 'Isotonic HSR', exerciseName: 'Prone Single-Leg Machine Hamstring Curls (0° Hip Flexion)', dosage: '3 sets of 8–10 reps, 3s concentric / 3s eccentric tempo', clinicalRationale: 'Loads hamstring tendon under pure tensile force without compressive impingement.' },
+            { category: 'Hip Extension', exerciseName: 'Long-Lever Glute Bridges with Feet Elevated on 15cm Box', dosage: '3 sets of 10 reps', clinicalRationale: 'Gradually increases distal hamstring tensile contribution.' },
+            { category: 'Deadlift Progression', exerciseName: 'Romanian Deadlifts with Dumbbells (Limited to 45° Hip Flexion Arc)', dosage: '3 sets of 8 reps at RPE 7', clinicalRationale: 'Initiates controlled eccentric loading through safe range.' },
+          ],
+          progressionCriteria: ['Bent-knee stretch test negative', 'Able to jog at 60% speed without ischial ache'],
+          precautionsAndContraindications: ['Limit hip flexion during deadlifts and squats to <= 60°'],
+        },
+        {
+          phaseNumber: 3,
+          phaseName: 'Loaded Hip Flexion & Eccentric Tendon Remodeling',
+          timeline: 'Weeks 8–12',
+          clinicalGoals: ['Introduce progressive loading into full hip flexion (70–90°)', 'Nordic hamstring curls and full-range deadlifts'],
+          exercisePrescription: [
+            { category: 'Full-Range Loading', exerciseName: 'Barbell Romanian Deadlifts to Mid-Shin (Full Hip Hinge)', dosage: '3 sets of 8 reps', clinicalRationale: 'Conditions the tendon to withstand high tensile loads at deep hip flexion angles.' },
+            { category: 'Eccentric Power', exerciseName: 'Nordic Hamstring Curls (Assisted with Band)', dosage: '3 sets of 6–8 reps', clinicalRationale: 'Maximizes distal-to-proximal eccentric tensile capacity.' },
+            { category: 'Dynamic Drills', exerciseName: 'Walking Lunges with Upright Torso', dosage: '3 sets of 12 paces', clinicalRationale: 'Dynamic functional split-stance loading.' },
+          ],
+          progressionCriteria: ['VISA-H score > 80/100', 'Painless single-leg hop test', 'Tolerates hard surface sitting for > 60 minutes'],
+          precautionsAndContraindications: ['Avoid sudden high-speed sprint decelerations until Phase 4'],
+        },
+        {
+          phaseNumber: 4,
+          phaseName: 'Energy Storage, Sprinting & Return to Sport',
+          timeline: 'Weeks 12–16+',
+          clinicalGoals: ['High-speed energy storage and release drills', 'Return to sprinting, acceleration, and competitive sport'],
+          exercisePrescription: [
+            { category: 'Energy Storage', exerciseName: 'A-Skips, B-Skips, and Fast Hamstring Sled Pushes', dosage: '3x weekly', clinicalRationale: 'Prepares tendon for stretch-shortening cycle during late swing phase of sprinting.' },
+            { category: 'Sprinting Progression', exerciseName: 'Graduated Sprinting (50% -> 75% -> 90% -> 100% Maximal Velocity)', dosage: 'Intervals with full recovery', clinicalRationale: 'Re-exposes proximal tendon to peak terminal swing eccentric forces.' },
+          ],
+          progressionCriteria: ['Full clearance by sports physiotherapist', '100% pain-free maximal sprint efforts'],
+          precautionsAndContraindications: ['Maintain weekly eccentric hamstring loading throughout season'],
+        },
+      ],
+    },
+    clinicalPearls: [
+      'Hamstring stretching is toxic to proximal hamstring tendinopathy because the tendon is compressed against the ischial bone at end-range; treat with load, not stretches.',
+    ],
+  },
+
+  {
+    id: 'hip-femoral-neck-stress-fracture',
+    joint: 'Hip & Groin',
+    name: 'Femoral Neck Stress Fracture',
+    category: 'Bone Overuse / Tensile vs Compressive Stress Injury',
+    tissue_group: 'hard',
+    tissue_types: ['Bone'],
+    acuity: 'acute',
+    irritability: 'High',
+    healing_stage: 'inflammatory',
+    red_flags: [
+      'Tension-Side (Superior) Femoral Neck Stress Fracture: High risk of sudden complete displacement, avascular necrosis (AVN), and nonunion (Requires URGENT orthopaedic internal fixation).',
+      'Inability to bear any weight on the affected limb.',
+    ],
+    when_to_refer: [
+      'MANDATORY IMMEDIATE ORTHOPAEDIC REFERRAL: Any suspected femoral neck stress fracture requires immediate non-weight-bearing crutches and urgent MRI.',
+      'Tension-side (superior cortex) fracture requires emergency surgical cannulated screw fixation.',
+    ],
+    outcome_measures: [
+      { name: 'NRS Weight-Bearing Pain', mcid: '2 points', target: '0/10' },
+      { name: 'Single-Leg Stance Pain-Free Time', mcid: '30 seconds', target: '>= 30 seconds' },
+      { name: 'Radiographic Fracture Line Consolidation', mcid: 'Complete union', target: 'Solid callus on MRI/CT' },
+    ],
+    evidence_strength: 'Guideline',
+    last_reviewed: '2026-08-19',
+    teaching_notes: {
+      clinicalReasoning: 'Femoral neck stress fractures are categorized by Fullerton and Snowdy: Tension side (superior aspect) has high risk of displacement and requires urgent surgical pinning; Compression side (inferior aspect) < 50% width can often be managed with non-weight-bearing conservative therapy.',
+      vivaQuestions: [
+        {
+          question: 'What is the Fulcrum test of the femur and how is it performed?',
+          answer: 'The clinician places their forearm under the patient\'s mid-thigh as a fulcrum while pressing down on the distal femur. A sharp focal pain at the stress fracture site represents a positive test.',
+        },
+      ],
+    },
+    isRedFlag: true,
+    redFlagSeverity: 'EMERGENCY_IMMEDIATE',
+    clinicalPresentation: 'Deep anterior groin or thigh pain in a distance runner or military recruit with an increase in training volume. Pain starts during running, progresses to pain during walking, and eventually resting/nocturnal ache. Inability to hop on the affected leg.',
+    bedsideAssessmentTests: [
+      {
+        testName: 'Single-Leg Hop Test for Bone Stress',
+        sensitivity: '92%',
+        specificity: '78%',
+        techniqueAndInterpretation: 'Patient attempts to hop on symptomatic leg. Positive if sharp severe groin pain prevents hopping (highly sensitive for femoral neck stress fracture).',
+        evidenceCitation: 'Brukner et al. Br J Sports Med; Robertson & Wood. Br Med Bull.',
+      },
+      {
+        testName: 'Fulcrum Test of the Femur',
+        sensitivity: '88%',
+        specificity: '85%',
+        techniqueAndInterpretation: 'Forearm placed under mid-shaft of femur; downward pressure applied to anterior knee. Positive if sharp localized pain reproduced.',
+        evidenceCitation: 'Johnson et al. Am J Sports Med.',
+      },
+    ],
+    investigationsProfile: [
+      {
+        modality: 'MRI Scan',
+        description: 'Pelvis / Hip MRI Coronal T1, T2 Fat-Suppressed and STIR sequences',
+        indications: 'Emergency gold standard for early bone stress injury; plain radiographs are negative in up to 70% of early cases.',
+        keyFindings: 'T1 hypointense fracture line across superior or inferior cortex with extensive surrounding STIR bone marrow edema.',
+        accuracyOrYield: 'Sensitivity 99–100%, Specificity 99%.',
+      },
+      {
+        modality: 'Plain Radiograph (X-ray)',
+        description: 'AP Pelvis and Frog-Leg Lateral Hip views',
+        indications: 'Screening for frank cortical displacement or sclerotic periosteal healing line.',
+        keyFindings: 'Often normal in early weeks; sclerotic line or radiolucent cortical disruption visible in later stages.',
+        accuracyOrYield: 'Low sensitivity (< 30%) in acute phase.',
+      },
+    ],
+    physiotherapyProtocol: {
+      protocolName: 'Strict Protected Non-Weight-Bearing & Graduated Remodeling Protocol',
+      phases: [
+        {
+          phaseNumber: 1,
+          phaseName: 'Strict Non-Weight-Bearing, Immobilization & Bone Healing',
+          timeline: 'Weeks 0–6',
+          clinicalGoals: ['Strict non-weight-bearing crutch ambulation', 'Prevent fracture displacement', 'Deep water aquatic fitness and upper body conditioning'],
+          exercisePrescription: [
+            { category: 'Crutch Ambulation', exerciseName: 'Strict Non-Weight-Bearing 3-Point Crutch Walking', dosage: 'Continuous for all ambulation', clinicalRationale: 'Eliminates bending moment and ground reaction shear across the healing femoral neck.' },
+            { category: 'Cardiovascular', exerciseName: 'Deep Water Pool Running with Flotation Belt (Zero Impact)', dosage: '30 minutes, 3x weekly', clinicalRationale: 'Preserves aerobic conditioning and mental health without skeletal stress.' },
+            { category: 'Upper Body', exerciseName: 'Seated Dumbbell Strength Program', dosage: '3x weekly', clinicalRationale: 'Maintains upper body strength for safe crutch use.' },
+          ],
+          progressionCriteria: ['Complete resolution of resting and nocturnal groin pain', 'Strict orthopaedic review with MRI showing resolving marrow edema at 6 weeks'],
+          precautionsAndContraindications: ['ABSOLUTELY CONTRAINDICATED: Any weight-bearing on the affected limb until cleared by surgeon'],
+        },
+        {
+          phaseNumber: 2,
+          phaseName: 'Partial Weight-Bearing & Low-Load Kinetic Chain Activation',
+          timeline: 'Weeks 6–10',
+          clinicalGoals: ['Progress from partial weight-bearing (50%) to full weight-bearing', 'Stationary cycling with zero resistance', 'Reactivate gluteals and quadriceps'],
+          exercisePrescription: [
+            { category: 'Gait Progression', exerciseName: 'Graduated Partial Weight-Bearing Crutch Weaning (50% -> 75% -> 100%)', dosage: 'Over 3–4 weeks per surgeon protocol', clinicalRationale: 'Provides controlled progressive osteogenic stimulus for bone remodeling.' },
+            { category: 'Low-Load Cycling', exerciseName: 'Stationary Upright Cycling (Zero to Minimal Resistance)', dosage: '15–20 minutes daily', clinicalRationale: 'Stimulates joint lubrication and lower extremity motor coordination.' },
+            { category: 'Isometrics', exerciseName: 'Submaximal Isometric Quad Sets and Glute Sets', dosage: '3 sets of 10 reps, 5s hold', clinicalRationale: 'Prevents disuse muscular atrophy.' },
+          ],
+          progressionCriteria: ['Pain-free full weight-bearing walking without crutches', 'Negative Fulcrum test'],
+          precautionsAndContraindications: ['Halt progression immediately if any groin pain returns'],
+        },
+        {
+          phaseNumber: 3,
+          phaseName: 'Full Functional Loading & Progressive Resistance',
+          timeline: 'Weeks 10–16',
+          clinicalGoals: ['Bilateral and single-leg strength restoration', 'Impact preparation', 'Address energy availability / RED-S and bone mineral density'],
+          exercisePrescription: [
+            { category: 'Strength', exerciseName: 'Leg Press, Goblet Squats, and Romanian Deadlifts', dosage: '3 sets of 10 reps at moderate load', clinicalRationale: 'Strengthens bone-muscle unit to absorb future ground reaction impacts.' },
+            { category: 'Balance', exerciseName: 'Single-Leg Balance and Controlled Step-Downs', dosage: '3 sets of 30s per leg', clinicalRationale: 'Restores proprioceptive neuromuscular control.' },
+          ],
+          progressionCriteria: ['Full painless single-leg stance > 30 seconds', 'Symmetric strength >= 90% LSI', 'Medical/endocrine clearance (DEXA scan, vitamin D/calcium optimized)'],
+          precautionsAndContraindications: ['No running or impact hopping until 16+ weeks and MRI union confirmed'],
+        },
+        {
+          phaseNumber: 4,
+          phaseName: 'Graduated Return to Running & Long-Term Bone Health',
+          timeline: 'Weeks 16–24+',
+          clinicalGoals: ['Walk-to-run interval progression (AlterG treadmill to outdoor track)', 'Lifelong load management and nutrition optimization'],
+          exercisePrescription: [
+            { category: 'Return to Run', exerciseName: 'Walk-to-Run Interval Program (e.g., 1 min jog / 4 min walk x 6 rounds)', dosage: '2–3x weekly with 48h rest intervals', clinicalRationale: 'Allows bone remodeling cycles to adapt without microdamage accumulation.' },
+          ],
+          progressionCriteria: ['Single-leg hop test completely pain-free', 'Full return to desired running mileage without symptoms'],
+          precautionsAndContraindications: ['Strict monitoring of training load increases (no more than 10% volume increase per week)'],
+        },
+      ],
+    },
+    clinicalPearls: [
+      'Never treat a runner\'s anterior groin pain as a simple "adductor or hip flexor strain" without ruling out femoral neck stress fracture; delayed diagnosis of tension-side fracture can lead to avascular necrosis and career-ending hip replacement.',
+    ],
+  },
+
+  {
+    id: 'hip-post-op-tha',
+    joint: 'Hip & Groin',
+    name: 'Post-operative Total Hip Arthroplasty (THA - Posterior / Anterior Approach)',
+    category: 'Post-Surgical Joint Replacement Rehabilitation',
+    tissue_group: 'hard',
+    tissue_types: ['Articular Surface', 'Bone'],
+    acuity: 'post-op',
+    irritability: 'Mod',
+    healing_stage: 'proliferative',
+    red_flags: [
+      'Prosthetic hip dislocation: Sudden severe groin/buttock pain, shortened limb held in fixed internal rotation (posterior dislocation) or external rotation, inability to move leg (Immediate emergency department reduction).',
+      'Periprosthetic joint infection (PJI): Persistent wound erythema, purulent drainage, high fever, elevated ESR/CRP.',
+      'Deep Vein Thrombosis (DVT) / Pulmonary Embolism (PE): Unilateral calf swelling, tenderness, warmth, positive Wells score; sudden shortness of breath, pleuritic chest pain.',
+    ],
+    when_to_refer: [
+      'Immediate emergency referral for suspected dislocation, acute PJI, or DVT/PE.',
+      'Periprosthetic fracture following a fall.',
+    ],
+    outcome_measures: [
+      { name: 'HOOS (Hip Disability and Osteoarthritis Outcome Score)', mcid: '9.1 points', target: '>= 85/100' },
+      { name: 'Timed Up and Go (TUG)', mcid: '2.5 seconds', target: '< 10 seconds' },
+      { name: 'NRS Post-Op Pain', mcid: '2 points', target: '<= 2/10' },
+    ],
+    evidence_strength: 'Guideline',
+    last_reviewed: '2026-08-20',
+    teaching_notes: {
+      clinicalReasoning: 'Surgical approach dictates post-operative precautions: Posterior approach carries higher dislocation risk with hip flexion > 90°, adduction, and internal rotation. Direct anterior approach spares posterior capsule and abductors, allowing faster early functional recovery with fewer motion restrictions.',
+      vivaQuestions: [
+        {
+          question: 'What are the classic posterior hip precautions following THA and why are they enforced?',
+          answer: '1. No hip flexion past 90°; 2. No hip adduction past midline (crossing legs); 3. No internal rotation past neutral. These movements drive the prosthetic femoral head posteriorly out of the acetabular cup through the surgically repaired posterior capsule.',
+        },
+      ],
+    },
+    isRedFlag: false,
+    clinicalPresentation: 'Post-operative recovery following primary Total Hip Arthroplasty for severe end-stage osteoarthritis or femoral neck fracture. Incision site healing, antalgic gait, quadriceps and abductor weakness, and temporary functional dependence.',
+    bedsideAssessmentTests: [
+      {
+        testName: 'Post-Op Neurovascular Exam (Sciatic & Femoral Nerves)',
+        sensitivity: '95%',
+        specificity: '92%',
+        techniqueAndInterpretation: 'Test peroneal division of sciatic nerve (ankle dorsiflexion, EHL, dorsal sensation) and femoral nerve (quadriceps contraction, anterior thigh sensation) to exclude traction neuropraxia.',
+        evidenceCitation: 'Farrell et al. J Bone Joint Surg Am.',
+      },
+    ],
+    investigationsProfile: [
+      {
+        modality: 'Plain Radiograph (X-ray)',
+        description: 'AP Pelvis and AP/Cross-Table Lateral of Affected Hip',
+        indications: 'Confirm acetabular cup inclination (40° ± 10°) and anteversion (15° ± 10°), femoral stem seating, and exclude periprosthetic fracture.',
+        keyFindings: 'Well-aligned prosthetic components without radiolucent lines, subsidence, or cortical breach.',
+        accuracyOrYield: 'Standard post-operative radiographic surveillance.',
+      },
+    ],
+    physiotherapyProtocol: {
+      protocolName: 'Rapid-Recovery Evidence-Based Post-THA Rehabilitation Protocol',
+      phases: [
+        {
+          phaseNumber: 1,
+          phaseName: 'Early Mobilization, Dislocation Precautions & Safe Transfers',
+          timeline: 'Weeks 0–3',
+          clinicalGoals: ['Day of surgery mobilization', 'Independent safe transfers and stair climbing with walker/crutches', 'Strict adherence to approach-specific hip precautions', 'DVT prophylaxis'],
+          exercisePrescription: [
+            { category: 'Early Ambulation', exerciseName: 'Assisted Ambulation with Rolling Walker or Elbow Crutches', dosage: '15–20 minutes, 3–4x daily', clinicalRationale: 'Reduces post-operative pulmonary complications and accelerates discharge readiness.' },
+            { category: 'Circulation', exerciseName: 'Ankle Pumps and Isometric Quadriceps / Gluteal Sets', dosage: '20 pumps every hour while awake', clinicalRationale: 'Enhances calf muscle pump venous return to prevent deep vein thrombosis.' },
+            { category: 'Hip Control', exerciseName: 'Supine Heel Slides (within 90° flexion limit) & Short-Arc Quads', dosage: '3 sets of 10 reps', clinicalRationale: 'Restores basic active knee and hip kinematics without breaching dislocation limits.' },
+          ],
+          progressionCriteria: ['Independent bed transfers and toilet transfers using elevated seat', 'Able to negotiate 1 flight of stairs safely with crutches', 'Clean healing wound without erythema'],
+          precautionsAndContraindications: ['Posterior approach: NO flexion > 90°, NO crossing legs, NO internal rotation for 6–12 weeks; Anterior approach: avoid hyperextension and external rotation'],
+        },
+        {
+          phaseNumber: 2,
+          phaseName: 'Crutch Weaning, Gait Normalization & Abductor Strengthening',
+          timeline: 'Weeks 3–6',
+          clinicalGoals: ['Wean from walker to single crutch / cane in contralateral hand, then unassisted walking', 'Eliminate Trendelenburg limp', 'Progress hip active ROM'],
+          exercisePrescription: [
+            { category: 'Gait Training', exerciseName: 'Gait Retraining with Contralateral Cane (Heel-Strike to Toe-Off Focus)', dosage: '20 minutes, 2x daily', clinicalRationale: 'Ensures symmetrical weight-bearing and eliminates compensatory antalgic lurch.' },
+            { category: 'Abductor Strengthening', exerciseName: 'Standing Hip Abduction with Countertop Support', dosage: '3 sets of 12 reps per side', clinicalRationale: 'Reactivates gluteus medius to provide dynamic coronal plane pelvic stability.' },
+            { category: 'Cycling', exerciseName: 'Stationary Upright Cycling (High Seat to Ensure Hip Flexion < 90°)', dosage: '15–20 minutes daily', clinicalRationale: 'Promotes reciprocal joint motion and cardiovascular reconditioning.' },
+          ],
+          progressionCriteria: ['Independent community walking without assistive device', 'TUG score < 12 seconds', 'Zero Trendelenburg drop during single-leg stance'],
+          precautionsAndContraindications: ['Maintain hip precautions during all daily transfers and driving'],
+        },
+        {
+          phaseNumber: 3,
+          phaseName: 'Functional Strength, Balance & Proprioception',
+          timeline: 'Weeks 6–12',
+          clinicalGoals: ['High-level functional strengthening', 'Safe squatting and stair negotiation', 'Discontinuation of formal hip precautions (per surgeon clearance)'],
+          exercisePrescription: [
+            { category: 'Functional Strength', exerciseName: 'Sit-to-Stand Squats from Standard Chair Height', dosage: '3 sets of 10–12 reps', clinicalRationale: 'Builds bilateral quadriceps and hip extensor power for functional independence.' },
+            { category: 'Proprioception', exerciseName: 'Tandem Stance and Single-Leg Balance Drills', dosage: '3 sets of 20s per leg', clinicalRationale: 'Retrains mechanoreceptor input from neo-capsule and periarticular soft tissues.' },
+          ],
+          progressionCriteria: ['HOOS score > 80/100', 'TUG score < 10 seconds', 'Independent community mobility including public transport'],
+          precautionsAndContraindications: ['Avoid heavy impact activities (running, competitive basketball, singles tennis)'],
+        },
+        {
+          phaseNumber: 4,
+          phaseName: 'Lifelong Physical Activity & Joint Longevity',
+          timeline: 'Weeks 12–24+',
+          clinicalGoals: ['Return to low-to-moderate impact sports (swimming, cycling, doubles tennis, golf, hiking)', 'Lifelong prosthesis preservation'],
+          exercisePrescription: [
+            { category: 'Lifelong Fitness', exerciseName: 'Regular Walking, Swimming, or Cycling Program', dosage: '30–45 minutes, 4–5x weekly', clinicalRationale: 'Maintains periprosthetic bone mineral density and cardiovascular health.' },
+          ],
+          progressionCriteria: ['Excellent functional outcome on HOOS and complete patient satisfaction'],
+          precautionsAndContraindications: ['Lifelong avoidance of high-impact ballistic collision sports'],
+        },
+      ],
+    },
+    clinicalPearls: [
+      'Early mobilization on day of surgery significantly reduces length of stay and hospital complications without increasing dislocation rates.',
+    ],
+  },
+
+  // ==========================================
+  // ANKLE & FOOT (8 Conditions)
+  // ==========================================
+  {
+    id: 'ankle-lateral-ligament-sprain',
+    joint: 'Ankle & Foot',
+    name: 'Acute Lateral Ankle Sprain (ATFL / CFL Inversion Injury)',
+    category: 'Ligamentous Inversion Trauma',
+    tissue_group: 'soft',
+    tissue_types: ['Ligament'],
+    acuity: 'acute',
+    irritability: 'High',
+    healing_stage: 'inflammatory',
+    red_flags: [
+      'Ottawa Ankle Rules Positive: Bone tenderness at posterior edge or tip of lateral malleolus (distal 6 cm), medial malleolus, base of 5th metatarsal, or navicular bone, or inability to bear weight for 4 steps (Mandates X-ray to rule out fracture).',
+      'Syndesmotic high ankle sprain with widening on stress views.',
+      'Peroneal tendon dislocation with snapping over lateral malleolus.',
+    ],
+    when_to_refer: [
+      'Positive Ottawa Ankle Rules (urgent plain radiography).',
+      'Gross instability, syndesmosis diastasis, or osteochondral talar dome fracture.',
+    ],
+    outcome_measures: [
+      { name: 'FAAM (Foot and Ankle Ability Measure)', mcid: '8 points', target: '>= 90%' },
+      { name: 'CAIT (Cumberland Ankle Instability Tool)', mcid: '3 points', target: '>= 28/30' },
+      { name: 'Star Excursion Balance Test (SEBT / Y-Balance)', mcid: '4 cm', target: '>= 95% composite symmetry' },
+    ],
+    evidence_strength: 'Guideline',
+    last_reviewed: '2026-08-16',
+    teaching_notes: {
+      clinicalReasoning: 'Anterior Drawer Test at 20° plantarflexion isolates the anterior talofibular ligament (ATFL); Talar Tilt in neutral evaluates the calcaneofibular ligament (CFL). Delayed physical exam at 4–5 days post-injury increases sensitivity to 96% and specificity to 84%.',
+      vivaQuestions: [
+        {
+          question: 'What are the 4 components of the Ottawa Ankle Rules that mandate radiographic imaging?',
+          answer: 'Bone tenderness along the posterior 6 cm of lateral malleolus; bone tenderness along posterior 6 cm of medial malleolus; bone tenderness at base of 5th metatarsal or navicular; or inability to bear weight for 4 steps immediately and in the clinic.',
+        },
+      ],
+    },
+    isRedFlag: false,
+    clinicalPresentation: 'Acute inversion and plantarflexion injury. Rapid anterolateral swelling ("egg on ankle"), ecchymosis, focal tenderness over ATFL and CFL, antalgic limping, and sensation of instability.',
+    bedsideAssessmentTests: [
+      {
+        testName: 'Anterior Drawer Test (Ankle)',
+        sensitivity: '73% (acute) / 96% (at day 5)',
+        specificity: '84% (at day 5)',
+        positiveLikelihoodRatio: '6.0',
+        techniqueAndInterpretation: 'Ankle in 10–20° plantarflexion; tibia stabilized while calcaneus drawn anteriorly. Positive if > 3mm anterior translation vs contralateral side and soft end-feel ("suction sign").',
+        evidenceCitation: 'van Dijk et al. J Bone Joint Surg Br; Vuurberg et al. Br J Sports Med (WAnkle Consensus).',
+      },
+      {
+        testName: 'Talar Tilt Test (Inversion Stress)',
+        sensitivity: '67%',
+        specificity: '88%',
+        techniqueAndInterpretation: 'Ankle held in neutral; calcaneus inverted against stabilized tibia. Positive if excessive lateral opening compared to unaffected side (indicates CFL tear).',
+        evidenceCitation: 'van Dijk et al. Acta Orthop Scand.',
+      },
+    ],
+    investigationsProfile: [
+      {
+        modality: 'Plain Radiograph (X-ray)',
+        description: 'Standing 3-View Ankle (AP, Mortise 15° internal rotation, Lateral)',
+        indications: 'Indicated if Ottawa Ankle Rules criteria are met.',
+        keyFindings: 'Rule out bimalleolar, tri-malleolar, distal fibula avulsion fracture, or syndesmosis widening.',
+        accuracyOrYield: 'Ottawa rules sensitivity > 98% for clinically significant fracture.',
+      },
+      {
+        modality: 'Diagnostic Ultrasound (MSK US)',
+        description: 'Dynamic High-Resolution Ultrasound of ATFL and CFL',
+        indications: 'Assess ligament continuity, hematoma, and dynamic anterior talar translation under stress.',
+        keyFindings: 'Discontinuity of fibrillar ATFL fibers with local hypoechoic hematoma.',
+        accuracyOrYield: 'Ultrasound sensitivity 95%, specificity 92% for complete ATFL rupture.',
+      },
+    ],
+    physiotherapyProtocol: {
+      protocolName: 'PEACE & LOVE / POLICE Active Functional Rehabilitation Protocol',
+      phases: [
+        {
+          phaseNumber: 1,
+          phaseName: 'PEACE: Protection, Elevation, Compression & Early Protected Loading',
+          timeline: 'Days 0–5',
+          clinicalGoals: ['Protect healing ATFL/CFL with semi-rigid lace-up ankle brace', 'Control swelling and pain', 'Early protected weight-bearing as tolerated'],
+          exercisePrescription: [
+            { category: 'External Support', exerciseName: 'Semi-Rigid Lace-Up Ankle Brace Application', dosage: 'Continuous during weight-bearing for 4–6 weeks', clinicalRationale: 'Prevents recurrent inversion stress while allowing beneficial sagittal plane motion.' },
+            { category: 'Gentle Motion', exerciseName: 'Active Ankle Dorsiflexion, Plantarflexion & Ankle Alphabet (A to Z)', dosage: '3 sets of 10 cycles, 3x daily', clinicalRationale: 'Promotes lymph drainage and maintains joint mechanoreceptor stimulation without inversion strain.' },
+            { category: 'Isometrics', exerciseName: 'Submaximal Isometric Ankle Eversion Against Wall', dosage: '3 sets of 10 reps, 5s hold', clinicalRationale: 'Maintains neuromuscular firing of peroneus longus and brevis.' },
+          ],
+          progressionCriteria: ['Able to bear full weight with normal heel-to-toe gait in brace', 'Significant reduction in acute swelling (figure-of-eight measurement)', 'Ankle dorsiflexion to neutral (0°)'],
+          precautionsAndContraindications: ['Avoid prolonged total immobilization (> 3 days); strictly avoid passive inversion stretching'],
+        },
+        {
+          phaseNumber: 2,
+          phaseName: 'LOVE: Load, Optimism, Vascularization & Exercise',
+          timeline: 'Weeks 1–3',
+          clinicalGoals: ['Restore full weight-bearing dorsiflexion (weight-bearing lunge test >= 10 cm)', 'Strengthen peroneal dynamic stabilizers', 'Initiate balance training'],
+          exercisePrescription: [
+            { category: 'Dorsiflexion Mobility', exerciseName: 'Knee-to-Wall Dorsiflexion Mobilization with Band', dosage: '3 sets of 10 reps, hold 3s at end-range', clinicalRationale: 'Restores posterior talar glide necessary for normal ankle dorsiflexion kinematics.' },
+            { category: 'Dynamic Eversion', exerciseName: 'Resisted Eversion with Elastic Resistance Band', dosage: '3 sets of 15 reps', clinicalRationale: 'Hypertrophies peroneus longus/brevis, the primary dynamic defense against inversion.' },
+            { category: 'Proprioception', exerciseName: 'Single-Leg Balance on Firm Surface (Progress to Eyes Closed)', dosage: '3 sets of 30s per leg', clinicalRationale: 'Restores damaged articular mechanoreceptor and vestibular reflex pathways.' },
+          ],
+          progressionCriteria: ['Weight-bearing lunge test >= 10 cm', 'Single-leg balance > 30 seconds on firm ground', 'FAAM Activities of Daily Living subscale > 80%'],
+          precautionsAndContraindications: ['Continue wearing brace during all exercise progressions'],
+        },
+        {
+          phaseNumber: 3,
+          phaseName: 'Neuromuscular Balance, Agility & Reactive Stability',
+          timeline: 'Weeks 3–6',
+          clinicalGoals: ['Y-Balance / SEBT symmetry >= 95%', 'Multi-directional hopping and cutting agility', 'Eccentric calf strengthening'],
+          exercisePrescription: [
+            { category: 'Balance Board', exerciseName: 'Wobble Board and Foam Pad Perturbation Drills', dosage: '3 sets of 45s', clinicalRationale: 'Challengers neuromuscular reaction time to prevent recurrent rolling of ankle.' },
+            { category: 'Calf Strength', exerciseName: 'Single-Leg Heel Raises on Step with Eccentric Lowering', dosage: '3 sets of 12 reps', clinicalRationale: 'Builds gastroc-soleus power and Achilles load absorption.' },
+            { category: 'Agility', exerciseName: 'Figure-of-8 Running and Lateral Ladder Drills', dosage: '3 sets of 5 repetitions', clinicalRationale: 'Restores confidence and multi-directional deceleration stability.' },
+          ],
+          progressionCriteria: ['Y-Balance test composite score >= 95% of uninjured limb', 'Able to complete single-leg hop test without apprehension', 'FAAM Sports subscale > 85%'],
+          precautionsAndContraindications: ['Pace intensity of lateral cutting drills'],
+        },
+        {
+          phaseNumber: 4,
+          phaseName: 'Return to Sport & Secondary Prevention',
+          timeline: 'Weeks 6–10+',
+          clinicalGoals: ['Full clearance for competitive match play', 'Implementation of secondary prevention neuromuscular program', 'Brace use for high-risk sports for 6 months'],
+          exercisePrescription: [
+            { category: 'Sport-Specific', exerciseName: 'Full-Speed Cutting, Jumping, and Landing Drills', dosage: '2–3x weekly in training', clinicalRationale: 'Simulates match-intensity ground reaction forces.' },
+            { category: 'Secondary Prevention', exerciseName: 'Neuromuscular Warm-Up Protocol (FIFA 11+ Style Balance Component)', dosage: 'Prior to every training session', clinicalRationale: 'Reduces recurrent ankle sprain rate by > 50%.' },
+          ],
+          progressionCriteria: ['CAIT score >= 28/30', 'Passes sport-specific functional battery with 100% limb symmetry'],
+          precautionsAndContraindications: ['Wear lace-up brace during high-risk pivot sports for 6–12 months post-injury'],
+        },
+      ],
+    },
+    clinicalPearls: [
+      'Early functional treatment with a lace-up brace and progressive exercise is overwhelmingly superior to plaster cast immobilization, resulting in faster return to work and sport and lower rates of long-term instability.',
+    ],
+  },
+
+  {
+    id: 'ankle-chronic-instability-cai',
+    joint: 'Ankle & Foot',
+    name: 'Chronic Ankle Instability (CAI / Functional Instability)',
+    category: 'Persistent Sensorimotor & Mechanical Ankle Deficit',
+    tissue_group: 'soft',
+    tissue_types: ['Ligament', 'Nerve / Neural'],
+    acuity: 'chronic',
+    irritability: 'Mod',
+    healing_stage: 'remodelling',
+    red_flags: [
+      'Osteochondral lesion of the talus (OLT): Deep persistent joint-line pain with weight-bearing, catching, locking, and joint effusion.',
+      'Peroneal tendon subluxation or split tear.',
+      'Severe mechanical laxity with positive sulcus sign or talar tilting > 15°.',
+    ],
+    when_to_refer: [
+      'Mechanical instability refractory to 3–6 months comprehensive neuromuscular therapy (Brostrom-Gould ligament reconstruction candidate).',
+      'Confirmed symptomatic unstable osteochondral talar dome lesion.',
+    ],
+    outcome_measures: [
+      { name: 'CAIT (Cumberland Ankle Instability Tool)', mcid: '3 points', target: '>= 28/30' },
+      { name: 'FAAM Sports Subscale', mcid: '9 points', target: '>= 90%' },
+      { name: 'Y-Balance Test Composite', mcid: '4 cm', target: '>= 95% symmetry' },
+    ],
+    evidence_strength: 'Guideline',
+    last_reviewed: '2026-08-17',
+    teaching_notes: {
+      clinicalReasoning: 'CAI comprises mechanical instability (pathologic ligament laxity) and functional instability (sensorimotor deficits, impaired proprioception, delayed peroneal reaction time, and central neuroplastic changes). Rehabilitation must retrain the entire kinetic chain.',
+      vivaQuestions: [
+        {
+          question: 'What is the diagnostic cut-off score on the Cumberland Ankle Instability Tool (CAIT)?',
+          answer: 'A score of <= 24 out of 30 indicates chronic ankle instability; a score of >= 28 indicates normal functional stability.',
+        },
+      ],
+    },
+    isRedFlag: false,
+    clinicalPresentation: 'Recurrent episodes of the ankle "giving way", persistent apprehension during walking on uneven ground or pivoting, multiple recurrent sprains, and chronic mild anterolateral ankle aching.',
+    bedsideAssessmentTests: [
+      {
+        testName: 'Star Excursion Balance Test (SEBT / Y-Balance)',
+        sensitivity: '82%',
+        specificity: '79%',
+        techniqueAndInterpretation: 'Anterior, posteromedial, and posterolateral reaching while standing on affected leg. An anterior reach deficit > 4 cm strongly correlates with CAI and increased injury risk.',
+        evidenceCitation: 'Hertel et al. J Athl Train; Gribble et al. Br J Sports Med.',
+      },
+      {
+        testName: 'Talar Tilt and Anterior Drawer Stress Testing',
+        sensitivity: '78%',
+        specificity: '82%',
+        techniqueAndInterpretation: 'Differentiates mechanical laxity from pure functional instability.',
+        evidenceCitation: 'Hertel. Sports Med.',
+      },
+    ],
+    investigationsProfile: [
+      {
+        modality: 'MRI Scan',
+        description: 'Ankle 1.5T/3T Sagittal, Coronal, and Axial T1, T2 Fat-Suppressed sequences',
+        indications: 'Evaluate ATFL/CFL attenuation, osteochondral talar defects, and peroneal tendon pathology.',
+        keyFindings: 'Wavy, attenuated, or absent ATFL; subchondral talar dome bone marrow edema or cartilage defect.',
+        accuracyOrYield: 'High diagnostic sensitivity for intra-articular pathology.',
+      },
+    ],
+    physiotherapyProtocol: {
+      protocolName: 'Multi-Station Sensorimotor & Perturbation CAI Protocol',
+      phases: [
+        {
+          phaseNumber: 1,
+          phaseName: 'Talar Mobility, Kinesthetic Retraining & Peroneal Strength',
+          timeline: 'Weeks 0–3',
+          clinicalGoals: ['Restore posterior talar glide and dorsiflexion (knee-to-wall >= 10 cm)', 'Peroneus longus/brevis concentric and eccentric strengthening', 'Static single-leg postural control'],
+          exercisePrescription: [
+            { category: 'Joint Mobilization', exerciseName: 'Self-Mobilization with Movement (MWM) Ankle Dorsiflexion with Elastic Band', dosage: '3 sets of 12 reps, hold 3s', clinicalRationale: 'Corrects anterior talar subluxation and restores dorsiflexion range.' },
+            { category: 'Peroneal Strength', exerciseName: 'High-Repetition Eversion with Heavy Resistance Band', dosage: '3 sets of 20 reps, slow tempo', clinicalRationale: 'Builds muscular endurance of primary evertor stabilizers.' },
+            { category: 'Static Balance', exerciseName: 'Single-Leg Stance on Foam Pad with Head Turns', dosage: '3 sets of 30s per leg', clinicalRationale: 'Forces somatosensory and vestibular integration to overcome mechanoreceptor deficits.' },
+          ],
+          progressionCriteria: ['Weight-bearing lunge test >= 10 cm', 'CAIT score improves by >= 3 points', 'Single-leg stance on foam > 30s without touchdown'],
+          precautionsAndContraindications: ['Avoid uncontrolled balance exercises on unstable equipment without safety bar nearby'],
+        },
+        {
+          phaseNumber: 2,
+          phaseName: 'Dynamic Balance, Proximal Hip Sling & Reactive Neuromuscular Training',
+          timeline: 'Weeks 3–6',
+          clinicalGoals: ['Integrate hip abductor/extensor control (gluteus medius/maximus)', 'Reactive perturbation balance training', 'Y-Balance reach symmetry'],
+          exercisePrescription: [
+            { category: 'Reactive Perturbation', exerciseName: 'Single-Leg Balance on BOSU with Ball Catch / Resistance Band Tugs', dosage: '3 sets of 45s', clinicalRationale: 'Retrains feed-forward anticipatory muscle activation and rapid reflexive stabilization.' },
+            { category: 'Proximal Integration', exerciseName: 'Single-Leg Romanian Deadlift with Foot Tripod Stability', dosage: '3 sets of 10 reps', clinicalRationale: 'Co-activates gluteals and ankle stabilizers to eliminate compensatory hip strategy.' },
+          ],
+          progressionCriteria: ['Y-Balance anterior reach deficit < 4 cm', 'Zero episodes of "giving way" during daily activities', 'FAAM Sports subscale > 75%'],
+          precautionsAndContraindications: ['Ensure foot maintain active medial longitudinal arch without collapsing'],
+        },
+        {
+          phaseNumber: 3,
+          phaseName: 'Plyometric Landing, Deceleration & Cutting Drills',
+          timeline: 'Weeks 6–10',
+          clinicalGoals: ['Stabilize multi-directional single-leg landings', 'Anticipated and unanticipated cutting drills', 'Rebuild athletic confidence'],
+          exercisePrescription: [
+            { category: 'Landing Mechanics', exerciseName: 'Single-Leg Hop to Stick Landing on Firm Ground and Foam', dosage: '3 sets of 8 hops per leg', clinicalRationale: 'Re-trains safe landing mechanics and reduces peak ground reaction impact forces.' },
+            { category: 'Agility', exerciseName: 'Lateral Skater Hops and Reactive T-Drill Agility', dosage: '4 sets of 6 reps', clinicalRationale: 'Simulates high-demand sport-specific lateral cutting maneuvers.' },
+          ],
+          progressionCriteria: ['Single-leg hop for distance >= 90% LSI', 'Timed 6-meter hop test >= 90% LSI', 'FAAM Sports > 88%'],
+          precautionsAndContraindications: ['Progress from planned cutting to unplanned reactive cutting gradually'],
+        },
+        {
+          phaseNumber: 4,
+          phaseName: 'High-Level Sports Return & Long-Term Prevention',
+          timeline: 'Weeks 10–14+',
+          clinicalGoals: ['Unrestricted return to competitive sports', 'Maintain lifelong balance routine'],
+          exercisePrescription: [
+            { category: 'Maintenance', exerciseName: 'Wobble Board Balance Routine & In-Season Neuromuscular Warm-Up', dosage: '10 minutes, 3x weekly', clinicalRationale: 'Maintains elevated reflex latency and protects against reinjury.' },
+          ],
+          progressionCriteria: ['CAIT score >= 28/30', 'Full clearance by sports physiotherapist'],
+          precautionsAndContraindications: ['Consider lace-up brace during high-risk contact sports'],
+        },
+      ],
+    },
+    clinicalPearls: [
+      'CAI is not just an ankle problem; patients have profound hip abductor weakness and altered cortical motor representation in the brain that must be treated with whole-body neuromuscular training.',
+    ],
+  },
+
+  {
+    id: 'ankle-syndesmosis-high-ankle-sprain',
+    joint: 'Ankle & Foot',
+    name: 'High Ankle Sprain (Distal Tibiofibular Syndesmosis Rupture)',
+    category: 'Syndesmotic Ligamentous Disruption / Diastasis',
+    tissue_group: 'soft',
+    tissue_types: ['Ligament', 'Bone'],
+    acuity: 'acute',
+    irritability: 'High',
+    healing_stage: 'inflammatory',
+    red_flags: [
+      'Maisonneuve Fracture: Proximal fibular neck fracture associated with distal tibiofibular syndesmosis rupture and medial malleolus / deltoid ligament tear (MANDATES full tibia/fibula X-rays and URGENT orthopaedic fixation).',
+      'Frank syndesmotic diastasis (> 5 mm tibiofibular clear space) requiring surgical TightRope or screw fixation.',
+      'Frank ankle subluxation or open injury.',
+    ],
+    when_to_refer: [
+      'MANDATORY ORTHOPAEDIC CONSULTATION: Any syndesmotic sprain with widening, diastasis on stress views, or Maisonneuve fracture.',
+    ],
+    outcome_measures: [
+      { name: 'FAAM Sports Subscale', mcid: '9 points', target: '>= 85%' },
+      { name: 'Weight-Bearing Lunge Test (cm)', mcid: '2 cm', target: '>= 10 cm' },
+      { name: 'Days to Return to Play', mcid: 'Benchmark', target: '6–12 weeks' },
+    ],
+    evidence_strength: 'Guideline',
+    last_reviewed: '2026-08-18',
+    teaching_notes: {
+      clinicalReasoning: 'Syndesmosis injuries result from forceful external rotation and dorsiflexion of the foot on the fixed tibia. High ankle sprains require twice as long to rehabilitate as standard lateral sprains (mean 45–60 days vs 15–20 days). Always palpate the entire fibula to the head.',
+      vivaQuestions: [
+        {
+          question: 'What is a Maisonneuve fracture and why is it frequently missed?',
+          answer: 'A pronation-external rotation injury causing disruption of the deltoid ligament or medial malleolus, tearing of the syndesmosis and interosseous membrane, and an oblique fracture of the proximal fibula. It is missed if the clinician only images the ankle without palpating and imaging the proximal leg.',
+        },
+      ],
+    },
+    isRedFlag: true,
+    redFlagSeverity: 'URGENT_SAME_DAY',
+    clinicalPresentation: 'Severe anterolateral ankle pain extending several centimeters above the joint line along the interosseous membrane. Mechanism of forced external rotation and dorsiflexion (e.g., tackle, cleat stuck in turf). Inability to bear weight or push off on toes.',
+    bedsideAssessmentTests: [
+      {
+        testName: 'External Rotation Stress (Kleiger) Test',
+        sensitivity: '71–85%',
+        specificity: '84–90%',
+        positiveLikelihoodRatio: '4.8',
+        techniqueAndInterpretation: 'Tibia stabilized; foot held in 90° dorsiflexion and passively externally rotated. Positive if sharp pain reproduced at anterior-inferior tibiofibular syndesmosis and up the lower leg.',
+        evidenceCitation: 'Sman et al. Br J Sports Med; Beumer et al. Acta Orthop Scand.',
+      },
+      {
+        testName: 'Squeeze Test of the Leg',
+        sensitivity: '30%',
+        specificity: '93%',
+        positiveLikelihoodRatio: '4.3',
+        techniqueAndInterpretation: 'Compress fibula against tibia at mid-calf level. Positive if reproduces sharp pain distally at the syndesmosis (highly specific for syndesmotic tear).',
+        evidenceCitation: 'Nussbaum et al. Am J Sports Med.',
+      },
+      {
+        testName: 'Syndesmosis Ligament Tenderness Length (Tender Zone Height)',
+        sensitivity: '89%',
+        specificity: '78%',
+        techniqueAndInterpretation: 'Measure height of tenderness in centimeters proximal to the ankle joint line along the interosseous membrane. Height > 5 cm correlates directly with severity and prolonged recovery.',
+        evidenceCitation: 'Sman et al. Br J Sports Med.',
+      },
+    ],
+    investigationsProfile: [
+      {
+        modality: 'Plain Radiograph (X-ray)',
+        description: 'Weight-Bearing Ankle 3-View + Full-Length Tibia/Fibula AP and Lateral views',
+        indications: 'MANDATORY to evaluate tibiofibular clear space, overlap, and exclude proximal Maisonneuve fracture.',
+        keyFindings: 'Tibiofibular clear space > 5 mm on mortise view, tibiofibular overlap < 1 mm, medial clear space widening > 4 mm.',
+        accuracyOrYield: 'Essential first-line fracture and diastasis exclusion.',
+      },
+      {
+        modality: 'MRI Scan',
+        description: 'Ankle MRI Axial and Coronal T2 Fat-Suppressed sequences',
+        indications: 'Confirm complete vs partial tear of AITFL, PITFL, and interosseous ligament.',
+        keyFindings: 'Disruption of AITFL and PITFL with high signal traversing interosseous membrane.',
+        accuracyOrYield: 'Sensitivity 100%, Specificity 93% for syndesmosis rupture.',
+      },
+    ],
+    physiotherapyProtocol: {
+      protocolName: 'Rigid Boot Protected Immobilization & Progressive Syndesmotic Loading Protocol',
+      phases: [
+        {
+          phaseNumber: 1,
+          phaseName: 'Strict Rigid Immobilization & Non-Weight-Bearing',
+          timeline: 'Weeks 0–3',
+          clinicalGoals: ['Strict immobilization in rigid pneumatic walking boot', 'Non-weight-bearing crutch ambulation for Grade II injuries', 'Prevent tibiofibular diastasis widening'],
+          exercisePrescription: [
+            { category: 'Immobilization', exerciseName: 'Rigid Pneumatic Walking Boot + Crutches', dosage: 'Continuous 24/7 (except bathing)', clinicalRationale: 'Eliminates dorsiflexion and external rotation wedges that spread the mortise apart.' },
+            { category: 'Proximal Conditioning', exerciseName: 'Non-Weight-Bearing Hip Abductor and Quadriceps Strength', dosage: '3 sets of 15 reps', clinicalRationale: 'Prevents disuse lower extremity muscle atrophy without stressing the ankle.' },
+            { category: 'Cryotherapy', exerciseName: 'Elevation and Intermittent Cryo-Compression', dosage: '20 minutes, 3x daily', clinicalRationale: 'Reduces severe post-traumatic hemarthrosis and interstitial swelling.' },
+          ],
+          progressionCriteria: ['Resolution of resting pain and distal leg tenderness', 'Negative Squeeze test at 3 weeks', 'Orthopaedic review confirming no late diastasis'],
+          precautionsAndContraindications: ['ABSOLUTELY AVOID: Passive external rotation, aggressive dorsiflexion, unbraced weight-bearing'],
+        },
+        {
+          phaseNumber: 2,
+          phaseName: 'Graduated Weight-Bearing & Sagittal Range of Motion',
+          timeline: 'Weeks 3–6',
+          clinicalGoals: ['Wean from non-weight-bearing to full weight-bearing in boot', 'Initiate gentle active sagittal motion (plantarflexion and dorsiflexion to neutral only)'],
+          exercisePrescription: [
+            { category: 'Weight-Bearing', exerciseName: 'Graduated Partial Weight-Bearing in Boot with Crutches (25% -> 50% -> 100%)', dosage: 'Over 2 weeks', clinicalRationale: 'Provides progressive axial compression without rotational mortise spread.' },
+            { category: 'Sagittal ROM', exerciseName: 'Active Ankle Plantarflexion and Dorsiflexion (within Neutral 0° limit)', dosage: '3 sets of 10 gentle reps out of boot', clinicalRationale: 'Prevents talocrural stiffness while strictly avoiding end-range dorsiflexion wedge.' },
+            { category: 'Low-Impact', exerciseName: 'Stationary Cycling in Boot or Stiff Flat-Sole Shoe', dosage: '15 minutes daily', clinicalRationale: 'Maintains cardiovascular fitness and reciprocal coordination.' },
+          ],
+          progressionCriteria: ['Pain-free full weight-bearing in boot', 'Kleiger test negative at neutral dorsiflexion'],
+          precautionsAndContraindications: ['Never force dorsiflexion past neutral; strictly no external rotation'],
+        },
+        {
+          phaseNumber: 3,
+          phaseName: 'Boot Weaning, End-Range Dorsiflexion & Dynamic Strengthening',
+          timeline: 'Weeks 6–10',
+          clinicalGoals: ['Transition from boot to supportive lace-up brace and normal footwear', 'Restore end-range dorsiflexion', 'Progressive calf and peroneal loading'],
+          exercisePrescription: [
+            { category: 'Dorsiflexion Mobilization', exerciseName: 'Knee-to-Wall Weight-Bearing Lunge Mobilization (with Distal Tibiofibular Strap)', dosage: '3 sets of 10 reps', clinicalRationale: 'Strap stabilizes the distal mortise while restoring functional dorsiflexion.' },
+            { category: 'Calf & Peroneals', exerciseName: 'Double to Single-Leg Heel Raises with Neutral Alignment', dosage: '3 sets of 12 reps', clinicalRationale: 'Reconditions gastroc-soleus and posterior tibialis to support mortise stability.' },
+            { category: 'Proprioception', exerciseName: 'Single-Leg Balance on Foam Pad', dosage: '3 sets of 30s per leg', clinicalRationale: 'Restores mechanoreceptive neuromuscular control.' },
+          ],
+          progressionCriteria: ['Weight-bearing lunge test >= 10 cm without mortise pain', 'Able to single-leg hop without pain', 'FAAM Sports subscale > 80%'],
+          precautionsAndContraindications: ['Maintain supportive lace-up brace during all functional exercises'],
+        },
+        {
+          phaseNumber: 4,
+          phaseName: 'Sport-Specific Energy Storage & Competitive Return',
+          timeline: 'Weeks 10–14+',
+          clinicalGoals: ['Full sprint acceleration, deceleration, and reactive cutting', 'Full return to competitive match play'],
+          exercisePrescription: [
+            { category: 'Dynamic Cutting', exerciseName: 'Graduated Lateral Cutting and 90° Change-of-Direction Drills', dosage: '3x weekly', clinicalRationale: 'Re-exposes the syndesmosis to high-energy rotational ground reaction torque under controlled conditions.' },
+          ],
+          progressionCriteria: ['100% limb symmetry on hop testing battery', 'Completely negative Kleiger and Squeeze tests', 'Full clearance by orthopaedic sports team'],
+          precautionsAndContraindications: ['Wear lace-up syndesmotic supportive brace during sports for the remainder of the season'],
+        },
+      ],
+    },
+    clinicalPearls: [
+      'Forcing early aggressive dorsiflexion in a high ankle sprain wedges the wide anterior talar dome into the mortise, tearing healing syndesmotic collagen and doubling recovery time.',
+    ],
+  },
+
+  {
+    id: 'ankle-achilles-tendinopathy',
+    joint: 'Ankle & Foot',
+    name: 'Achilles Tendinopathy (Midportion vs Insertional)',
+    category: 'Posterior Ankle Tendon Overuse / Tendinopathy',
+    tissue_group: 'soft',
+    tissue_types: ['Muscle & Tendon', 'Bone'],
+    acuity: 'chronic',
+    irritability: 'Mod',
+    healing_stage: 'remodelling',
+    red_flags: [
+      'Acute Achilles tendon rupture: Sudden sensation of being kicked in back of ankle, audible snap/pop, palpable gap in tendon, positive Thompson squeeze test (Immediate orthopaedic referral).',
+      'Posterior ankle infection / retrocalcaneal abscess.',
+      'Fluoroquinolone-induced tendinopathy / bilateral acute tears.',
+    ],
+    when_to_refer: [
+      'Acute complete Achilles tendon rupture (Thompson test positive - urgent surgical/functional bracing referral within 48h).',
+      'Insertional retrocalcaneal spur impingement with deep partial tear failing 6 months loading.',
+    ],
+    outcome_measures: [
+      { name: 'VISA-A (Victorian Institute of Sport Assessment - Achilles)', mcid: '10 points', target: '>= 85/100' },
+      { name: 'NRS Morning Achilles Pain', mcid: '2 points', target: '<= 2/10' },
+      { name: 'Single-Leg Heel Raise Repetitions', mcid: '5 reps', target: '>= 25 reps per leg' },
+    ],
+    evidence_strength: 'Guideline',
+    last_reviewed: '2026-08-17',
+    teaching_notes: {
+      clinicalReasoning: 'Midportion tendinopathy occurs 2–6 cm proximal to calcaneal insertion in the hypovascular zone and benefits from eccentric loading off a step; Insertional tendinopathy occurs at calcaneus and must NEVER be lowered off a step initially (compressive impingement of tendon against calcaneal spur).',
+      vivaQuestions: [
+        {
+          question: 'What is the critical mechanical difference in exercise execution between Midportion and Insertional Achilles tendinopathy?',
+          answer: 'Midportion tendinopathy is loaded with heel drops below step level into dorsiflexion; Insertional tendinopathy must strictly be loaded on flat ground only to avoid tendon compression against the posterosuperior calcaneal prominence.',
+        },
+      ],
+    },
+    isRedFlag: false,
+    clinicalPresentation: 'Morning stiffness and pain in the posterior heel/Achilles cord, easing after walking a few minutes ("warm-up phenomenon"). Localized nodular thickening and tenderness 2–6 cm above insertion (midportion) or directly on the calcaneus (insertional). Aggravated by running, jumping, and stairs.',
+    bedsideAssessmentTests: [
+      {
+        testName: 'Royal London Hospital Test',
+        sensitivity: '54%',
+        specificity: '91%',
+        positiveLikelihoodRatio: '6.0',
+        techniqueAndInterpretation: 'Palpate tender nodule in relaxed plantarflexion, then re-palpate in full active dorsiflexion. Positive if tenderness markedly decreases or disappears in dorsiflexion (confirms midportion Achilles tendinopathy).',
+        evidenceCitation: 'Maffulli et al. Am J Sports Med.',
+      },
+      {
+        testName: 'Thompson (Simmonds) Squeeze Test for Rupture',
+        sensitivity: '96%',
+        specificity: '98%',
+        positiveLikelihoodRatio: '48.0',
+        techniqueAndInterpretation: 'Patient prone with feet hanging off table; clinician squeezes calf muscle belly. Normal response is passive plantarflexion; absence of plantarflexion indicates complete Achilles tendon rupture.',
+        evidenceCitation: 'Maffulli. J Bone Joint Surg Am.',
+      },
+    ],
+    investigationsProfile: [
+      {
+        modality: 'Diagnostic Ultrasound (MSK US)',
+        description: 'High-Resolution Ultrasound of Achilles Tendon with Power Doppler',
+        indications: 'Assess tendon AP thickness (> 6 mm), neovascularization, and insertional retrocalcaneal bursitis.',
+        keyFindings: 'Fusiform tendon thickening > 6 mm, hypoechoic collagen disruption, power Doppler neovascular flow.',
+        accuracyOrYield: 'Ultrasound sensitivity 80–92%, specificity 85%.',
+      },
+      {
+        modality: 'Plain Radiograph (X-ray)',
+        description: 'Lateral Ankle/Calcaneus Radiograph',
+        indications: 'Screen for Haglund deformity (posterosuperior calcaneal pump bump) and retrocalcaneal traction osteophyte.',
+        keyFindings: 'Prominent Haglund posterosuperior calcaneal spur in insertional tendinopathy.',
+        accuracyOrYield: 'Essential for insertional classification.',
+      },
+    ],
+    physiotherapyProtocol: {
+      protocolName: 'Alfredson / Silbernagel Progressive Mechanical Loading Achilles Protocol',
+      phases: [
+        {
+          phaseNumber: 1,
+          phaseName: 'Load Management, Morning Stiffness & Isometric Loading',
+          timeline: 'Weeks 0–3',
+          clinicalGoals: ['Eliminate high-speed energy storage impacts (running, jumping)', 'Provide 1 cm heel lift to reduce tensile and compressive strain', 'Analgesic isometric plantarflexion'],
+          exercisePrescription: [
+            { category: 'De-loading', exerciseName: 'Bilateral 1 cm Heel Lifts Inserted into All Shoes', dosage: 'Continuous for 4–6 weeks', clinicalRationale: 'Decreases peak Achilles tensile strain and relieves insertional calcaneal compression.' },
+            { category: 'Analgesic Isometrics', exerciseName: 'Isometric Single-Leg Heel Raise Hold (Mid-Range Plantarflexion)', dosage: '5 sets of 45s holds, 2x daily', clinicalRationale: 'Reduces tendon pain and downregulates motor cortex inhibition.' },
+            { category: 'Aerobic Maintenance', exerciseName: 'Stationary Cycling (Midfoot / Heel on Pedal) or Deep Water Running', dosage: '20–30 minutes, 3–4x weekly', clinicalRationale: 'Preserves aerobic conditioning without loading the Achilles spring mechanism.' },
+          ],
+          progressionCriteria: ['Morning pain and stiffness duration < 10 minutes', 'Able to complete 5x 45s isometric holds without pain flare', 'NRS pain <= 3/10'],
+          precautionsAndContraindications: ['NO ballistic jumping or sprinting; Insertional: NO heel drops below floor level'],
+        },
+        {
+          phaseNumber: 2,
+          phaseName: 'Heavy Slow Resistance (HSR) & Isotonic Hypertrophy',
+          timeline: 'Weeks 3–8',
+          clinicalGoals: ['High-load slow concentric-eccentric calf strengthening (Kong et al. / Beyer et al.)', 'Hypertrophy gastroc-soleus complex', 'Achieve 20 single-leg heel raises'],
+          exercisePrescription: [
+            { category: 'Heavy Slow Resistance', exerciseName: 'Straight-Knee Heel Raises (Gastrocnemius Focus) - Midportion on Step, Insertional on Floor', dosage: '3 sets of 8–10 reps at 3s concentric / 3s eccentric tempo', clinicalRationale: 'Promotes tenocyte mechanotransduction, collagen remodeling, and increases tendon stiffness.' },
+            { category: 'Soleus Focus', exerciseName: 'Seated Bent-Knee Heel Raises (Soleus Focus)', dosage: '3 sets of 10–12 reps at RPE 8', clinicalRationale: 'Soleus produces over 60% of total ankle plantarflexion force and absorbs massive running loads.' },
+          ],
+          progressionCriteria: ['VISA-A score improves by >= 10 points', 'Able to perform 20 smooth single-leg heel raises per leg', 'Pain with fast walking <= 1/10'],
+          precautionsAndContraindications: ['Monitor 24-hour response: if morning pain increases next day, reduce load'],
+        },
+        {
+          phaseNumber: 3,
+          phaseName: 'Energy Storage & Plyometric Stretch-Shortening Progression',
+          timeline: 'Weeks 8–12',
+          clinicalGoals: ['Reintroduce stretch-shortening cycle (SSC) loading', 'Two-legged to single-legged hopping', 'Initiate walk-to-run intervals'],
+          exercisePrescription: [
+            { category: 'Plyometrics', exerciseName: 'Double-Leg Ankle Pogo Hops (Progressing to Single-Leg Hops)', dosage: '3 sets of 15–20 low-amplitude rapid hops', clinicalRationale: 'Retrains the Achilles elastic spring and rate of force development.' },
+            { category: 'Walk-to-Run', exerciseName: 'Graduated Walk-to-Run Progression on Flat Track (1 min jog / 2 min walk)', dosage: '2–3x weekly with 48h rest between sessions', clinicalRationale: 'Re-exposes tendon to running peak impacts (6–8x bodyweight) under monitored pacing.' },
+          ],
+          progressionCriteria: ['VISA-A score > 80/100', 'Single-leg hop test completely pain-free', 'Able to perform 25 single-leg heel raises per leg'],
+          precautionsAndContraindications: ['Maintain 48-hour recovery between energy storage sessions'],
+        },
+        {
+          phaseNumber: 4,
+          phaseName: 'Return to Competitive Sport & Maintenance',
+          timeline: 'Weeks 12–16+',
+          clinicalGoals: ['Full return to running mileage, sprinting, and sport', 'Lifelong heavy loading maintenance'],
+          exercisePrescription: [
+            { category: 'Maintenance', exerciseName: 'Weekly Heavy Slow Resistance Calf Session', dosage: '2x weekly indefinitely', clinicalRationale: 'Preserves tendon mechanical properties and prevents recurrent collagen degeneration.' },
+          ],
+          progressionCriteria: ['VISA-A score > 85/100', 'Full clearance in functional sports testing'],
+          precautionsAndContraindications: ['Never increase running volume and speed simultaneously'],
+        },
+      ],
+    },
+    clinicalPearls: [
+      'The soleus generates up to 8 times bodyweight during running—far more than the gastrocnemius; neglecting seated bent-knee heel raises is the #1 reason Achilles rehab fails.',
+    ],
+  },
+
+  {
+    id: 'ankle-plantar-fasciitis',
+    joint: 'Ankle & Foot',
+    name: 'Plantar Fasciopathy (Plantar Fasciitis / Calcaneal Spur Syndrome)',
+    category: 'Plantar Aponeurosis Overuse Enthesopathy',
+    tissue_group: 'soft',
+    tissue_types: ['Bursa & Fascia', 'Bone'],
+    acuity: 'chronic',
+    irritability: 'Mod',
+    healing_stage: 'remodelling',
+    red_flags: [
+      'Calcaneal stress fracture: Severe pain on medial-lateral compression of calcaneus (positive Calcaneal Squeeze test), unremitting resting heel pain.',
+      'Bilateral plantar fasciitis with inflammatory back pain (HLA-B27 spondyloarthritis / reactive arthritis enthesitis).',
+      'Tarsal Tunnel Syndrome: Burning paresthesias radiating to plantar foot with positive Tinel behind medial malleolus.',
+    ],
+    when_to_refer: [
+      'Positive calcaneal squeeze test requiring urgent MRI/X-ray for stress fracture.',
+      'Refractory pain failing 6 months multimodal evidence-based conservative care (shockwave therapy / orthopaedic consultation).',
+    ],
+    outcome_measures: [
+      { name: 'FAAM (Foot and Ankle Ability Measure)', mcid: '8 points', target: '>= 85%' },
+      { name: 'NRS First-Step Morning Heel Pain', mcid: '2 points', target: '<= 1/10' },
+      { name: 'FPI-6 (Foot Posture Index)', mcid: 'Change', target: 'Neutral alignment (-1 to +5)' },
+    ],
+    evidence_strength: 'Guideline',
+    last_reviewed: '2026-08-16',
+    teaching_notes: {
+      clinicalReasoning: 'Windlass Test tensions the plantar fascia around the metatarsal heads via hallux dorsiflexion. High-load strength training (Rathleff protocol: heel raise with towel under toes) loads the windlass mechanism and yields superior long-term results compared to stretching alone.',
+      vivaQuestions: [
+        {
+          question: 'What is the "Windlass mechanism" of the foot and how does it relate to plantar fasciitis?',
+          answer: 'Dorsiflexion of the first metatarsophalangeal joint winds the plantar fascia around the metatarsal head, shortening the distance between calcaneus and metatarsals, raising the medial longitudinal arch, and converting the foot into a rigid lever for push-off.',
+        },
+      ],
+    },
+    isRedFlag: false,
+    clinicalPresentation: 'Sharp, piercing heel pain during the first few steps out of bed in the morning or after sitting, which eases slightly with walking but worsens towards end of day. Tenderness localized to the medial calcaneal tubercle.',
+    bedsideAssessmentTests: [
+      {
+        testName: 'Windlass Test (Weight-Bearing & Non-Weight-Bearing)',
+        sensitivity: '32% (non-weight-bearing) / 67% (weight-bearing)',
+        specificity: '100%',
+        positiveLikelihoodRatio: 'Infinity (highly specific)',
+        techniqueAndInterpretation: 'Passive maximal dorsiflexion of the hallux while foot is weight-bearing. Positive if sharp concordant pain reproduced at the medial calcaneal tubercle insertion.',
+        evidenceCitation: 'De Garceau et al. J Athl Train; Rathleff et al. Scand J Med Sci Sports.',
+      },
+      {
+        testName: 'Calcaneal Squeeze Test (Rule Out Stress Fracture)',
+        sensitivity: '88%',
+        specificity: '84%',
+        techniqueAndInterpretation: 'Bilateral medial-lateral compression of calcaneal body. Pain indicates calcaneal stress fracture rather than plantar fasciitis.',
+        evidenceCitation: 'Brukner et al. Br J Sports Med.',
+      },
+    ],
+    investigationsProfile: [
+      {
+        modality: 'Diagnostic Ultrasound (MSK US)',
+        description: 'High-Resolution Ultrasound of Plantar Fascia Insertion',
+        indications: 'Confirm fascial thickening (> 4 mm), hypoechogenicity, and pericalcaneal fluid.',
+        keyFindings: 'Plantar fascia thickness > 4.0 mm at calcaneal insertion (normal 2–3 mm), hypoechoic tissue, loss of fibrillar pattern.',
+        accuracyOrYield: 'Ultrasound sensitivity 85%, specificity 92% for plantar fasciopathy.',
+      },
+      {
+        modality: 'Plain Radiograph (X-ray)',
+        description: 'Standing Lateral Foot/Ankle View',
+        indications: 'Screen for calcaneal stress fracture line and assess presence of plantar calcaneal spur.',
+        keyFindings: 'Plantar calcaneal traction spur (present in 50% of asymptomatic population, but confirms chronic traction). Excludes stress fracture.',
+        accuracyOrYield: 'First-line screening.',
+      },
+    ],
+    physiotherapyProtocol: {
+      protocolName: 'Rathleff High-Load Strength Training & Windlass Mechanotransduction Protocol',
+      phases: [
+        {
+          phaseNumber: 1,
+          phaseName: 'First-Step Pain Relief, Low-Dye Taping & Plantar Stretching',
+          timeline: 'Weeks 0–3',
+          clinicalGoals: ['Abolish debilitating first-step morning pain', 'Offload medial calcaneal tubercle using Low-Dye arch taping / orthotic', 'Perform plantar fascia-specific stretching before getting out of bed'],
+          exercisePrescription: [
+            { category: 'Pre-Step Stretching', exerciseName: 'DiGiovanni Plantar Fascia-Specific Stretch (Cross-Legged Hallux Dorsiflexion)', dosage: '3 sets of 30s holds before first morning steps', clinicalRationale: 'DiGiovanni et al. proved this specific stretch is vastly superior to Achilles stretching for first-step pain.' },
+            { category: 'External Support', exerciseName: 'Low-Dye Anti-Pronation Taping / Over-the-Counter Contoured Arch Insole', dosage: 'Continuous during daytime weight-bearing', clinicalRationale: 'Transfers vertical ground reaction forces away from the medial calcaneal enthesis.' },
+            { category: 'Myofascial Release', exerciseName: 'Frozen Water Bottle / Golf Ball Plantar Rolling', dosage: '5 minutes, 2x daily', clinicalRationale: 'Provides temporary local sensory analgesia and reduces plantar tissue tension.' },
+          ],
+          progressionCriteria: ['Morning first-step pain reduced by >= 50%', 'Able to walk 20 minutes without sharp heel stabbing', 'FAAM score improved by >= 8 points'],
+          precautionsAndContraindications: ['Never walk barefoot on hard tile/wood floors; avoid high-impact running'],
+        },
+        {
+          phaseNumber: 2,
+          phaseName: 'Rathleff High-Load Strength Training (Every Other Day)',
+          timeline: 'Weeks 3–8',
+          clinicalGoals: ['Progressive tensile loading of the plantar fascia via Windlass mechanism', 'Hypertrophy gastroc-soleus complex', 'Intrinsic foot muscle strengthening'],
+          exercisePrescription: [
+            { category: 'High-Load Strength', exerciseName: 'Rathleff Heel Raise on Step with Rolled Towel Under Toes (Every Other Day)', dosage: '3 sets of 12 reps (progressing to 8RM with backpack weight), 3s concentric / 3s eccentric tempo', clinicalRationale: 'Towel puts hallux in dorsiflexion, tightening the windlass mechanism and driving collagen remodeling in the plantar fascia.' },
+            { category: 'Foot Intrinsics', exerciseName: 'Short-Foot Exercise (Doming) & Towel Curls', dosage: '3 sets of 10 reps, hold 5s', clinicalRationale: 'Strengthens abductor hallucis and flexor digitorum brevis to support the medial longitudinal arch.' },
+          ],
+          progressionCriteria: ['Able to complete 8RM Rathleff heel raises with added resistance', 'Zero pain during morning steps', 'Weight-bearing Windlass test negative'],
+          precautionsAndContraindications: ['Maintain every-other-day schedule (48h tendon remodeling cycle); do not perform daily'],
+        },
+        {
+          phaseNumber: 3,
+          phaseName: 'Functional Closed-Chain Loading & Walking Tolerance',
+          timeline: 'Weeks 8–12',
+          clinicalGoals: ['Increase continuous walking tolerance to > 5 km', 'Wean from rigid taping to supportive running footwear', 'Single-leg dynamic balance'],
+          exercisePrescription: [
+            { category: 'Functional Loading', exerciseName: 'Single-Leg Romanian Deadlift with Foot Arch Doming', dosage: '3 sets of 10 reps', clinicalRationale: 'Retrains foot arch dynamic stability during whole-body kinetic chain movements.' },
+            { category: 'Calf Endurance', exerciseName: 'Farmer Walks on Toes with Moderate Dumbbells', dosage: '3 sets of 30 meters', clinicalRationale: 'Builds sustained isometric endurance of plantarflexors and plantar aponeurosis.' },
+          ],
+          progressionCriteria: ['FAAM Activities of Daily Living > 90%', 'Able to walk 60 minutes comfortably on varied surfaces'],
+          precautionsAndContraindications: ['Ensure supportive footwear with slight heel pitch during all prolonged walking'],
+        },
+        {
+          phaseNumber: 4,
+          phaseName: 'Return to Running & Long-Term Prevention',
+          timeline: 'Weeks 12–16+',
+          clinicalGoals: ['Return to recreational running or long-distance walking', 'Long-term foot health maintenance'],
+          exercisePrescription: [
+            { category: 'Return to Run', exerciseName: 'Graduated Walk-to-Run Program on Soft Surface (Track/Grass)', dosage: '2–3x weekly', clinicalRationale: 'Re-exposes the plantar fascia to running impact forces safely.' },
+            { category: 'Maintenance', exerciseName: 'Rathleff High-Load Protocol 1–2x Weekly as Maintenance', dosage: 'Indefinitely', clinicalRationale: 'Prevents recurrence of fascial degenerative changes.' },
+          ],
+          progressionCriteria: ['Zero first-step pain for > 60 consecutive days', 'Full return to pre-injury activity level'],
+          precautionsAndContraindications: ['Continue wearing supportive footwear; avoid barefoot running on hard pavement'],
+        },
+      ],
+    },
+    clinicalPearls: [
+      'The Rathleff trial (Scand J Med Sci Sports) demonstrated that high-load strength training (heel raises with a rolled towel under the toes performed every other day) is dramatically superior to daily plantar stretching alone.',
+    ],
+  },
+
+  {
+    id: 'ankle-pttd-flatfoot',
+    joint: 'Ankle & Foot',
+    name: 'Posterior Tibial Tendon Dysfunction (PTTD / Adult Acquired Flatfoot)',
+    category: 'Medial Arch Collapse / Tendon Degeneration & Insufficiency',
+    tissue_group: 'soft',
+    tissue_types: ['Muscle & Tendon', 'Ligament'],
+    acuity: 'chronic',
+    irritability: 'Mod',
+    healing_stage: 'remodelling',
+    red_flags: [
+      'Fixed rigid Stage III / IV flatfoot deformity (inability to passively invert calcaneus to neutral) requiring reconstructive osteotomy or triple arthrodesis.',
+      'Talar head uncoverage / lateral subluxation with severe lateral sinus tarsi impingement pain.',
+      'Neuropathic Charcot neuroarthropathy in diabetic patient (warm, swollen, erythematous foot without ulceration).',
+    ],
+    when_to_refer: [
+      'Stage III or IV rigid flatfoot (orthopaedic foot & ankle surgical reconstruction evaluation).',
+      'Rapidly progressing medial arch collapse failing custom rigid orthotics.',
+    ],
+    outcome_measures: [
+      { name: 'FAAM (Foot and Ankle Ability Measure)', mcid: '8 points', target: '>= 80%' },
+      { name: 'Single-Leg Heel Rise Count', mcid: '5 reps', target: '>= 15 reps with calcaneal inversion' },
+      { name: 'FPI-6 (Foot Posture Index)', mcid: 'Improvement', target: 'Correction towards neutral' },
+    ],
+    evidence_strength: 'Guideline',
+    last_reviewed: '2026-08-17',
+    teaching_notes: {
+      clinicalReasoning: 'Single-leg heel rise test evaluates both tendon strength and flexibility: in Stage I/II, the heel inverts normally on rising (spring ligament intact, flexible deformity); in Stage II/III, the patient cannot invert the calcaneus or cannot rise at all. "Too Many Toes" sign is viewed from behind.',
+      vivaQuestions: [
+        {
+          question: 'What is the "Too Many Toes" sign and what does it indicate in PTTD?',
+          answer: 'When viewing the patient\'s feet from directly behind, more than 1.5 toes are visible laterally on the affected side due to forefoot abduction and hindfoot valgus collapse.',
+        },
+      ],
+    },
+    isRedFlag: false,
+    clinicalPresentation: 'Medial ankle and arch ache along the course of the posterior tibial tendon behind the medial malleolus. Progressive flattening of the medial longitudinal arch, hindfoot valgus ("too many toes" sign), and difficulty or inability to perform a single-leg heel raise.',
+    bedsideAssessmentTests: [
+      {
+        testName: 'Single-Leg Heel Raise Test (Assessing Calcaneal Inversion)',
+        sensitivity: '92%',
+        specificity: '89%',
+        positiveLikelihoodRatio: '8.4',
+        techniqueAndInterpretation: 'Patient performs single-leg heel raise. Look for normal calcaneal inversion (varus). Inability to perform heel raise or failure of calcaneus to invert confirms tibialis posterior insufficiency.',
+        evidenceCitation: 'Johnson & Strom. Clin Orthop Relat Res; Kulig et al. Phys Ther.',
+      },
+      {
+        testName: '"Too Many Toes" Sign (Hindfoot Valgus / Forefoot Abduction)',
+        sensitivity: '84%',
+        specificity: '88%',
+        techniqueAndInterpretation: 'Viewed from directly behind in standing. More than 1–2 toes visible lateral to the heel indicates forefoot abduction and arch collapse.',
+        evidenceCitation: 'Manoli & Graham. Foot Ankle Int.',
+      },
+    ],
+    investigationsProfile: [
+      {
+        modality: 'Plain Radiograph (X-ray)',
+        description: 'Weight-Bearing 3-View Foot and Ankle (AP, Lateral, and Saltzman Hindfoot view)',
+        indications: 'Confirm Johnson & Strom stage, measure Meary\'s angle (talo-first metatarsal angle), and assess hindfoot valgus.',
+        keyFindings: 'Meary\'s angle sag > 4°, plantar gapping at talonavicular joint, loss of calcaneal pitch < 17°.',
+        accuracyOrYield: 'Standard staging imaging.',
+      },
+      {
+        modality: 'MRI Scan',
+        description: 'Ankle/Foot MRI with Coronal and Axial T2 Fat-Suppressed sequences',
+        indications: 'Assess tibialis posterior tendon degeneration, partial/complete tear, and spring ligament attenuation.',
+        keyFindings: 'Tendon thickening, longitudinal split tear, tenosynovial fluid, spring ligament disruption.',
+        accuracyOrYield: 'High accuracy for soft tissue staging.',
+      },
+    ],
+    physiotherapyProtocol: {
+      protocolName: 'Kulig Phased Eccentric Tibialis Posterior & Orthotic Arch Support Protocol',
+      phases: [
+        {
+          phaseNumber: 1,
+          phaseName: 'Arch Offloading, Custom Orthotic / AFO & Pain Calming',
+          timeline: 'Weeks 0–4',
+          clinicalGoals: ['Offload elongated tibialis posterior tendon using custom functional foot orthotic (UCBL or Marzano brace)', 'Control tenosynovial inflammation', 'Initiate non-weight-bearing isometric inversion'],
+          exercisePrescription: [
+            { category: 'External Support', exerciseName: 'Custom Molded Semi-Rigid Orthotic with Medial Heel Skive & High Arch Post', dosage: 'Continuous in all closed shoes', clinicalRationale: 'Corrects hindfoot valgus and decreases tension on the posterior tibial tendon by up to 30%.' },
+            { category: 'Non-Weight-Bearing', exerciseName: 'Isometric Tibialis Posterior Inversion Against Resistance Band (Ankle in Plantarflexion)', dosage: '3 sets of 10 reps, 5s hold', clinicalRationale: 'Activates tibialis posterior without subjecting it to weight-bearing arch flattening shear.' },
+            { category: 'Intrinsic Foot', exerciseName: 'Short-Foot (Doming) Exercise in Seated Position', dosage: '3 sets of 10 reps, hold 5s', clinicalRationale: 'Engages abductor hallucis to actively share medial arch support.' },
+          ],
+          progressionCriteria: ['Abolition of resting medial ankle pain', 'Tolerates custom orthotic for full 8-hour day', 'FAAM score improved by >= 8 points'],
+          precautionsAndContraindications: ['Never walk barefoot; avoid high-impact jumping and running'],
+        },
+        {
+          phaseNumber: 2,
+          phaseName: 'Kulig Progressive Eccentric/Concentric Tibialis Posterior Loading',
+          timeline: 'Weeks 4–8',
+          clinicalGoals: ['High-repetition progressive eccentric loading (Kulig et al. JOSPT)', 'Restore single-leg heel raise with active calcaneal inversion', 'Correct gastrocnemius tightness'],
+          exercisePrescription: [
+            { category: 'Eccentric Inversion', exerciseName: 'Resisted Forefoot Adduction / Inversion with Elastic Band (Kulig Protocol)', dosage: '3 sets of 15 reps, 3s eccentric return', clinicalRationale: 'Selectively isolates tibialis posterior and stimulates collagen remodeling.' },
+            { category: 'Heel Raise Training', exerciseName: 'Bilateral Heel Raises with Tennis Ball Squeezed Between Heels', dosage: '3 sets of 12 reps', clinicalRationale: 'Squeezing the ball forces the heels into inversion during plantarflexion, retraining correct mechanics.' },
+            { category: 'Calf Lengthening', exerciseName: 'Stretching Gastrocnemius on Incline Board with Medial Arch Supported', dosage: '3 sets of 30s', clinicalRationale: 'Relieves triceps surae equinus contracture that exacerbates midfoot collapse.' },
+          ],
+          progressionCriteria: ['Able to perform 10 single-leg heel raises with visible calcaneal inversion', 'Zero medial tendon pain during daily walking'],
+          precautionsAndContraindications: ['Always perform calf stretches with the arch supported to prevent midfoot break'],
+        },
+        {
+          phaseNumber: 3,
+          phaseName: 'Functional Weight-Bearing & Single-Leg Kinetic Chain Control',
+          timeline: 'Weeks 8–12',
+          clinicalGoals: ['Single-leg heel raise capacity >= 15 reps', 'Dynamic balance on unstable surfaces', 'Extended community walking'],
+          exercisePrescription: [
+            { category: 'Single-Leg Heel Raise', exerciseName: 'Single-Leg Heel Raise on Flat Ground with Arch Lift Focus', dosage: '3 sets of 12–15 reps per leg', clinicalRationale: 'Re-establishes unilateral propulsion capacity for normal gait toe-off.' },
+            { category: 'Balance', exerciseName: 'Single-Leg Stance on Foam Pad with Orthotic in Shoe', dosage: '3 sets of 30s', clinicalRationale: 'Retrains dynamic stabilization of the foot and ankle complex.' },
+          ],
+          progressionCriteria: ['FAAM score > 80%', 'Single-leg heel rise count >= 15 reps', 'Painless walking for > 45 minutes'],
+          precautionsAndContraindications: ['Continue wearing orthotics in all footwear'],
+        },
+        {
+          phaseNumber: 4,
+          phaseName: 'Lifelong Maintenance & Deformity Prevention',
+          timeline: 'Weeks 12–16+',
+          clinicalGoals: ['Lifelong orthotic compliance', 'Maintain tibialis posterior strength', 'Prevent progression from flexible Stage II to rigid Stage III'],
+          exercisePrescription: [
+            { category: 'Maintenance', exerciseName: 'Weekly Resistance Band Inversion and Heel Raise Routine', dosage: '2x weekly indefinitely', clinicalRationale: 'Maintains muscular endurance of the primary arch stabilizer.' },
+          ],
+          progressionCriteria: ['Deformity remains flexible and asymptomatic at long-term follow-up'],
+          precautionsAndContraindications: ['Seek immediate orthopaedic review if arch becomes stiff/rigid or lateral foot pain develops'],
+        },
+      ],
+    },
+    clinicalPearls: [
+      'Early intervention in Stage I/II with custom orthotics and Kulig eccentric exercises prevents progression to rigid Stage III deformity, avoiding complex reconstructive bone surgery.',
+    ],
+  },
+
+  {
+    id: 'ankle-navicular-metatarsal-stress-fracture',
+    joint: 'Ankle & Foot',
+    name: 'Navicular & 5th Metatarsal Base (Jones) Stress Fracture',
+    category: 'High-Risk Bone Stress Fracture / Nonunion Prone',
+    tissue_group: 'hard',
+    tissue_types: ['Bone'],
+    acuity: 'acute',
+    irritability: 'High',
+    healing_stage: 'inflammatory',
+    red_flags: [
+      'High-Risk Stress Fracture: Tarsal navicular and 5th metatarsal base (Jones fracture Zone 2) have a high rate of nonunion, delayed union, and avascular necrosis if not treated with strict non-weight-bearing cast or screw fixation.',
+      'Inability to bear weight with acute focal bony point tenderness over the navicular "N-spot" or lateral 5th metatarsal base.',
+    ],
+    when_to_refer: [
+      'MANDATORY URGENT ORTHOPAEDIC REFERRAL: Tarsal navicular stress fracture requires 6 weeks strict non-weight-bearing cast or surgical percutaneous screw fixation.',
+      'True Jones fracture (Zone 2) in an athlete requires surgical intramedullary screw fixation consultation.',
+    ],
+    outcome_measures: [
+      { name: 'N-Spot Palpation Tenderness', mcid: 'Resolution', target: 'Zero tenderness' },
+      { name: 'Single-Leg Hop Test', mcid: 'Pain-free', target: 'Pain-free hopping' },
+      { name: 'Radiographic Bone Consolidation (CT/MRI)', mcid: 'Complete union', target: 'Bridging bone trabeculae on CT' },
+    ],
+    evidence_strength: 'Guideline',
+    last_reviewed: '2026-08-19',
+    teaching_notes: {
+      clinicalReasoning: 'Tarsal navicular stress fracture is located in the central third watershed hypovascular zone. The "N-spot" (dorsal aspect of navicular between tibialis anterior and EHL tendons) has 96% sensitivity for navicular stress fracture. Thin-slice CT is gold standard for fracture line completion.',
+      vivaQuestions: [
+        {
+          question: 'Where is the "N-spot" located and why is it clinically important?',
+          answer: 'The N-spot is the dorsal central prominence of the tarsal navicular, palpated between the anterior tibial and extensor hallucis longus tendons. Point tenderness here has 96% sensitivity for a navicular stress fracture.',
+        },
+      ],
+    },
+    isRedFlag: true,
+    redFlagSeverity: 'EMERGENCY_IMMEDIATE',
+    clinicalPresentation: 'Vague, insidious ache in the dorsal midfoot or medial arch in a runner, jumper, or basketball player. Exquisite focal point tenderness directly over the dorsal navicular ("N-spot") or lateral base of 5th metatarsal. Worsened by sprinting and hopping.',
+    bedsideAssessmentTests: [
+      {
+        testName: 'Palpation of the Navicular "N-Spot"',
+        sensitivity: '96%',
+        specificity: '82%',
+        positiveLikelihoodRatio: '5.3',
+        techniqueAndInterpretation: 'Firm pressure over dorsal central navicular between tibialis anterior and EHL tendons. Exquisite focal tenderness indicates navicular stress fracture.',
+        evidenceCitation: 'Brukner et al. Br J Sports Med; Robertson & Wood. Br Med Bull.',
+      },
+      {
+        testName: 'Single-Leg Hop Test on Midfoot',
+        sensitivity: '95%',
+        specificity: '75%',
+        techniqueAndInterpretation: 'Patient attempts to hop on forefoot. Inability to hop due to severe focal bone pain.',
+        evidenceCitation: 'Khan et al. Sports Med.',
+      },
+    ],
+    investigationsProfile: [
+      {
+        modality: 'CT Scan',
+        description: 'High-Resolution Thin-Slice CT of Midfoot (Sagittal and Coronal reconstructions)',
+        indications: 'Gold standard for assessing navicular fracture plane (complete vs incomplete vs bicortical) and monitoring bony union.',
+        keyFindings: 'Radiolucent sagittal fracture line in the central third of the navicular body with sclerosis.',
+        accuracyOrYield: 'Gold standard for fracture staging and union surveillance.',
+      },
+      {
+        modality: 'MRI Scan',
+        description: 'Foot MRI with Coronal and Sagittal STIR sequences',
+        indications: 'Early bone stress injury detection before clear fracture line develops on CT.',
+        keyFindings: 'Intense bone marrow edema on STIR sequences within navicular central third or 5th metatarsal base.',
+        accuracyOrYield: 'Early diagnosis gold standard.',
+      },
+    ],
+    physiotherapyProtocol: {
+      protocolName: 'Strict Non-Weight-Bearing Immobilization & High-Risk Bone Union Protocol',
+      phases: [
+        {
+          phaseNumber: 1,
+          phaseName: 'Strict Non-Weight-Bearing Cast Immobilization',
+          timeline: 'Weeks 0–6',
+          clinicalGoals: ['Strict 6-week non-weight-bearing short leg cast or boot with crutches (Khan et al. proven > 86% union vs 25% if weight-bearing allowed)', 'Complete immobilization of midfoot', 'Cardiovascular fitness via upper body and single-leg ergometry'],
+          exercisePrescription: [
+            { category: 'Cast Immobilization', exerciseName: 'Strict Non-Weight-Bearing 3-Point Crutch Walking with Below-Knee Cast', dosage: 'Continuous 24/7', clinicalRationale: 'Eliminates compressive force between talar head and cuneiforms across the watershed zone.' },
+            { category: 'Fitness', exerciseName: 'Upper Body Hand-Cycle Ergometer & Seated Resistance Training', dosage: '30 minutes, 3–4x weekly', clinicalRationale: 'Preserves VO2 max and mental health during mandatory immobilization.' },
+            { category: 'Non-Involved Limb', exerciseName: 'Single-Leg Cycling on Contralateral Leg', dosage: '20 minutes, 3x weekly', clinicalRationale: 'Cross-education neural maintenance.' },
+          ],
+          progressionCriteria: ['Completion of 6 weeks strict non-weight-bearing', 'Complete resolution of N-spot tenderness on palpation', 'CT scan confirming progressive bony bridging'],
+          precautionsAndContraindications: ['ABSOLUTELY NO WEIGHT-BEARING; any weight-bearing during early 6 weeks leads to nonunion'],
+        },
+        {
+          phaseNumber: 2,
+          phaseName: 'Boot Weaning, Partial Weight-Bearing & Joint Mobility',
+          timeline: 'Weeks 6–10',
+          clinicalGoals: ['Transition from cast to removable boot', 'Graduated partial weight-bearing with crutches (25% -> 50% -> 100%)', 'Restore ankle and subtalar range of motion'],
+          exercisePrescription: [
+            { category: 'Weight-Bearing Weaning', exerciseName: 'Graduated Partial Weight-Bearing in Boot with Crutches', dosage: 'Increase 25% bodyweight every week', clinicalRationale: 'Introduces progressive osteogenic stimulation to consolidate bony trabeculae.' },
+            { category: 'Ankle Mobility', exerciseName: 'Gentle Active Ankle Plantarflexion and Dorsiflexion Out of Boot', dosage: '3 sets of 10 gentle reps', clinicalRationale: 'Restores talocrural synovial nutrition without midfoot twisting.' },
+            { category: 'Custom Orthotic', exerciseName: 'Custom Full-Length Rigid Carbon-Fiber Footplate in Running Shoe', dosage: 'Worn in all footwear once out of boot', clinicalRationale: 'Stiff plate prevents midfoot dorsiflexion bending moments across the navicular.' },
+          ],
+          progressionCriteria: ['Pain-free full weight-bearing walking in supportive shoe with carbon plate', 'N-spot tenderness completely absent', 'CT confirmation of solid union'],
+          precautionsAndContraindications: ['Halt progression immediately if any midfoot bone tenderness recurs'],
+        },
+        {
+          phaseNumber: 3,
+          phaseName: 'Intrinsic Foot Strengthening & Kinetic Chain Reconditioning',
+          timeline: 'Weeks 10–14',
+          clinicalGoals: ['Strengthen foot intrinsics and calf complex', 'Restore normal gait mechanics', 'Single-leg balance'],
+          exercisePrescription: [
+            { category: 'Foot Intrinsics', exerciseName: 'Short-Foot Doming and Toe Spread Exercises', dosage: '3 sets of 10 reps, 5s hold', clinicalRationale: 'Builds intrinsic muscular arch support to offload the tarsal bones.' },
+            { category: 'Calf Strength', exerciseName: 'Double to Single-Leg Heel Raises with Stiff Sole Shoes', dosage: '3 sets of 12 reps', clinicalRationale: 'Re-trains triceps surae force production.' },
+            { category: 'Balance', exerciseName: 'Single-Leg Stance on Firm Ground (Eyes Open/Closed)', dosage: '3 sets of 30s', clinicalRationale: 'Restores proprioceptive neuromuscular control.' },
+          ],
+          progressionCriteria: ['Able to walk 60 minutes comfortably', 'Single-leg hop test completely pain-free', 'Full clearance by orthopaedic surgeon'],
+          precautionsAndContraindications: ['No barefoot running or flexible minimalist shoes'],
+        },
+        {
+          phaseNumber: 4,
+          phaseName: 'Graduated Return to Running & Long-Term Surveillance',
+          timeline: 'Weeks 14–20+',
+          clinicalGoals: ['Return to sport via structured walk-to-run program', 'Maintain carbon plate during athletic season'],
+          exercisePrescription: [
+            { category: 'Return to Running', exerciseName: 'AlterG / Anti-Gravity Treadmill (Starting at 60% Bodyweight) to Track Jogging', dosage: '2–3x weekly with 48h rest intervals', clinicalRationale: 'Progressively re-loads the skeletal framework while monitoring for bone microdamage.' },
+          ],
+          progressionCriteria: ['Full pain-free competitive sport participation without midfoot ache'],
+          precautionsAndContraindications: ['Never ignore any recurrence of dorsal midfoot aching; immediate imaging required'],
+        },
+      ],
+    },
+    clinicalPearls: [
+      'Khan et al. proved that allowing weight-bearing in a boot for navicular stress fractures results in a catastrophic 75% nonunion rate; strict 6-week NON-weight-bearing cast achieves an 86% primary union rate.',
+    ],
+  },
+
+  {
+    id: 'ankle-post-op-bunionectomy',
+    joint: 'Ankle & Foot',
+    name: 'Post-operative Hallux Valgus Correction (Bunionectomy)',
+    category: 'Post-Surgical 1st Metatarsal Osteotomy & Realignment',
+    tissue_group: 'hard',
+    tissue_types: ['Bone', 'Articular Surface'],
+    acuity: 'post-op',
+    irritability: 'Mod',
+    healing_stage: 'proliferative',
+    red_flags: [
+      'Loss of surgical osteotomy fixation: Sudden pop, shift in toe alignment, or hardware protrusion.',
+      'Surgical site infection: Wound dehiscence, spreading erythema, purulent drainage, high fever.',
+      'Complex Regional Pain Syndrome (CRPS Type I): Disproportionate burning pain, allodynia, swelling, temperature changes, skin mottling.',
+    ],
+    when_to_refer: [
+      'Immediate referral for suspected osteotomy displacement, deep infection, or severe CRPS signs.',
+    ],
+    outcome_measures: [
+      { name: 'AOFAS (American Orthopaedic Foot and Ankle Society) Hallux Score', mcid: '10 points', target: '>= 85/100' },
+      { name: 'Hallux MTP Active Dorsiflexion (degrees)', mcid: '10 degrees', target: '>= 45 degrees' },
+      { name: 'NRS Post-Op Pain', mcid: '2 points', target: '<= 1/10' },
+    ],
+    evidence_strength: 'Guideline',
+    last_reviewed: '2026-08-20',
+    teaching_notes: {
+      clinicalReasoning: 'Following 1st metatarsal osteotomy (Scarf, Chevron, or Lapidus), early passive and active 1st MTP joint mobilization starting at 2–3 weeks post-op is essential to prevent joint arthrofibrosis and rigid hallux, while strictly protecting the bony osteotomy union with a rigid post-op shoe.',
+      vivaQuestions: [
+        {
+          question: 'What is the primary complication of prolonged immobilization after bunionectomy and how is it prevented?',
+          answer: 'Arthrofibrosis and stiffness of the 1st MTP joint (loss of dorsiflexion). It is prevented by starting gentle passive and active-assisted sagittal mobilization of the great toe once the surgical wound is closed at 2–3 weeks.',
+        },
+      ],
+    },
+    isRedFlag: false,
+    clinicalPresentation: 'Post-operative recovery following hallux valgus correction (Chevron, Scarf, or Lapidus arthrodesis). Forefoot surgical edema, 1st MTP stiffness, temporary altered heel-walking gait in a postoperative wedge shoe, and wound healing.',
+    bedsideAssessmentTests: [
+      {
+        testName: 'Hallux 1st MTP Passive & Active Range of Motion',
+        sensitivity: '90%',
+        specificity: '85%',
+        techniqueAndInterpretation: 'Measure passive and active dorsiflexion and plantarflexion of 1st MTP joint. Target is >= 45° dorsiflexion for normal gait propulsion.',
+        evidenceCitation: 'Easley & Trnka. Foot Ankle Int.',
+      },
+    ],
+    investigationsProfile: [
+      {
+        modality: 'Plain Radiograph (X-ray)',
+        description: 'Weight-Bearing Foot AP, Lateral and Oblique views at 6 weeks',
+        indications: 'Confirm osteotomy consolidation, intermetatarsal angle (< 9°), and hallux valgus angle (< 15°).',
+        keyFindings: 'Solid bony bridging across osteotomy site without screw loosening, nonunion, or avascular necrosis of metatarsal head.',
+        accuracyOrYield: 'Gold standard for osteotomy union confirmation.',
+      },
+    ],
+    physiotherapyProtocol: {
+      protocolName: 'Phase-Specific Post-Bunionectomy Osteotomy & 1st MTP Mobilization Protocol',
+      phases: [
+        {
+          phaseNumber: 1,
+          phaseName: 'Wound Protection, Heel-Bearing & Swelling Control',
+          timeline: 'Weeks 0–3',
+          clinicalGoals: ['Strict use of heel-bearing / wedge post-op shoe', 'Incision healing and edema control', 'Toe alignment spacer compliance'],
+          exercisePrescription: [
+            { category: 'Protected Ambulation', exerciseName: 'Ambulation in Rigid Heel-Bearing Orthopaedic Wedge Shoe', dosage: 'Continuous when walking', clinicalRationale: 'Transfers bodyweight to hindfoot, eliminating ground reaction bending moments on the healing metatarsal osteotomy.' },
+            { category: 'Edema Control', exerciseName: 'Lower Limb Elevation and Cryotherapy', dosage: 'Elevate above heart 40 minutes of every hour in first week', clinicalRationale: 'Rapidly reduces post-operative forefoot swelling and interstitial pressure.' },
+            { category: 'Ankle Mobility', exerciseName: 'Active Ankle Pumps and Circles', dosage: '20 reps every hour', clinicalRationale: 'Maintains calf muscle pump action and prevents venous stasis.' },
+          ],
+          progressionCriteria: ['Surgical wound completely healed and sutures removed', 'No osteotomy tenderness on light touch', 'Surgeon clearance for Phase 2 mobilization'],
+          precautionsAndContraindications: ['NO forefoot push-off; NO walking barefoot; wear post-op shoe at all times during weight-bearing'],
+        },
+        {
+          phaseNumber: 2,
+          phaseName: '1st MTP Joint Mobilization & Foot Core Activation',
+          timeline: 'Weeks 3–6',
+          clinicalGoals: ['Initiate gentle passive and active-assisted 1st MTP dorsiflexion', 'Restore 1st MTP mobility to >= 30°', 'Initiate foot intrinsic activation'],
+          exercisePrescription: [
+            { category: '1st MTP Mobilization', exerciseName: 'Passive-Assisted 1st MTP Joint Dorsiflexion and Plantarflexion Glides', dosage: '3 sets of 15 gentle reps, hold 3s at end-range', clinicalRationale: 'Prevents capsular adhesions and arthrofibrosis of the great toe.' },
+            { category: 'Foot Intrinsics', exerciseName: 'Toe Spreading and Seated Short-Foot Doming', dosage: '3 sets of 10 reps', clinicalRationale: 'Reactivates abductor hallucis to actively maintain medial toe alignment.' },
+            { category: 'Scar Mobility', exerciseName: 'Gentle Cross-Friction Scar Massage (Once Incision Closed)', dosage: '3 minutes daily', clinicalRationale: 'Mobilizes surgical scar tissue to prevent tethering of extensor hallucis longus.' },
+          ],
+          progressionCriteria: ['Passive 1st MTP dorsiflexion >= 30°', 'Significant reduction in forefoot swelling', 'AOFAS score improved by >= 10 points'],
+          precautionsAndContraindications: ['Do not force dorsiflexion aggressively; maintain post-op shoe during community walking'],
+        },
+        {
+          phaseNumber: 3,
+          phaseName: 'Transition to Supportive Shoes & Gait Normalization',
+          timeline: 'Weeks 6–10',
+          clinicalGoals: ['Transition from post-op shoe to wide-toe-box running shoe (upon X-ray union)', 'Restore normal heel-to-toe gait with push-off through hallux', 'Achieve 1st MTP dorsiflexion >= 45°'],
+          exercisePrescription: [
+            { category: 'Gait Retraining', exerciseName: 'Full Gait Retraining with Symmetrical Hallux Push-Off (Mirror Feedback)', dosage: '20 minutes daily', clinicalRationale: 'Eliminates antalgic lateral border weight-bearing and restores normal rocker kinematics.' },
+            { category: 'Calf & Hallux Strength', exerciseName: 'Bilateral Heel Raises with Even Weight Across 1st and 5th Metatarsals', dosage: '3 sets of 12 reps', clinicalRationale: 'Strengthens flexor hallucis longus and gastroc-soleus for terminal stance propulsion.' },
+          ],
+          progressionCriteria: ['Solid bony union confirmed on 6-week X-rays', 'Able to walk with normal heel-to-toe gait in wide running shoes', '1st MTP dorsiflexion >= 45°'],
+          precautionsAndContraindications: ['Avoid narrow, pointed-toe shoes and high heels'],
+        },
+        {
+          phaseNumber: 4,
+          phaseName: 'High-Demand Resiliency & Lifelong Footwear Guidance',
+          timeline: 'Weeks 10–16+',
+          clinicalGoals: ['Return to recreational fitness, long-distance walking, and sports', 'Permanent adoption of foot-healthy wide toe-box footwear'],
+          exercisePrescription: [
+            { category: 'Functional Fitness', exerciseName: 'Single-Leg Balance, Step-Ups, and Brisk Walking Program', dosage: '30–45 minutes, 4x weekly', clinicalRationale: 'Restores global physical conditioning and foot load tolerance.' },
+          ],
+          progressionCriteria: ['AOFAS Hallux score > 85/100', 'Full painless gait and complete patient satisfaction'],
+          precautionsAndContraindications: ['Avoid tight, constricting footwear indefinitely to prevent bunion recurrence'],
+        },
+      ],
+    },
+    clinicalPearls: [
+      'Early passive 1st MTP joint mobilization starting at week 3 makes the difference between a flexible, pain-free push-off toe and a permanently stiff, painful hallux rigidus.',
+    ],
+  },
+];

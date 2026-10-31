@@ -14,11 +14,13 @@ import {
   ChevronDown,
   HelpCircle,
   Globe,
+  UserCheck,
 } from 'lucide-react';
 import { AudienceScopeModal } from './AudienceScopeModal';
 import { useLanguage, SupportedLanguage } from '../context/LanguageContext';
 
 export type AppView =
+  | 'doctor-dashboard'
   | 'dashboard'
   | 'assessment-format'
   | 'wizard'
@@ -53,7 +55,7 @@ export const Header: React.FC<HeaderProps> = ({ activeView, onNavigate, onStartN
           {/* Zone 1: Brand Wordmark */}
           <div
             className="flex items-center gap-3 shrink-0 cursor-pointer"
-            onClick={() => onNavigate('dashboard')}
+            onClick={() => onNavigate('doctor-dashboard')}
           >
             <div className="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-teal-400 font-bold text-lg">
               <Stethoscope className="w-5 h-5 text-teal-400" />
@@ -67,7 +69,20 @@ export const Header: React.FC<HeaderProps> = ({ activeView, onNavigate, onStartN
           </div>
 
           {/* Zone 2: Navigation Links (Single-line, unboxed, text with hover states) */}
-          <nav className="hidden lg:flex items-center gap-4 text-xs font-semibold text-slate-600">
+          <nav className="hidden lg:flex items-center gap-3.5 text-xs font-semibold text-slate-600">
+            {/* Dedicated Doctor Dashboard Nav Button */}
+            <button
+              onClick={() => onNavigate('doctor-dashboard')}
+              className={`hover:text-slate-900 transition-colors whitespace-nowrap shrink-0 flex items-center gap-1.5 cursor-pointer px-2.5 py-1 rounded-lg ${
+                activeView === 'doctor-dashboard'
+                  ? 'bg-teal-900 text-teal-300 font-bold shadow-xs'
+                  : 'bg-teal-50 text-teal-800 hover:bg-teal-100 font-semibold border border-teal-200'
+              }`}
+            >
+              <UserCheck className="w-3.5 h-3.5 text-teal-600" />
+              <span>{t('nav.doctorDashboard')}</span>
+            </button>
+
             <button
               onClick={() => onNavigate('dashboard')}
               className={`hover:text-slate-900 transition-colors whitespace-nowrap shrink-0 cursor-pointer ${

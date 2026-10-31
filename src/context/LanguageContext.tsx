@@ -22,6 +22,7 @@ const DICTIONARY: Record<SupportedLanguage, Record<string, string>> = {
     'app.selectLanguage': 'Select Language',
 
     // Navigation
+    'nav.doctorDashboard': 'Doctor Dashboard (Dr. Darpan)',
     'nav.registry': 'Patient Registry',
     'nav.assessment3Tier': 'Assessment & 3-Tier Diagnosis',
     'nav.protocols': 'Protocols & Rehab',
@@ -102,6 +103,7 @@ const DICTIONARY: Record<SupportedLanguage, Record<string, string>> = {
     'app.selectLanguage': 'भाषा चुनें',
 
     // Navigation
+    'nav.doctorDashboard': 'डॉक्टर डैशबोर्ड (डॉ. दर्पण)',
     'nav.registry': 'मरीज रजिस्ट्री',
     'nav.assessment3Tier': 'मूल्यांकन एवं 3-स्तरीय निदान',
     'nav.protocols': 'प्रोटोकॉल और पुनर्वास',
@@ -182,6 +184,7 @@ const DICTIONARY: Record<SupportedLanguage, Record<string, string>> = {
     'app.selectLanguage': 'ભાષા પસંદ કરો',
 
     // Navigation
+    'nav.doctorDashboard': 'ડોક્ટર ડેશબોર્ડ (ડો. દર્પણ)',
     'nav.registry': 'દર્દી રજિસ્ટ્રી',
     'nav.assessment3Tier': 'મૂલ્યાંકન અને 3-સ્તરીય નિદાન',
     'nav.protocols': 'પ્રોટોકોલ અને રિહેબ',
