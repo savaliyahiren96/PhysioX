@@ -40,6 +40,7 @@ import { InvestigationSupport } from './InvestigationSupport';
 import { TreatmentPlanView } from './TreatmentPlanView';
 import { ReportAndReferralView } from './ReportAndReferralView';
 import { ComprehensiveAssessmentFormat } from './ComprehensiveAssessmentFormat';
+import { useLanguage } from '../context/LanguageContext';
 
 interface AssessmentWizardProps {
   initialPatient: PatientIntake;
@@ -47,6 +48,7 @@ interface AssessmentWizardProps {
 }
 
 export const AssessmentWizard: React.FC<AssessmentWizardProps> = ({ initialPatient, onExit }) => {
+  const { language, t } = useLanguage();
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [specialty, setSpecialty] = useState<SpecialtyId>('physiotherapy');
   const [patient, setPatient] = useState<PatientIntake>(initialPatient);
@@ -159,14 +161,46 @@ export const AssessmentWizard: React.FC<AssessmentWizardProps> = ({ initialPatie
   }, [patient.chiefComplaint, patient.id]);
 
   const steps = [
-    { number: 1, label: 'Intake & Specialty', icon: User },
-    { number: 2, label: 'Safety & Red Flags', icon: ShieldAlert },
-    { number: 3, label: 'Adaptive History', icon: HelpCircle },
-    { number: 4, label: 'Assessment Engine', icon: Stethoscope },
-    { number: 5, label: 'Differential Review', icon: BookOpen },
-    { number: 6, label: 'Investigation & Prognosis', icon: FileSearch },
-    { number: 7, label: 'Management Plan', icon: CheckSquare },
-    { number: 8, label: 'Referral & Report', icon: FileText },
+    {
+      number: 1,
+      label: language === 'gu' ? 'દર્દી પ્રવેશ & વિશેષતા' : language === 'hi' ? 'मरीज प्रवेश एवं विशेषता' : 'Intake & Specialty',
+      icon: User,
+    },
+    {
+      number: 2,
+      label: language === 'gu' ? 'સુરક્ષા & રેડ ફ્લેગ્સ' : language === 'hi' ? 'सुरक्षा एवं खतरे के संकेत' : 'Safety & Red Flags',
+      icon: ShieldAlert,
+    },
+    {
+      number: 3,
+      label: language === 'gu' ? 'ક્લિનિકલ હિસ્ટ્રી' : language === 'hi' ? 'अनुकूली इतिहास' : 'Adaptive History',
+      icon: HelpCircle,
+    },
+    {
+      number: 4,
+      label: language === 'gu' ? 'શારીરિક તપાસ (Physical)' : language === 'hi' ? 'शारीरिक परीक्षण' : 'Assessment Engine',
+      icon: Stethoscope,
+    },
+    {
+      number: 5,
+      label: language === 'gu' ? 'સંભવિત નિદાન સમીક્ષા' : language === 'hi' ? 'संभावित निदान समीक्षा' : 'Differential Review',
+      icon: BookOpen,
+    },
+    {
+      number: 6,
+      label: language === 'gu' ? 'તપાસ & પૂર્વસૂચન' : language === 'hi' ? 'जांच एवं पूर्वानुमान' : 'Investigation & Prognosis',
+      icon: FileSearch,
+    },
+    {
+      number: 7,
+      label: language === 'gu' ? 'સારવાર યોજના' : language === 'hi' ? 'उपचार योजना' : 'Management Plan',
+      icon: CheckSquare,
+    },
+    {
+      number: 8,
+      label: language === 'gu' ? 'રિફરલ & સમરી રિપોર્ટ' : language === 'hi' ? 'रेफरल एवं रिपोर्ट' : 'Referral & Report',
+      icon: FileText,
+    },
   ];
 
   const handleToggleRedFlag = (id: string, isPositive: boolean, notes?: string) => {

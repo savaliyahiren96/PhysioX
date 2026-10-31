@@ -21,6 +21,7 @@ import {
   Info,
   Sliders,
   Filter,
+  Globe,
 } from 'lucide-react';
 import {
   WORLDWIDE_CONDITIONS_DATABASE,
@@ -30,6 +31,7 @@ import {
   SpecialTestFinding,
 } from '../data/worldwideConditionsDatabase';
 import { PatientIntake } from '../types/clinical';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ComprehensiveAssessmentFormatProps {
   initialPatient?: PatientIntake;
@@ -42,6 +44,8 @@ export const ComprehensiveAssessmentFormat: React.FC<ComprehensiveAssessmentForm
   onApplyTreatmentPlan,
   onExit,
 }) => {
+  const { language, setLanguage, t, getTierLabel, getSpecialityLabel, getPatientInstructions } = useLanguage();
+
   // Active selected template from worldwide database
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>(
     WORLDWIDE_CONDITIONS_DATABASE[0]?.id || ''
@@ -224,6 +228,28 @@ Generated via ClinicaAI Medical Evidence & Clinical Decision Support System.`;
     setTimeout(() => setCopiedSummary(false), 2500);
   };
 
+  const [copiedAdvice, setCopiedAdvice] = useState(false);
+
+  const conditionAdviceKey = useMemo(() => {
+    const id = currentTemplate.id.toLowerCase();
+    if (id.includes('acl')) return 'acl';
+    if (id.includes('oa') || id.includes('osteoarthritis')) return 'oa_knee';
+    if (id.includes('lumbar') || id.includes('spine') || id.includes('radiculopathy')) return 'lumbar';
+    if (id.includes('rotator') || id.includes('shoulder')) return 'rotator';
+    return 'acl';
+  }, [currentTemplate.id]);
+
+  const patientAdvice = useMemo(() => {
+    return getPatientInstructions(conditionAdviceKey);
+  }, [getPatientInstructions, conditionAdviceKey]);
+
+  const handleCopyAdvice = () => {
+    const textToCopy = `🏥 [ClinicaAI] ${patientAdvice.title}\n\n📋 ${t('patient.dos')}:\n${patientAdvice.points.map((p, i) => `${i + 1}. ${p}`).join('\n')}\n\n⚠️ ${t('patient.emergency')}:\n${patientAdvice.warning}\n\nLanguage: ${language.toUpperCase()} | Patient: ${formState.name}`;
+    navigator.clipboard.writeText(textToCopy);
+    setCopiedAdvice(true);
+    setTimeout(() => setCopiedAdvice(false), 2500);
+  };
+
   // Apply chosen tier option into patient treatment plan
   const handleApplyOption = (tierKey: 'option1' | 'option2' | 'option3') => {
     let tierData: any = null;
@@ -276,26 +302,67 @@ Generated via ClinicaAI Medical Evidence & Clinical Decision Support System.`;
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+            {/* Language Switcher Pill */}
+            <div className="flex items-center bg-slate-800/90 p-1 rounded-xl border border-slate-700 shadow-xs">
+              <Globe className="w-3.5 h-3.5 text-teal-400 mx-1.5 hidden sm:block" />
+              <button
+                type="button"
+                onClick={() => setLanguage('en')}
+                className={`px-2 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
+                  language === 'en'
+                    ? 'bg-teal-500 text-slate-950 font-bold'
+                    : 'text-slate-300 hover:text-white'
+                }`}
+                title="English"
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                onClick={() => setLanguage('hi')}
+                className={`px-2 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
+                  language === 'hi'
+                    ? 'bg-teal-500 text-slate-950 font-bold'
+                    : 'text-slate-300 hover:text-white'
+                }`}
+                title="हिंदी (Hindi)"
+              >
+                हिंदी
+              </button>
+              <button
+                type="button"
+                onClick={() => setLanguage('gu')}
+                className={`px-2 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
+                  language === 'gu'
+                    ? 'bg-teal-500 text-slate-950 font-bold'
+                    : 'text-slate-300 hover:text-white'
+                }`}
+                title="ગુજરાતી (Gujarati)"
+              >
+                ગુજરાતી
+              </button>
+            </div>
+
             <button
               onClick={handleCopySummary}
               className="px-4 py-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 flex items-center gap-2 transition-colors cursor-pointer"
             >
               {copiedSummary ? <Check className="w-4 h-4 text-teal-400" /> : <Copy className="w-4 h-4 text-slate-400" />}
-              <span>{copiedSummary ? 'Report Copied!' : 'Copy Summary'}</span>
+              <span>{copiedSummary ? (language === 'gu' ? 'રિપોર્ટ કૉપી થયો!' : language === 'hi' ? 'रिपोर्ट कॉपी हुई!' : 'Report Copied!') : t('btn.copy')}</span>
             </button>
             <button
               onClick={() => window.print()}
               className="px-4 py-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 flex items-center gap-2 transition-colors cursor-pointer"
             >
               <Printer className="w-4 h-4 text-slate-400" />
-              <span>Print Form</span>
+              <span>{t('btn.print')}</span>
             </button>
             {onExit && (
               <button
                 onClick={onExit}
                 className="px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold transition-colors cursor-pointer"
               >
-                Back to Dashboard
+                {t('btn.back')}
               </button>
             )}
           </div>
@@ -756,14 +823,14 @@ Generated via ClinicaAI Medical Evidence & Clinical Decision Support System.`;
           <div>
             <div className="flex items-center gap-2">
               <h2 className="text-base font-bold text-slate-900">
-                Three Evidence-Informed Clinical Management Options
+                {t('tier.title')}
               </h2>
               <span className="text-xs bg-teal-100 text-teal-900 px-2 py-0.5 rounded-full font-bold">
                 Tri-Perspective CDS
               </span>
             </div>
             <p className="text-xs text-slate-500 mt-0.5">
-              Examine the clinical case through three distinct evidence lenses or view all three side-by-side in a comparative matrix.
+              {t('tier.subtitle')}
             </p>
           </div>
 
@@ -777,7 +844,7 @@ Generated via ClinicaAI Medical Evidence & Clinical Decision Support System.`;
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              🔵 Option 1: Strong Evidence
+              🔵 {language === 'gu' ? 'વિકલ્પ 1: સખત પુરાવા' : language === 'hi' ? 'विकल्प 1: सुदृढ़ प्रमाण' : 'Option 1: Strong Evidence'}
             </button>
             <button
               onClick={() => setActiveTierTab('option2')}
@@ -787,7 +854,7 @@ Generated via ClinicaAI Medical Evidence & Clinical Decision Support System.`;
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              🟢 Option 2: Evidence
+              🟢 {language === 'gu' ? 'વિકલ્પ 2: સાયન્ટિફિક પુરાવા' : language === 'hi' ? 'विकल्प 2: साक्ष्य आधारित' : 'Option 2: Evidence'}
             </button>
             <button
               onClick={() => setActiveTierTab('option3')}
@@ -797,7 +864,7 @@ Generated via ClinicaAI Medical Evidence & Clinical Decision Support System.`;
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              🟣 Option 3: Expert Opinion
+              🟣 {language === 'gu' ? 'વિકલ્પ 3: નિષ્ણાત અભિપ્રાય' : language === 'hi' ? 'विकल्प 3: विशेषज्ञ सम्मति' : 'Option 3: Expert Opinion'}
             </button>
             <button
               onClick={() => setActiveTierTab('matrix')}
@@ -807,7 +874,7 @@ Generated via ClinicaAI Medical Evidence & Clinical Decision Support System.`;
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              📊 Compare Side-by-Side
+              📊 {language === 'gu' ? 'સામસામે તુલના' : language === 'hi' ? 'समानांतर तुलना' : 'Compare Side-by-Side'}
             </button>
           </div>
         </div>
@@ -1304,6 +1371,137 @@ Generated via ClinicaAI Medical Evidence & Clinical Decision Support System.`;
           </div>
         )}
       </div>
+
+      {/* SECTION 5: Multilingual Patient Rehabilitation Handout & Care Guidelines (Gujarati / Hindi / English) */}
+      <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-teal-500" />
+              <h2 className="text-base font-bold text-slate-900">
+                {language === 'gu'
+                  ? '૫. દર્દી કસરત માર્ગદર્શિકા અને ઘરેલુ સંભાળ (Patient Handout)'
+                  : language === 'hi'
+                  ? '5. मरीज परामर्श एवं घरेलू व्यायाम निर्देश (Patient Handout)'
+                  : '5. Multilingual Patient Rehabilitation Handout & Home Care'}
+              </h2>
+              <span className="text-xs bg-slate-100 text-slate-700 font-mono px-2 py-0.5 rounded font-semibold uppercase">
+                {language === 'gu' ? 'ગુજરાતી' : language === 'hi' ? 'हिंदी' : 'English'}
+              </span>
+            </div>
+            <p className="text-xs text-slate-500 mt-0.5">
+              {language === 'gu'
+                ? 'દર્દીને સમજાય તેવી સરળ ભાષામાં કસરતના નિયમો અને તાત્કાલિક ચેતવણીઓ. દર્દી સાથે વ્હોટ્સએપ પર શેર કરો અથવા પ્રિન્ટ કાઢો.'
+                : language === 'hi'
+                ? 'मरीज के लिए आसान भाषा में व्यायाम निर्देश एवं खतरे के संकेत। इसे सीधे प्रिंट करें या मरीज को व्हाट्सएप पर भेजें।'
+                : 'Direct patient-facing home exercise prescription and emergency warning signs formatted for immediate printing or sharing.'}
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {/* Quick Language Switcher on Patient Handout */}
+            <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs">
+              <span className="text-[10px] text-slate-400 font-semibold px-1.5 hidden sm:inline">Language:</span>
+              <button
+                type="button"
+                onClick={() => setLanguage('en')}
+                className={`px-2 py-1 rounded-lg font-bold transition-all cursor-pointer ${
+                  language === 'en' ? 'bg-white text-teal-800 shadow-2xs' : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                English
+              </button>
+              <button
+                type="button"
+                onClick={() => setLanguage('hi')}
+                className={`px-2 py-1 rounded-lg font-bold transition-all cursor-pointer ${
+                  language === 'hi' ? 'bg-white text-teal-800 shadow-2xs' : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                हिंदी
+              </button>
+              <button
+                type="button"
+                onClick={() => setLanguage('gu')}
+                className={`px-2 py-1 rounded-lg font-bold transition-all cursor-pointer ${
+                  language === 'gu' ? 'bg-white text-teal-800 shadow-2xs' : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                ગુજરાતી
+              </button>
+            </div>
+
+            <button
+              onClick={handleCopyAdvice}
+              className="text-xs font-semibold text-slate-700 hover:text-slate-900 flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 rounded-lg hover:bg-slate-200 transition-colors cursor-pointer"
+            >
+              {copiedAdvice ? <Check className="w-3.5 h-3.5 text-teal-600" /> : <Copy className="w-3.5 h-3.5 text-slate-500" />}
+              <span>{copiedAdvice ? (language === 'gu' ? 'કૉપી થયું!' : language === 'hi' ? 'कॉपी हुआ!' : 'Copied!') : (language === 'gu' ? 'કૉપી કરો' : language === 'hi' ? 'कॉपी करें' : 'Copy Text')}</span>
+            </button>
+            <button
+              onClick={() => window.print()}
+              className="text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
+            >
+              <Printer className="w-3.5 h-3.5 text-teal-400" />
+              <span>{t('btn.print')}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Handout Content Card */}
+        <div className="bg-slate-50/80 border border-slate-200 rounded-2xl p-6 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-3">
+            <div>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-teal-800 block">
+                {language === 'gu' ? 'દર્દી માર્ગદર્શિકા પત્રક' : language === 'hi' ? 'रोगी परामर्श प्रपत्र' : 'Patient Discharge Handout'}
+              </span>
+              <h3 className="text-base font-bold text-slate-900 mt-0.5">
+                {patientAdvice.title}
+              </h3>
+            </div>
+            <div className="text-xs text-slate-500 font-medium">
+              <span>{formState.name}</span> · <span className="font-mono text-slate-400">{formState.age}y / {formState.sex}</span>
+            </div>
+          </div>
+
+          {/* Actionable Rehabilitation Points */}
+          <div className="space-y-2.5">
+            <h4 className="text-xs font-bold text-slate-800 flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <span>{t('patient.homeAdvice')}</span>
+            </h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+              {patientAdvice.points.map((pt, idx) => (
+                <div
+                  key={idx}
+                  className="bg-white border border-slate-200/90 rounded-xl p-3.5 flex items-start gap-3 shadow-2xs"
+                >
+                  <span className="w-5 h-5 rounded-full bg-teal-100 text-teal-800 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+                    {idx + 1}
+                  </span>
+                  <p className="text-xs text-slate-700 leading-relaxed font-medium">
+                    {pt}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Emergency / Red Flag Warning for Patient */}
+          <div className="bg-rose-50 border border-rose-200 rounded-xl p-4 flex items-start gap-3">
+            <AlertTriangle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
+            <div className="space-y-1">
+              <h5 className="text-xs font-bold text-rose-900">
+                {t('patient.emergency')}
+              </h5>
+              <p className="text-xs text-rose-800 leading-relaxed">
+                {patientAdvice.warning}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
+

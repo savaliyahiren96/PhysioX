@@ -12,10 +12,12 @@ import { SportsNutritionModule } from './components/SportsNutritionModule';
 import { IndianInvestigationsModule } from './components/IndianInvestigationsModule';
 import { MultidisciplinaryCaseView } from './components/MultidisciplinaryCaseView';
 import { ComprehensiveAssessmentFormat } from './components/ComprehensiveAssessmentFormat';
+import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { PatientIntake } from './types/clinical';
 import { DEMO_PATIENTS } from './data/clinicalKnowledge';
 
-export default function App() {
+function AppContent() {
+  const { t, language } = useLanguage();
   const [activeView, setActiveView] = useState<AppView>('dashboard');
   const [selectedPatient, setSelectedPatient] = useState<PatientIntake>(DEMO_PATIENTS[0]);
 
@@ -124,7 +126,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="space-y-1 text-center sm:text-left">
             <div className="font-semibold text-slate-700">
-              ClinicaAI — Evidence-Informed Clinical Decisions & Sports Science (Indian Healthcare & SAI Aligned)
+              {t('app.title')} — {t('app.tagline')}
             </div>
             <p className="text-[11px] text-slate-400">
               Designed for qualified physiotherapists, sports medicine specialists, orthopaedic surgeons, and S&C coaches. Aligned with ICMR, MoHFW, BCCI/NCA, SAI, NADA, and international guidelines (IOC, NSCA, ACSM).
@@ -142,3 +144,12 @@ export default function App() {
     </div>
   );
 }
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
+  );
+}
+

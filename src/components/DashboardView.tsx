@@ -20,6 +20,8 @@ import {
 import { PatientIntake } from '../types/clinical';
 import { DEMO_PATIENTS, SPECIALTIES_CONFIG } from '../data/clinicalKnowledge';
 import { AudienceScopeModal } from './AudienceScopeModal';
+import { useLanguage } from '../context/LanguageContext';
+import { Globe } from 'lucide-react';
 
 import { AppView } from './Header';
 
@@ -34,6 +36,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   onNewAssessment,
   onNavigate,
 }) => {
+  const { language, setLanguage, t, getSpecialityLabel } = useLanguage();
   const [searchTerm, setSearchTerm] = useState('');
   const [scopeModalOpen, setScopeModalOpen] = useState(false);
 
@@ -50,15 +53,55 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       <div className="border border-slate-200 rounded-2xl bg-white p-6 sm:p-8 space-y-4 shadow-xs relative overflow-hidden">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div className="space-y-2 max-w-2xl">
-            <div className="flex items-center gap-2 text-xs font-semibold text-teal-800">
+            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-teal-800">
               <span className="w-2 h-2 rounded-full bg-teal-600" />
-              <span>ClinicaAI Clinical Decision-Support System · v2.4.1</span>
+              <span>ClinicaAI · {t('app.tagline')}</span>
+
+              {/* Language Switcher Badge on Dashboard */}
+              <div className="inline-flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 ml-1">
+                <Globe className="w-3 h-3 text-slate-400 mx-1" />
+                <button
+                  type="button"
+                  onClick={() => setLanguage('en')}
+                  className={`px-1.5 py-0.5 text-[11px] rounded font-semibold transition-colors cursor-pointer ${
+                    language === 'en' ? 'bg-white text-teal-900 shadow-2xs font-bold' : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  English
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLanguage('hi')}
+                  className={`px-1.5 py-0.5 text-[11px] rounded font-semibold transition-colors cursor-pointer ${
+                    language === 'hi' ? 'bg-white text-teal-900 shadow-2xs font-bold' : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  हिंदी
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLanguage('gu')}
+                  className={`px-1.5 py-0.5 text-[11px] rounded font-semibold transition-colors cursor-pointer ${
+                    language === 'gu' ? 'bg-white text-teal-900 shadow-2xs font-bold' : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  ગુજરાતી
+                </button>
+              </div>
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
-              From Patient Presentation to Evidence-Informed Clinical Decisions
+              {language === 'gu'
+                ? 'દર્દી રજિસ્ટ્રી, મૂલ્યાંકન અને પુરાવા-આધારિત સારવાર નિર્ણય'
+                : language === 'hi'
+                ? 'मरीज प्रस्तुति से साक्ष्य-आधारित नैदानिक निर्णयों तक'
+                : 'From Patient Presentation to Evidence-Informed Clinical Decisions'}
             </h1>
             <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
-              Adaptive clinical intake, mandatory red-flag safety screening, physical diagnostic accuracy criteria, evidence-linked differentials, and multidisciplinary referral summaries.
+              {language === 'gu'
+                ? 'ક્લિનિકલ કેસ હિસ્ટ્રી, રેડ ફ્લેગ સેફ્ટી સ્ક્રીનીંગ, ઓર્થોપેડિક સ્પેશિયલ ટેસ્ટ અને 3-સ્તરીય નિદાન (સખત પુરાવા / સાયન્ટિફિક પુરાવા / નિષ્ણાત અભિપ્રાય).'
+                : language === 'hi'
+                ? 'अनुकूली क्लिनिकल इतिहास, अनिवार्य रेड-फ्लैग सुरक्षा जांच, शारीरिक परीक्षण मापदंड एवं 3-स्तरीय उपचार विकल्प।'
+                : 'Adaptive clinical intake, mandatory red-flag safety screening, physical diagnostic accuracy criteria, evidence-linked differentials, and multidisciplinary referral summaries.'}
             </p>
           </div>
 
@@ -68,28 +111,28 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               className="px-4 py-3 bg-teal-700 hover:bg-teal-800 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-xs transition-colors cursor-pointer ring-2 ring-teal-500/30"
             >
               <FileText className="w-4 h-4 text-teal-200" />
-              <span>Assessment & 3-Tier Diagnosis Format</span>
+              <span>{t('nav.assessment3Tier')}</span>
             </button>
             <button
               onClick={() => setScopeModalOpen(true)}
               className="px-3.5 py-3 bg-teal-50 border border-teal-200 hover:bg-teal-100 text-teal-800 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer"
             >
               <HelpCircle className="w-4 h-4 text-teal-700" />
-              <span>Who Is This For?</span>
+              <span>{t('app.whoFor')}</span>
             </button>
             <button
               onClick={onNewAssessment}
               className="px-4 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-2 shadow-xs transition-colors cursor-pointer"
             >
               <Plus className="w-4 h-4 text-teal-400" />
-              <span>Start Encounter</span>
+              <span>{t('app.newAssessment')}</span>
             </button>
             <button
               onClick={() => onNavigate('protocols')}
               className="px-4 py-3 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer"
             >
               <Activity className="w-4 h-4 text-teal-600" />
-              <span>Joint Protocols</span>
+              <span>{t('nav.protocols')}</span>
             </button>
           </div>
         </div>
@@ -233,9 +276,19 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-sm font-bold text-slate-900">Extensible Clinical Specialties Architecture</h2>
+            <h2 className="text-sm font-bold text-slate-900">
+              {language === 'gu'
+                ? 'ક્લિનિકલ સ્પેશિયાલિટીઝ (અસ્થિરોગ, ન્યુરોલોજી, સ્પોર્ટ્સ, પીડિયાટ્રિક્સ)'
+                : language === 'hi'
+                ? 'क्लिनिकल विशेषज्ञताएं (ऑर्थोपेडिक्स, न्यूरोलॉजी, स्पोर्ट्स, पीडियाट्रिक्स)'
+                : 'Extensible Clinical Specialties Architecture'}
+            </h2>
             <p className="text-xs text-slate-500 mt-0.5">
-              Initial MVP deployed for Knee and Lumbar Spine; extensible architecture for additional medical specialties.
+              {language === 'gu'
+                ? 'ફિઝિયોથેરાપી અને સ્પોર્ટ્સ સાયન્સ આધારિત તમામ મુખ્ય મેડિકલ બ્રાન્ચ.'
+                : language === 'hi'
+                ? 'फिजियोथेरेपी एवं खेल विज्ञान आधारित सभी प्रमुख चिकित्सा शाखाएं।'
+                : 'Initial MVP deployed for Knee and Lumbar Spine; extensible architecture for additional medical specialties.'}
             </p>
           </div>
           <span className="text-xs text-slate-400 font-mono">10 Specialties Mapped</span>
@@ -255,7 +308,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   </span>
                   <ArrowRight className="w-3 h-3 text-slate-400 group-hover:text-teal-700 transition-colors" />
                 </div>
-                <h3 className="font-bold text-slate-900 mt-2 leading-snug">{spec.name}</h3>
+                <h3 className="font-bold text-slate-900 mt-2 leading-snug">{getSpecialityLabel(spec.name)}</h3>
                 <p className="text-[11px] text-slate-500 mt-1 line-clamp-2">{spec.scopeSummary}</p>
               </div>
 
