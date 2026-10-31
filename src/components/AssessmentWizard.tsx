@@ -39,6 +39,7 @@ import { DifferentialReview } from './DifferentialReview';
 import { InvestigationSupport } from './InvestigationSupport';
 import { TreatmentPlanView } from './TreatmentPlanView';
 import { ReportAndReferralView } from './ReportAndReferralView';
+import { ComprehensiveAssessmentFormat } from './ComprehensiveAssessmentFormat';
 
 interface AssessmentWizardProps {
   initialPatient: PatientIntake;
@@ -49,6 +50,7 @@ export const AssessmentWizard: React.FC<AssessmentWizardProps> = ({ initialPatie
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [specialty, setSpecialty] = useState<SpecialtyId>('physiotherapy');
   const [patient, setPatient] = useState<PatientIntake>(initialPatient);
+  const [showFormatModal, setShowFormatModal] = useState<boolean>(false);
 
   // Red Flags State
   const [redFlags, setRedFlags] = useState<RedFlagItem[]>([]);
@@ -227,7 +229,14 @@ export const AssessmentWizard: React.FC<AssessmentWizardProps> = ({ initialPatie
           <span className="text-teal-700 font-medium">{steps[currentStep - 1]?.label}</span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setShowFormatModal(true)}
+            className="px-2.5 py-1.5 rounded-lg bg-teal-50 border border-teal-200 text-teal-800 hover:bg-teal-100 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+          >
+            <FileText className="w-3.5 h-3.5 text-teal-600" />
+            <span>Full Format & 3-Tier Diagnosis</span>
+          </button>
           <span className="text-xs text-slate-400 font-mono">
             Step {currentStep} of {steps.length}
           </span>
@@ -361,6 +370,38 @@ export const AssessmentWizard: React.FC<AssessmentWizardProps> = ({ initialPatie
           />
         )}
       </div>
+
+      {/* Comprehensive Assessment & 3-Tier Diagnosis Modal Overlay */}
+      {showFormatModal && (
+        <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+          <div className="bg-slate-50 w-full max-w-7xl max-h-[92vh] rounded-2xl shadow-2xl border border-slate-300 flex flex-col overflow-hidden">
+            <div className="bg-slate-900 text-white px-6 py-4 flex items-center justify-between border-b border-slate-700 shrink-0">
+              <div className="flex items-center gap-2">
+                <FileText className="w-5 h-5 text-teal-400" />
+                <h3 className="font-bold text-sm sm:text-base">
+                  Full Assessment Format, Worldwide Conditions & 3-Tier Evidence Engine
+                </h3>
+              </div>
+              <button
+                onClick={() => setShowFormatModal(false)}
+                className="text-xs font-semibold px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition-colors cursor-pointer"
+              >
+                Close Window ✕
+              </button>
+            </div>
+            <div className="overflow-y-auto p-2 sm:p-4 flex-1">
+              <ComprehensiveAssessmentFormat
+                initialPatient={patient}
+                onApplyTreatmentPlan={(plan, diagnosis) => {
+                  setSelectedPrimaryDiagnosis(diagnosis);
+                  setShowFormatModal(false);
+                }}
+                onExit={() => setShowFormatModal(false)}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

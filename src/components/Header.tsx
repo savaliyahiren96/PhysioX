@@ -18,6 +18,7 @@ import { AudienceScopeModal } from './AudienceScopeModal';
 
 export type AppView =
   | 'dashboard'
+  | 'assessment-format'
   | 'wizard'
   | 'evidence'
   | 'watchlists'
@@ -71,6 +72,18 @@ export const Header: React.FC<HeaderProps> = ({ activeView, onNavigate, onStartN
               }`}
             >
               Patient Registry
+            </button>
+
+            <button
+              onClick={() => onNavigate('assessment-format')}
+              className={`hover:text-slate-900 transition-colors whitespace-nowrap shrink-0 flex items-center gap-1.5 cursor-pointer px-2.5 py-1 rounded-lg ${
+                activeView === 'assessment-format'
+                  ? 'bg-teal-50 text-teal-800 font-bold border border-teal-200'
+                  : 'text-slate-700 hover:text-teal-700'
+              }`}
+            >
+              <FileText className="w-3.5 h-3.5 text-teal-600" />
+              <span>Assessment & 3-Tier Diagnosis</span>
             </button>
 
             <button

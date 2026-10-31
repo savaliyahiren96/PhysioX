@@ -11,6 +11,7 @@ import { StrengthConditioningModule } from './components/StrengthConditioningMod
 import { SportsNutritionModule } from './components/SportsNutritionModule';
 import { IndianInvestigationsModule } from './components/IndianInvestigationsModule';
 import { MultidisciplinaryCaseView } from './components/MultidisciplinaryCaseView';
+import { ComprehensiveAssessmentFormat } from './components/ComprehensiveAssessmentFormat';
 import { PatientIntake } from './types/clinical';
 import { DEMO_PATIENTS } from './data/clinicalKnowledge';
 
@@ -75,6 +76,20 @@ export default function App() {
             onSelectPatient={handleSelectPatient}
             onNewAssessment={handleStartNewAssessment}
             onNavigate={(view) => setActiveView(view as any)}
+          />
+        )}
+
+        {activeView === 'assessment-format' && (
+          <ComprehensiveAssessmentFormat
+            initialPatient={selectedPatient}
+            onApplyTreatmentPlan={(plan, diagnosis) => {
+              // Populate selected patient with the diagnosis and update plan
+              setSelectedPatient((prev) => ({
+                ...prev,
+                chiefComplaint: `${diagnosis} (${prev.chiefComplaint})`,
+              }));
+            }}
+            onExit={() => setActiveView('dashboard')}
           />
         )}
 

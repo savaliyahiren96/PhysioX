@@ -64,6 +64,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 shrink-0">
             <button
+              onClick={() => onNavigate('assessment-format')}
+              className="px-4 py-3 bg-teal-700 hover:bg-teal-800 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-xs transition-colors cursor-pointer ring-2 ring-teal-500/30"
+            >
+              <FileText className="w-4 h-4 text-teal-200" />
+              <span>Assessment & 3-Tier Diagnosis Format</span>
+            </button>
+            <button
               onClick={() => setScopeModalOpen(true)}
               className="px-3.5 py-3 bg-teal-50 border border-teal-200 hover:bg-teal-100 text-teal-800 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer"
             >
@@ -72,10 +79,10 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </button>
             <button
               onClick={onNewAssessment}
-              className="px-5 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-2 shadow-xs transition-colors cursor-pointer"
+              className="px-4 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-2 shadow-xs transition-colors cursor-pointer"
             >
               <Plus className="w-4 h-4 text-teal-400" />
-              <span>Start New Patient Encounter</span>
+              <span>Start Encounter</span>
             </button>
             <button
               onClick={() => onNavigate('protocols')}
