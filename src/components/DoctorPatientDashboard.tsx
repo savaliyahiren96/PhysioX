@@ -19,6 +19,7 @@ import {
   FileText,
   Building,
   Plus,
+  Lock,
 } from 'lucide-react';
 import { DoctorProfile, DoctorPatient, DashboardMetrics } from '../types/doctorPatient';
 import { INITIAL_DOCTOR, INITIAL_PATIENTS } from '../data/initialDoctorPatientData';
@@ -30,11 +31,13 @@ import { ProbableConditionsModal } from './ProbableConditionsModal';
 interface DoctorPatientDashboardProps {
   onOpenAssessmentWizard?: (patient: DoctorPatient) => void;
   onOpenAssessmentFormat?: (patient: DoctorPatient) => void;
+  onNavigateToPrivateRegistry?: () => void;
 }
 
 export const DoctorPatientDashboard: React.FC<DoctorPatientDashboardProps> = ({
   onOpenAssessmentWizard,
   onOpenAssessmentFormat,
+  onNavigateToPrivateRegistry,
 }) => {
   const [currentDoctor, setCurrentDoctor] = useState<DoctorProfile>(INITIAL_DOCTOR);
   const [patients, setPatients] = useState<DoctorPatient[]>(INITIAL_PATIENTS);
@@ -189,6 +192,17 @@ export const DoctorPatientDashboard: React.FC<DoctorPatientDashboardProps> = ({
               <BookOpen className="w-4 h-4 text-teal-300" />
               Probable Conditions (6)
             </button>
+
+            {onNavigateToPrivateRegistry && (
+              <button
+                onClick={onNavigateToPrivateRegistry}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/40 text-amber-200 rounded-xl text-xs font-semibold transition-colors cursor-pointer"
+                title="Open Doctor's Private Patient Registry (PIN Protected)"
+              >
+                <Lock className="w-4 h-4 text-amber-300" />
+                <span>Private Registry 🔒</span>
+              </button>
+            )}
 
             <button
               onClick={() => setAddPatientModalOpen(true)}

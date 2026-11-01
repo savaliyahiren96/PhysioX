@@ -6,6 +6,8 @@ import { fileURLToPath } from 'url';
 import { GoogleGenAI } from '@google/genai';
 import { INITIAL_DOCTOR, INITIAL_PATIENTS } from './src/data/initialDoctorPatientData';
 import { DoctorProfile, DoctorPatient, DashboardMetrics } from './src/types/doctorPatient';
+import { INITIAL_PRIVATE_PATIENTS } from './src/data/initialPrivatePatients';
+import { PrivatePatientRecord } from './src/types/privatePatient';
 
 dotenv.config();
 
@@ -17,18 +19,22 @@ const port = parseInt(process.env.PORT || '3000', 10);
 
 app.use(express.json());
 
-// Persistent Database Setup for Doctors and Patients
+// Persistent Database Setup for Doctors, Public Patients, and Private Registry
 const dataDir = path.resolve(__dirname, 'data');
 const dbFilePath = path.resolve(dataDir, 'clinic_db.json');
 
 interface ClinicDatabase {
   doctors: DoctorProfile[];
   patients: DoctorPatient[];
+  privatePatients: PrivatePatientRecord[];
+  registryPin: string;
 }
 
 let dbMemory: ClinicDatabase = {
   doctors: [INITIAL_DOCTOR],
   patients: [...INITIAL_PATIENTS],
+  privatePatients: [...INITIAL_PRIVATE_PATIENTS],
+  registryPin: '1234',
 };
 
 function initDatabase() {
@@ -51,6 +57,13 @@ function initDatabase() {
           if (!exists) {
             parsed.patients.push(initPatient);
           }
+        }
+        // Ensure Private Patients array and default PIN exist
+        if (!parsed.privatePatients || !Array.isArray(parsed.privatePatients) || parsed.privatePatients.length === 0) {
+          parsed.privatePatients = [...INITIAL_PRIVATE_PATIENTS];
+        }
+        if (!parsed.registryPin) {
+          parsed.registryPin = '1234';
         }
         dbMemory = parsed;
         saveDatabase();
@@ -1002,6 +1015,301 @@ app.post('/api/clinical-match', (req: Request, res: Response) => {
     })),
     clinicalGuidanceDisclaimer:
       'ClinicaAI Decision Support: Suggestions are evidence-informed clinical references based on AAOS, IOA, and JOSPT guidelines. Final diagnostic confirmation and rehabilitation progression remain the professional responsibility of the treating clinician.',
+  });
+});
+
+// =========================================================================
+// MODULE 7: PRIVATE PATIENT REGISTRY & SECURITY ENDPOINTS
+// =========================================================================
+
+// 7.1 Verify Doctor Private Registry PIN
+app.post('/api/private-registry/verify-pin', (req: Request, res: Response) => {
+  const { pin } = req.body;
+  const currentPin = dbMemory.registryPin || '1234';
+
+  if (!pin) {
+    return res.status(400).json({ success: false, error: 'PIN is required' });
+  }
+
+  // Accept current PIN, default '1234', or master 'drdarpan2026'
+  if (pin === currentPin || pin === '1234' || pin === 'drdarpan2026') {
+    return res.json({
+      success: true,
+      message: 'Access granted to Private Patient Registry',
+      unlockedAt: Date.now(),
+    });
+  }
+
+  return res.status(401).json({
+    success: false,
+    error: 'Incorrect security PIN. Please try again.',
+  });
+});
+
+// 7.2 Change Doctor Private Registry PIN
+app.post('/api/private-registry/change-pin', (req: Request, res: Response) => {
+  const { currentPin, newPin } = req.body;
+  const storedPin = dbMemory.registryPin || '1234';
+
+  if (!currentPin || !newPin) {
+    return res.status(400).json({ success: false, error: 'Both current PIN and new PIN are required' });
+  }
+
+  if (currentPin !== storedPin && currentPin !== '1234' && currentPin !== 'drdarpan2026') {
+    return res.status(401).json({ success: false, error: 'Current PIN is incorrect' });
+  }
+
+  if (newPin.trim().length < 4) {
+    return res.status(400).json({ success: false, error: 'New PIN must be at least 4 characters long' });
+  }
+
+  dbMemory.registryPin = newPin.trim();
+  saveDatabase();
+
+  res.json({
+    success: true,
+    message: 'Private Registry PIN updated successfully.',
+  });
+});
+
+// 7.3 Get All Private Patients
+app.get('/api/private-patients', (req: Request, res: Response) => {
+  const { search, status, doctorId } = req.query as {
+    search?: string;
+    status?: string;
+    doctorId?: string;
+  };
+
+  let list = dbMemory.privatePatients || [];
+
+  if (doctorId) {
+    list = list.filter((p) => p.doctorId === doctorId);
+  }
+
+  if (status && status !== 'all') {
+    list = list.filter((p) => p.status === status);
+  }
+
+  if (search) {
+    const q = search.toLowerCase();
+    list = list.filter(
+      (p) =>
+        p.patientName.toLowerCase().includes(q) ||
+        p.id.toLowerCase().includes(q) ||
+        (p.contactNumber && p.contactNumber.includes(q)) ||
+        p.clinicalDiagnosis.toLowerCase().includes(q) ||
+        p.address.toLowerCase().includes(q)
+    );
+  }
+
+  // Sort by latest updated
+  const sorted = [...list].sort((a, b) => {
+    const timeB = new Date(b.updatedAt || b.createdAt || b.dateOfFirstVisit || 0).getTime();
+    const timeA = new Date(a.updatedAt || a.createdAt || a.dateOfFirstVisit || 0).getTime();
+    return timeB - timeA;
+  });
+
+  res.json({
+    total: sorted.length,
+    patients: sorted,
+  });
+});
+
+// 7.4 Get Single Private Patient
+app.get('/api/private-patients/:id', (req: Request, res: Response) => {
+  const patient = (dbMemory.privatePatients || []).find((p) => p.id === req.params.id);
+  if (!patient) {
+    return res.status(404).json({ error: 'Private patient record not found' });
+  }
+  res.json({ patient });
+});
+
+// 7.5 Create New Private Patient
+app.post('/api/private-patients', (req: Request, res: Response) => {
+  const {
+    patientName,
+    age,
+    gender,
+    contactNumber,
+    address,
+    dateOfFirstVisit,
+    chiefComplaints,
+    clinicalDiagnosis,
+    medicalHistory,
+    physiotherapyAssessment,
+    treatmentPlan,
+    followUpDate,
+    status,
+    doctorId,
+    doctorName,
+  } = req.body;
+
+  if (!patientName || !clinicalDiagnosis) {
+    return res.status(400).json({ error: 'Patient name and clinical diagnosis are required' });
+  }
+
+  const existingCount = (dbMemory.privatePatients || []).length;
+  const newId = `PVT-2026-${String(existingCount + 1).padStart(3, '0')}`;
+  const now = new Date().toISOString();
+
+  const newPatient: PrivatePatientRecord = {
+    id: newId,
+    patientName: patientName.trim(),
+    age: Number(age) || 45,
+    gender: gender || 'Male',
+    contactNumber: contactNumber || '',
+    address: address || '',
+    dateOfFirstVisit: dateOfFirstVisit || now.split('T')[0],
+    chiefComplaints: chiefComplaints || '',
+    clinicalDiagnosis: clinicalDiagnosis.trim(),
+    medicalHistory: medicalHistory || 'None reported',
+    physiotherapyAssessment: physiotherapyAssessment || {},
+    treatmentPlan: treatmentPlan || {},
+    treatmentSessions: [],
+    followUpDate: followUpDate || '',
+    status: status || 'Active',
+    documents: [],
+    doctorId: doctorId || INITIAL_DOCTOR.id,
+    doctorName: doctorName || INITIAL_DOCTOR.fullName,
+    createdAt: now,
+    updatedAt: now,
+  };
+
+  dbMemory.privatePatients = [newPatient, ...(dbMemory.privatePatients || [])];
+  saveDatabase();
+
+  res.status(201).json({
+    message: 'Private patient record created successfully',
+    patient: newPatient,
+  });
+});
+
+// 7.6 Update Private Patient Record
+app.put('/api/private-patients/:id', (req: Request, res: Response) => {
+  const index = (dbMemory.privatePatients || []).findIndex((p) => p.id === req.params.id);
+  if (index === -1) {
+    return res.status(404).json({ error: 'Private patient record not found' });
+  }
+
+  const existing = dbMemory.privatePatients[index];
+  const updated: PrivatePatientRecord = {
+    ...existing,
+    ...req.body,
+    id: existing.id, // Immutable ID
+    updatedAt: new Date().toISOString(),
+  };
+
+  dbMemory.privatePatients[index] = updated;
+  saveDatabase();
+
+  res.json({
+    message: 'Private patient record updated successfully',
+    patient: updated,
+  });
+});
+
+// 7.7 Delete Private Patient Record (Permanent CRUD deletion)
+app.delete('/api/private-patients/:id', (req: Request, res: Response) => {
+  const index = (dbMemory.privatePatients || []).findIndex((p) => p.id === req.params.id);
+  if (index === -1) {
+    return res.status(404).json({ error: 'Private patient record not found' });
+  }
+
+  const deleted = dbMemory.privatePatients.splice(index, 1)[0];
+  saveDatabase();
+
+  res.json({
+    success: true,
+    message: `Private patient record ${deleted.patientName} (${deleted.id}) deleted permanently.`,
+    deletedId: deleted.id,
+  });
+});
+
+// 7.8 Add Treatment Session to Private Patient
+app.post('/api/private-patients/:id/sessions', (req: Request, res: Response) => {
+  const patient = (dbMemory.privatePatients || []).find((p) => p.id === req.params.id);
+  if (!patient) {
+    return res.status(404).json({ error: 'Private patient record not found' });
+  }
+
+  const { date, treatmentGiven, patientResponse, therapistNotes, clinicianName } = req.body;
+  const sessionCount = (patient.treatmentSessions || []).length;
+
+  const newSession = {
+    sessionId: `SESS-${Date.now().toString(36).toUpperCase()}`,
+    sessionNumber: sessionCount + 1,
+    date: date || new Date().toISOString().split('T')[0],
+    treatmentGiven: treatmentGiven || 'Therapeutic exercise and manual therapy',
+    patientResponse: patientResponse || 'Tolerated treatment well',
+    therapistNotes: therapistNotes || '',
+    clinicianName: clinicianName || INITIAL_DOCTOR.fullName,
+  };
+
+  patient.treatmentSessions = [newSession, ...(patient.treatmentSessions || [])];
+  patient.updatedAt = new Date().toISOString();
+  saveDatabase();
+
+  res.status(201).json({
+    message: 'Treatment session logged successfully',
+    session: newSession,
+    patient,
+  });
+});
+
+// 7.9 Upload / Attach Clinical Document to Private Patient
+app.post('/api/private-patients/:id/documents', (req: Request, res: Response) => {
+  const patient = (dbMemory.privatePatients || []).find((p) => p.id === req.params.id);
+  if (!patient) {
+    return res.status(404).json({ error: 'Private patient record not found' });
+  }
+
+  const { title, documentType, notes, fileSize, fileUrl } = req.body;
+
+  if (!title) {
+    return res.status(400).json({ error: 'Document title is required' });
+  }
+
+  const newDoc = {
+    id: `DOC-${Date.now().toString(36).toUpperCase()}`,
+    title: title.trim(),
+    documentType: documentType || 'Other Clinical Note',
+    uploadDate: new Date().toISOString().split('T')[0],
+    fileSize: fileSize || '1.8 MB',
+    fileUrl: fileUrl || '',
+    notes: notes || '',
+  };
+
+  patient.documents = [newDoc, ...(patient.documents || [])];
+  patient.updatedAt = new Date().toISOString();
+  saveDatabase();
+
+  res.status(201).json({
+    message: 'Clinical document attached successfully',
+    document: newDoc,
+    patient,
+  });
+});
+
+// 7.10 Delete Document from Private Patient
+app.delete('/api/private-patients/:id/documents/:docId', (req: Request, res: Response) => {
+  const patient = (dbMemory.privatePatients || []).find((p) => p.id === req.params.id);
+  if (!patient) {
+    return res.status(404).json({ error: 'Private patient record not found' });
+  }
+
+  const docIndex = (patient.documents || []).findIndex((d) => d.id === req.params.docId);
+  if (docIndex === -1) {
+    return res.status(404).json({ error: 'Document not found' });
+  }
+
+  patient.documents.splice(docIndex, 1);
+  patient.updatedAt = new Date().toISOString();
+  saveDatabase();
+
+  res.json({
+    success: true,
+    message: 'Document deleted successfully',
+    patient,
   });
 });
 

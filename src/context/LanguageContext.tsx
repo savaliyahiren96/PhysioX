@@ -24,6 +24,7 @@ const DICTIONARY: Record<SupportedLanguage, Record<string, string>> = {
     // Navigation
     'nav.doctorDashboard': 'Doctor Profile (Dr. Darpan)',
     'nav.patientProfile': 'Patient Profiles (11)',
+    'nav.privateRegistry': 'Private Patient Registry 🔒',
     'nav.registry': 'Patient Registry',
     'nav.assessment3Tier': 'Assessment & 3-Tier Diagnosis',
     'nav.protocols': 'Protocols & Rehab',
@@ -112,6 +113,7 @@ const DICTIONARY: Record<SupportedLanguage, Record<string, string>> = {
     // Navigation
     'nav.doctorDashboard': 'डॉक्टर प्रोफाइल (डॉ. दर्पण)',
     'nav.patientProfile': 'मरीज प्रोफाइल (11)',
+    'nav.privateRegistry': 'निजी मरीज रजिस्ट्री 🔒',
     'nav.registry': 'मरीज रजिस्ट्री',
     'nav.assessment3Tier': 'मूल्यांकन एवं 3-स्तरीय निदान',
     'nav.protocols': 'प्रोटोकॉल और पुनर्वास',
@@ -200,6 +202,7 @@ const DICTIONARY: Record<SupportedLanguage, Record<string, string>> = {
     // Navigation
     'nav.doctorDashboard': 'ડોક્ટર પ્રોફાઇલ (ડો. દર્પણ)',
     'nav.patientProfile': 'દર્દી પ્રોફાઇલ (૧૧)',
+    'nav.privateRegistry': 'ખાનગી દર્દી રજિસ્ટ્રી 🔒',
     'nav.registry': 'દર્દી રજિસ્ટ્રી',
     'nav.assessment3Tier': 'મૂલ્યાંકન અને 3-સ્તરીય નિદાન',
     'nav.protocols': 'પ્રોટોકોલ અને રિહેબ',

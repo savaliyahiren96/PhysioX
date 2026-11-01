@@ -14,6 +14,7 @@ import { MultidisciplinaryCaseView } from './components/MultidisciplinaryCaseVie
 import { ComprehensiveAssessmentFormat } from './components/ComprehensiveAssessmentFormat';
 import { DoctorPatientDashboard } from './components/DoctorPatientDashboard';
 import { PatientProfileHub } from './components/PatientProfileHub';
+import { PrivatePatientRegistry } from './components/PrivatePatientRegistry';
 import { AIMotionGaitAnalysis } from './components/AIMotionGaitAnalysis';
 import { AIPostureAnalysis } from './components/AIPostureAnalysis';
 import { AdvancedBiomechanicsModule } from './components/AdvancedBiomechanicsModule';
@@ -151,6 +152,7 @@ function AppContent() {
               setSelectedPatient(converted);
               setActiveView('assessment-format');
             }}
+            onNavigateToPrivateRegistry={() => setActiveView('private-registry')}
           />
         )}
 
@@ -192,6 +194,10 @@ function AppContent() {
             }}
             onNavigateToDoctorDashboard={() => setActiveView('doctor-dashboard')}
           />
+        )}
+
+        {activeView === 'private-registry' && (
+          <PrivatePatientRegistry />
         )}
 
         {activeView === 'dashboard' && (

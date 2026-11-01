@@ -21,6 +21,7 @@ import {
   TrendingUp,
   Calculator,
   RotateCcw,
+  Lock,
 } from 'lucide-react';
 import { AudienceScopeModal } from './AudienceScopeModal';
 import { useLanguage, SupportedLanguage } from '../context/LanguageContext';
@@ -28,6 +29,7 @@ import { useLanguage, SupportedLanguage } from '../context/LanguageContext';
 export type AppView =
   | 'doctor-dashboard'
   | 'patient-profile'
+  | 'private-registry'
   | 'dashboard'
   | 'assessment-format'
   | 'wizard'
@@ -114,6 +116,19 @@ export const Header: React.FC<HeaderProps> = ({ activeView, onNavigate, onStartN
             >
               <User className="w-3.5 h-3.5 text-indigo-600" />
               <span>{t('nav.patientProfile')}</span>
+            </button>
+
+            {/* Dedicated Private Patient Registry (Doctor's Confidential Records) */}
+            <button
+              onClick={() => onNavigate('private-registry')}
+              className={`hover:text-amber-900 transition-colors whitespace-nowrap shrink-0 flex items-center gap-1.5 cursor-pointer px-2.5 py-1 rounded-lg ${
+                activeView === 'private-registry'
+                  ? 'bg-amber-900 text-amber-200 font-bold shadow-xs'
+                  : 'bg-amber-50 text-amber-900 hover:bg-amber-100 font-semibold border border-amber-300'
+              }`}
+            >
+              <Lock className="w-3.5 h-3.5 text-amber-700" />
+              <span>{t('nav.privateRegistry')}</span>
             </button>
 
             <button
