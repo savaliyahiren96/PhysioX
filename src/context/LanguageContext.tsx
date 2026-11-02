@@ -22,6 +22,8 @@ const DICTIONARY: Record<SupportedLanguage, Record<string, string>> = {
     'app.selectLanguage': 'Select Language',
 
     // Navigation
+    'nav.home': 'Home',
+    'nav.encyclopedia': 'Physio Encyclopedia',
     'nav.doctorDashboard': 'Doctor Profile (Dr. Darpan)',
     'nav.patientProfile': 'Patient Profiles (11)',
     'nav.privateRegistry': 'Private Patient Registry 🔒',
@@ -113,6 +115,8 @@ const DICTIONARY: Record<SupportedLanguage, Record<string, string>> = {
     'app.selectLanguage': 'भाषा चुनें',
 
     // Navigation
+    'nav.home': 'होम',
+    'nav.encyclopedia': 'फिजियो विश्वकोश (Encyclopedia)',
     'nav.doctorDashboard': 'डॉक्टर प्रोफाइल (डॉ. दर्पण)',
     'nav.patientProfile': 'मरीज प्रोफाइल (11)',
     'nav.privateRegistry': 'निजी मरीज रजिस्ट्री 🔒',
@@ -204,6 +208,8 @@ const DICTIONARY: Record<SupportedLanguage, Record<string, string>> = {
     'app.selectLanguage': 'ભાષા પસંદ કરો',
 
     // Navigation
+    'nav.home': 'હોમ',
+    'nav.encyclopedia': 'ફિઝિયો જ્ઞાનકોશ (Encyclopedia)',
     'nav.doctorDashboard': 'ડોક્ટર પ્રોફાઇલ (ડો. દર્પણ)',
     'nav.patientProfile': 'દર્દી પ્રોફાઇલ (૧૧)',
     'nav.privateRegistry': 'ખાનગી દર્દી રજિસ્ટ્રી 🔒',

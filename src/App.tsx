@@ -13,6 +13,7 @@ import { IndianInvestigationsModule } from './components/IndianInvestigationsMod
 import { MultidisciplinaryCaseView } from './components/MultidisciplinaryCaseView';
 import { ComprehensiveAssessmentFormat } from './components/ComprehensiveAssessmentFormat';
 import { DoctorPatientDashboard } from './components/DoctorPatientDashboard';
+import { MainHomepage } from './components/MainHomepage';
 import { PatientProfileHub } from './components/PatientProfileHub';
 import { PrivatePatientRegistry } from './components/PrivatePatientRegistry';
 import { StudentAcademicHub } from './components/StudentAcademicHub';
@@ -30,7 +31,7 @@ import { DEMO_PATIENTS } from './data/clinicalKnowledge';
 
 function AppContent() {
   const { t, language } = useLanguage();
-  const [activeView, setActiveView] = useState<AppView>('doctor-dashboard');
+  const [activeView, setActiveView] = useState<AppView>('home');
   const [selectedPatient, setSelectedPatient] = useState<PatientIntake>(DEMO_PATIENTS[0]);
 
   const handleSelectPatient = (patient: PatientIntake) => {
@@ -85,6 +86,13 @@ function AppContent() {
 
       {/* Main Viewport Content */}
       <main className="flex-1">
+        {activeView === 'home' && (
+          <MainHomepage
+            onNavigate={(view) => setActiveView(view)}
+            onStartAssessment={handleStartNewAssessment}
+          />
+        )}
+
         {activeView === 'doctor-dashboard' && (
           <DoctorPatientDashboard
             onOpenAssessmentWizard={(patient: DoctorPatient) => {
