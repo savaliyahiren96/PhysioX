@@ -1,0 +1,1211 @@
+MASTER DEVELOPMENT PROMPT
+
+CLINICAI – COMPLETE CROSS-PLATFORM CLINICAL INTELLIGENCE, BIOMECHANICS & REHABILITATION SYSTEM
+
+1. YOUR ROLE
+
+Act as a senior multidisciplinary product-development team consisting of:
+
+1. Principal healthcare software architect.
+2. Senior full-stack developer.
+3. React and React Native developer.
+4. Firebase backend engineer.
+5. AI and machine learning engineer.
+6. Medical computer vision specialist.
+7. Biomechanics and gait analysis specialist.
+8. Senior orthopaedic physiotherapist.
+9. Sports physiotherapist.
+10. Neurological physiotherapist.
+11. Clinical assessment specialist.
+12. Medical database architect.
+13. UI/UX designer.
+14. Healthcare data security specialist.
+15. Clinical research and evidence-based practice specialist.
+
+Your task is to upgrade my EXISTING ClinicaAI application into a comprehensive, intelligent, secure and scalable clinical platform.
+
+This is an existing application, not a new project.
+
+NON-NEGOTIABLE RULE: DO NOT DELETE, REPLACE, DISABLE OR DAMAGE ANY EXISTING FUNCTIONALITY.
+
+First inspect the existing codebase, database, integrations, routes, components, authentication and current features. Then implement improvements incrementally.
+
+---
+
+2. PRODUCT VISION
+
+Develop ClinicaAI as:
+
+"An integrated AI-powered clinical assessment, biomechanics, diagnostic support, motion analysis and rehabilitation management platform."
+
+The application must support:
+
+- Web browsers.
+- Android devices.
+- iOS devices.
+
+Target users:
+
+A. Doctors
+B. Physiotherapists
+C. BPT students
+D. MPT students
+E. Clinical educators and researchers.
+
+The platform should provide different dashboards, permissions and workflows according to user roles.
+
+---
+
+3. FIRST TASK: EXISTING APPLICATION AUDIT
+
+Before changing any code:
+
+1. Inspect the complete existing repository.
+2. Identify the frontend framework and architecture.
+3. Identify the backend and database.
+4. Identify all existing pages, modules and components.
+5. Identify all working integrations.
+6. Review the authentication system.
+7. Review existing patient records.
+8. Identify existing reference patient profiles.
+9. Identify incomplete or non-functional features.
+10. Check the current deployment configuration.
+11. Identify technical debt and performance issues.
+
+Create an internal feature inventory.
+
+Classify features into:
+
+- Working – preserve.
+- Partially working – repair and improve.
+- Missing – develop.
+- Redundant – investigate before changing.
+- Security risk – correct without losing functionality.
+
+Do not create duplicate patient databases or duplicate features.
+
+Maintain compatibility with existing data and patient records.
+
+Create a migration and rollback strategy before modifying production data.
+
+---
+
+4. USER MANAGEMENT AND ROLE-BASED ACCESS
+
+Develop three primary user categories.
+
+A. Doctor Dashboard
+
+Features:
+
+- Doctor registration and professional profile.
+- Qualification and specialization.
+- Patient registration.
+- Doctor-wise patient lists.
+- Patient clinical history.
+- Investigation uploads.
+- Medical reports.
+- Clinical notes.
+- Diagnosis documentation.
+- Referral and collaboration.
+- Treatment follow-up.
+- Patient progress tracking.
+- Clinical report generation.
+
+B. Physiotherapist Dashboard
+
+Features:
+
+- Physiotherapist professional profile.
+- Patient registration.
+- Subjective assessment.
+- Objective assessment.
+- Musculoskeletal assessment.
+- Neurological assessment.
+- Sports assessment.
+- Postural assessment.
+- Gait analysis.
+- ROM and MMT.
+- Special tests.
+- Functional assessment.
+- Outcome measures.
+- Rehabilitation planning.
+- Exercise prescription.
+- Treatment progress.
+- Discharge summary.
+
+C. Student Dashboard
+
+Features:
+
+- Joint-wise anatomy library.
+- Condition-wise database.
+- Clinical assessment learning.
+- Special test library.
+- Biomechanics learning.
+- Clinical case studies.
+- Evidence-informed rehabilitation protocols.
+- Assessment demonstrations.
+- Learning quizzes.
+- Clinical terminology.
+- Academic resources.
+
+Students must not automatically access confidential real patient records. Educational case material must be appropriately anonymized and separately permission-controlled.
+
+D. Administrator
+
+Provide a separate administrator interface for:
+
+- User management.
+- Role assignment.
+- Access permissions.
+- Subscription configuration, if applicable.
+- Database management.
+- Clinical content management.
+- Audit logs.
+- Application analytics.
+- System configuration.
+
+E. Data privacy
+
+Implement strict tenant and doctor-wise data separation.
+
+A doctor or physiotherapist should access only their authorized patients.
+
+Implement:
+
+- Role-based access control.
+- Patient consent management.
+- Secure authentication.
+- Session management.
+- Audit trails.
+- Encryption in transit and at rest.
+- Secure file access.
+- Data export and deletion workflows.
+- Backup and disaster recovery.
+
+Do not expose patient data through public database rules or unrestricted API endpoints.
+
+Design for applicable Indian Digital Personal Data Protection requirements and other relevant healthcare privacy obligations.
+
+---
+
+5. MASTER ANATOMICAL AND CONDITION DATABASE
+
+Develop a comprehensive structured clinical database.
+
+Use this hierarchy:
+
+BODY REGION → JOINT → CONDITION CATEGORY → CONDITION NAME → SUBTYPE → CLINICAL ASSESSMENT → MANAGEMENT.
+
+A. Upper limb
+
+Shoulder
+
+- Rotator cuff disorders.
+- Subacromial pain syndrome.
+- Shoulder impingement presentations.
+- Adhesive capsulitis.
+- Glenohumeral osteoarthritis.
+- Shoulder instability.
+- Labral injuries.
+- SLAP lesions.
+- AC joint disorders.
+- SC joint disorders.
+- Biceps tendinopathy.
+- Shoulder dislocation.
+- Proximal humerus fractures.
+- Post-operative shoulder conditions.
+
+Elbow
+
+- Tennis elbow.
+- Golfer's elbow.
+- Distal biceps tendinopathy.
+- Triceps tendinopathy.
+- Cubital tunnel syndrome.
+- Radial tunnel syndrome.
+- Elbow osteoarthritis.
+- Ligament injuries.
+- Elbow dislocation.
+- Fractures.
+- Post-operative conditions.
+
+Wrist and hand
+
+- Carpal tunnel syndrome.
+- De Quervain's tenosynovitis.
+- Trigger finger.
+- TFCC injuries.
+- Wrist ligament injuries.
+- Wrist osteoarthritis.
+- Distal radius fractures.
+- Scaphoid fractures.
+- Dupuytren's contracture.
+- Hand tendon injuries.
+- Finger dislocations.
+- Post-operative hand rehabilitation.
+
+B. Spine
+
+Cervical
+
+- Cervical spondylosis.
+- Cervical radiculopathy.
+- Cervical myelopathy.
+- Cervical disc herniation.
+- Mechanical neck pain.
+- Whiplash-associated disorders.
+- Cervicogenic headache.
+
+Thoracic
+
+- Thoracic pain.
+- Thoracic kyphosis.
+- Thoracic disc disorders.
+- Costovertebral dysfunction.
+- Rib injuries.
+
+Lumbar
+
+- Mechanical low back pain.
+- Lumbar disc herniation.
+- Lumbar radiculopathy.
+- Lumbar spinal stenosis.
+- Spondylosis.
+- Spondylolisthesis.
+- Spondylolysis.
+- Sacroiliac joint pain.
+- Facet joint pain.
+- Post-operative lumbar conditions.
+
+C. Lower limb
+
+Hip
+
+- Hip osteoarthritis.
+- Femoroacetabular impingement.
+- Hip labral tears.
+- Greater trochanteric pain syndrome.
+- Gluteal tendinopathy.
+- Hip bursitis.
+- Piriformis-related presentations.
+- Hip instability.
+- Hip fractures.
+- Total hip replacement rehabilitation.
+
+Knee
+
+- ACL injury.
+- PCL injury.
+- MCL injury.
+- LCL injury.
+- Meniscal tears.
+- Meniscal root tears.
+- Knee osteoarthritis.
+- Patellofemoral pain.
+- Patellar instability.
+- Patellar tendinopathy.
+- Quadriceps tendinopathy.
+- IT band-related pain.
+- Osgood-Schlatter disease.
+- Chondral injuries.
+- Knee fractures.
+- Post-TKR rehabilitation.
+- Post-UKR rehabilitation.
+- ACL reconstruction rehabilitation.
+- Meniscal repair rehabilitation.
+
+Ankle and foot
+
+- Ankle sprain.
+- Chronic ankle instability.
+- Achilles tendinopathy.
+- Achilles rupture.
+- Plantar fasciitis.
+- Posterior tibial tendon dysfunction.
+- Peroneal tendinopathy.
+- Flatfoot.
+- Pes cavus.
+- Hallux valgus.
+- Metatarsalgia.
+- Stress fractures.
+- Ankle fractures.
+- Foot fractures.
+- Post-operative rehabilitation.
+
+D. Additional clinical categories
+
+Include:
+
+- Fractures & Trauma Rehabilitation.
+- Knee Arthroplasty & Joint Replacement.
+- Sports injuries.
+- Neurological disorders.
+- Cardiopulmonary disorders.
+- Paediatric conditions.
+- Geriatric conditions.
+- Women's health and pelvic floor conditions.
+- Amputation rehabilitation.
+- Post-operative rehabilitation.
+- Work-related musculoskeletal disorders.
+
+This list is the initial content requirement, not the final limit of the database.
+
+Support multiple anatomical regions for conditions that involve more than one joint.
+
+Do not generate a diagnosis merely from a body region selection.
+
+---
+
+6. CONDITION-WISE CLINICAL CONTENT ENGINE
+
+Every condition must have a detailed, standardized clinical information page.
+
+Include the following sections:
+
+1. Condition name.
+2. Definition.
+3. Anatomical structures involved.
+4. Relevant anatomy.
+5. Etiology.
+6. Risk factors.
+7. Mechanism of injury.
+8. Pathophysiology.
+9. Biomechanics.
+10. Pathomechanics.
+11. Muscle involvement.
+12. Clinical presentation.
+13. Symptoms.
+14. Signs.
+15. Differential diagnosis.
+16. Red flags.
+17. Yellow flags, where relevant.
+18. Physical examination.
+19. Special tests.
+20. Diagnostic investigations.
+21. Imaging findings.
+22. Clinical diagnosis considerations.
+23. Severity classification.
+24. Medical management.
+25. Physiotherapy management.
+26. Rehabilitation protocol.
+27. Exercise prescription.
+28. Contraindications and precautions.
+29. Outcome measures.
+30. Prognosis.
+31. Return-to-function criteria.
+32. References and evidence.
+
+Clinical content must be professionally reviewed and traceable to reliable sources.
+
+Clearly differentiate established clinical facts, evidence-informed recommendations and AI-generated hypotheses.
+
+---
+
+7. ADVANCED PATIENT ASSESSMENT ENGINE
+
+Develop a complete patient assessment workflow.
+
+Subjective assessment
+
+- Patient demographics.
+- Chief complaint.
+- History of present illness.
+- Mechanism of injury.
+- Onset and duration.
+- Pain history.
+- NPRS.
+- Aggravating factors.
+- Relieving factors.
+- Past medical history.
+- Past surgical history.
+- Medication history.
+- Occupational history.
+- Activity and sports history.
+- Functional limitations.
+- Patient goals.
+- Red flag screening.
+
+Objective assessment
+
+- General observation.
+- Postural assessment.
+- Gait assessment.
+- Inspection.
+- Palpation.
+- Active ROM.
+- Passive ROM.
+- Resisted movements.
+- MMT.
+- Muscle length.
+- Joint mobility.
+- Neurological examination.
+- Sensory examination.
+- Reflexes.
+- Special tests.
+- Functional tests.
+- Balance tests.
+- Coordination tests.
+- Cardiopulmonary examination where relevant.
+
+Clinical reasoning
+
+The AI should correlate:
+
+- Subjective findings.
+- Objective findings.
+- Anatomical structures.
+- Biomechanical abnormalities.
+- Special test results.
+- Investigation reports.
+- Functional limitations.
+
+Provide:
+
+- Probable conditions.
+- Differential considerations.
+- Supporting findings.
+- Findings against each possibility.
+- Missing clinical information.
+- Recommended further assessments.
+
+Never present an AI-generated probable condition as a confirmed medical diagnosis.
+
+---
+
+8. ADVANCED BIOMECHANICS ENGINE
+
+Develop an advanced biomechanics module.
+
+For every selected movement, provide:
+
+Kinematics
+
+- Plane of movement.
+- Axis of movement.
+- Joint angles.
+- ROM.
+- Angular velocity.
+- Movement phases.
+- Segmental motion.
+
+Kinetics
+
+- Joint moments.
+- External forces.
+- Ground reaction forces, when measured.
+- Loading patterns.
+- Muscle force estimates, only when supported by validated methods.
+- Joint loading interpretation.
+
+Muscle analysis
+
+- Agonists.
+- Antagonists.
+- Synergists.
+- Stabilizers.
+- Concentric activity.
+- Eccentric activity.
+- Isometric activity.
+- Relevant muscle architecture and fiber orientation where supported.
+
+Functional movement analysis
+
+Include:
+
+- Squatting.
+- Walking.
+- Running.
+- Stair climbing.
+- Sit-to-stand.
+- Single-leg stance.
+- Jumping and landing.
+- Lunging.
+- Reaching.
+- Lifting.
+
+Provide clinically understandable explanations of normal versus abnormal movement patterns.
+
+Do not fabricate exact joint angles, forces or muscle activation data when they cannot be measured from the available input.
+
+---
+
+9. AI-POWERED GAIT AND MOTION ANALYSIS
+
+This should be one of ClinicaAI's flagship modules.
+
+Allow users to upload:
+
+- Original patient videos.
+- Walking videos.
+- Running videos.
+- Functional movement videos.
+- Postural images.
+- Exercise performance videos.
+
+Video processing
+
+Implement:
+
+- Video upload and validation.
+- Frame extraction.
+- Pose estimation.
+- Landmark detection.
+- Joint tracking.
+- Gait cycle segmentation.
+- Movement phase identification.
+- Left-right comparison.
+- Temporal analysis.
+
+Gait analysis
+
+Assess:
+
+1. Initial contact.
+2. Loading response.
+3. Midstance.
+4. Terminal stance.
+5. Pre-swing.
+6. Initial swing.
+7. Mid-swing.
+8. Terminal swing.
+
+Identify relevant abnormalities such as:
+
+- Antalgic gait.
+- Trendelenburg gait.
+- Steppage gait.
+- Circumduction.
+- Vaulting.
+- Reduced knee flexion.
+- Excessive trunk lean.
+- Reduced push-off.
+- Foot drop.
+- Asymmetrical step length.
+- Abnormal cadence.
+- Abnormal walking speed.
+
+Visual output
+
+Show:
+
+- Original video.
+- Original video with skeletal landmarks.
+- Joint angle overlays.
+- Frame-by-frame analysis.
+- Movement phase markers.
+- Left-right comparison.
+- Graphical output.
+- Written clinical interpretation.
+
+Preserve the original uploaded video.
+
+Never modify the source video or create an artificial abnormality.
+
+Provide a clear distinction between directly measured results, estimated results and visual observations.
+
+If camera positioning, video quality, calibration or markers are inadequate, explain the limitations.
+
+Do not claim laboratory-grade 3D motion analysis from a single uncalibrated 2D camera.
+
+For 3D analysis, support appropriate multi-view capture or validated 3D reconstruction workflows.
+
+---
+
+10. POSTURAL ANALYSIS
+
+Develop an AI-assisted postural assessment module.
+
+Include:
+
+- Anterior view.
+- Posterior view.
+- Right lateral view.
+- Left lateral view.
+
+Assess:
+
+- Head alignment.
+- Cervical alignment.
+- Shoulder level.
+- Scapular position.
+- Thoracic curvature.
+- Lumbar curvature.
+- Pelvic alignment.
+- Hip alignment.
+- Knee alignment.
+- Ankle alignment.
+- Foot posture.
+
+Provide:
+
+- Landmark visualization.
+- Asymmetry observations.
+- Measured angles where calibrated.
+- Possible clinical significance.
+- Recommended physical examination.
+
+Avoid making a diagnosis based on posture photographs alone.
+
+---
+
+11. SPECIAL TEST LIBRARY
+
+Create a structured library organized by joint, condition and anatomical structure.
+
+For every special test include:
+
+- Test name.
+- Clinical purpose.
+- Anatomical structures assessed.
+- Patient position.
+- Therapist position.
+- Procedure.
+- Positive test criteria.
+- Negative test criteria.
+- Interpretation.
+- Sensitivity.
+- Specificity.
+- Likelihood ratios, when available.
+- Reliability.
+- Limitations.
+- References.
+
+Provide step-by-step illustrations or educational demonstrations where properly sourced or created.
+
+Do not invent diagnostic accuracy values.
+
+---
+
+12. INVESTIGATION AND MEDICAL REPORT MODULE
+
+Allow authorized users to upload:
+
+- X-rays.
+- MRI.
+- CT scans.
+- Ultrasound images.
+- Laboratory reports.
+- Medical prescriptions.
+- Discharge summaries.
+
+AI may assist with document extraction, organization and explanation.
+
+For medical imaging:
+
+- Preserve the original file.
+- Display the original image.
+- Identify visible structures only when technically supported.
+- Distinguish preliminary AI observations from radiologist interpretation.
+- Avoid unsupported radiological diagnoses.
+
+Include links between investigations, patient history and clinical assessments.
+
+---
+
+13. PHYSIOTHERAPY TREATMENT AND REHABILITATION ENGINE
+
+Create individualized treatment planning.
+
+For every condition include:
+
+Rehabilitation structure
+
+- Phase 1: Protection and symptom management.
+- Phase 2: Mobility and activation.
+- Phase 3: Strength development.
+- Phase 4: Functional training.
+- Phase 5: Advanced functional rehabilitation.
+- Phase 6: Return to activity or sport, where appropriate.
+
+The number of phases must be condition-specific.
+
+For each exercise provide:
+
+- Exercise name.
+- Objective.
+- Target muscles.
+- Starting position.
+- Execution technique.
+- Dosage.
+- Sets.
+- Repetitions.
+- Frequency.
+- Intensity.
+- Progression criteria.
+- Regression criteria.
+- Precautions.
+- Contraindications.
+
+Allow therapists to customize exercises according to patient tolerance, goals and clinical findings.
+
+Include adherence and progress monitoring.
+
+Do not automatically advance a patient based only on elapsed time.
+
+Use clinical milestones, healing restrictions and functional criteria.
+
+---
+
+14. OUTCOME MEASURE LIBRARY
+
+Develop standardized assessment forms for:
+
+- NPRS.
+- VAS.
+- ROM.
+- MMT.
+- NDI.
+- SPADI.
+- DASH.
+- QuickDASH.
+- ODI.
+- LEFS.
+- KOOS.
+- WOMAC.
+- Lysholm Knee Score.
+- IKDC.
+- FIM.
+- Barthel Index.
+- Berg Balance Scale.
+- TUG.
+- 6MWT.
+- SF-36.
+- PSFS.
+
+Include scoring instructions, interpretation, date-wise comparison and clinically appropriate limitations.
+
+Respect licensing restrictions and copyright for proprietary questionnaires. Use authorized versions where required.
+
+---
+
+15. LONGITUDINAL PATIENT PROGRESS TRACKING
+
+Every patient must have a chronological clinical record.
+
+Track:
+
+- Initial assessment.
+- Follow-up assessments.
+- Pain changes.
+- ROM changes.
+- Strength changes.
+- Functional changes.
+- Special test findings.
+- Gait changes.
+- Postural changes.
+- Exercise adherence.
+- Treatment sessions.
+- Clinical goals.
+- Discharge outcomes.
+
+Provide comparative charts and progress summaries.
+
+Example:
+
+Initial assessment → Week 2 → Week 4 → Week 6 → Discharge.
+
+Allow comparison of original videos and follow-up videos.
+
+Maintain the historical record without overwriting earlier assessments.
+
+---
+
+16. MULTILINGUAL GLOBAL LANGUAGE SYSTEM
+
+Support three complete languages:
+
+1. English.
+2. Hindi.
+3. Gujarati.
+
+This must be a global application-level translation system.
+
+It must translate:
+
+- Navigation.
+- Dashboard.
+- Buttons.
+- Forms.
+- Clinical terminology.
+- Condition descriptions.
+- Assessment instructions.
+- Treatment protocols.
+- Exercise instructions.
+- AI responses.
+- Patient records where appropriate.
+- Generated reports.
+- PDF exports.
+
+Important requirements:
+
+- Language selector in application settings.
+- Persistent language preference.
+- Correct translation of dynamic content.
+- Consistent medical terminology.
+- Unicode-compatible database.
+- Gujarati and Hindi compatible PDF fonts.
+- No broken characters or question marks.
+- No mixed-language output unless intentionally requested.
+
+Keep the original clinical content available for traceability.
+
+Do not translate medical terms in ways that change their clinical meaning.
+
+---
+
+17. REPORT GENERATION
+
+Create professional PDF reports.
+
+Patient assessment report
+
+Include:
+
+- ClinicaAI branding.
+- Patient details.
+- Treating professional.
+- Assessment date.
+- Chief complaints.
+- Clinical history.
+- Objective findings.
+- Special tests.
+- Probable clinical considerations.
+- Assessment summary.
+- Rehabilitation goals.
+- Treatment plan.
+- Follow-up recommendations.
+
+Additional reports
+
+- Gait analysis report.
+- Postural analysis report.
+- Biomechanics report.
+- Rehabilitation progress report.
+- Discharge report.
+- Student case presentation report.
+
+Reports must have professional formatting, proper tables, charts, image placement and Unicode font support.
+
+Allow authorized users to preview before downloading or sharing.
+
+---
+
+18. TECHNICAL ARCHITECTURE
+
+Inspect the existing application before finalizing technology choices.
+
+Recommended target architecture:
+
+Frontend
+
+- Preserve the current working web application.
+- Use React and TypeScript if already implemented.
+- Develop Android and iOS using React Native and Expo, if compatible with the existing architecture.
+- Share validation, clinical models, API contracts and business logic.
+- Create responsive layouts for desktop, tablet and mobile.
+
+Do not assume that simply making a website responsive creates a fully functional native mobile application.
+
+Backend
+
+Firebase:
+
+- Firebase Authentication.
+- Cloud Firestore.
+- Firebase Storage.
+- Cloud Functions.
+- App Check.
+- Security Rules.
+
+AI
+
+- Gemini API through secure backend services.
+- Structured AI responses.
+- Clinical reasoning engine.
+- Video analysis pipeline.
+- Document analysis pipeline.
+
+Never expose private API keys in frontend code.
+
+Database structure
+
+Design collections or equivalent database entities for:
+
+- users
+- professionalProfiles
+- patients
+- patientConsents
+- appointments
+- clinicalAssessments
+- conditionLibrary
+- anatomicalRegions
+- joints
+- conditionCategories
+- specialTests
+- investigations
+- mediaFiles
+- motionAnalysis
+- posturalAnalysis
+- rehabilitationPlans
+- exercises
+- treatmentSessions
+- outcomeMeasures
+- progressRecords
+- clinicalReports
+- auditLogs
+- educationalResources
+
+Use proper IDs, timestamps, relationships, indexes and data ownership.
+
+Avoid placing large videos and image files directly inside Firestore documents. Store files securely and maintain their metadata and authorized references.
+
+Implement schema versioning and controlled data migration.
+
+---
+
+19. MOBILE APPLICATION REQUIREMENTS
+
+The Android and iOS versions must support:
+
+- Secure login.
+- Patient registration.
+- Patient search.
+- Assessment forms.
+- Camera access.
+- Video recording.
+- Video uploads.
+- Image uploads.
+- Motion analysis.
+- PDF viewing.
+- Report sharing with authorization.
+- Progress tracking.
+- Notifications, where enabled.
+- Responsive clinical dashboards.
+
+Provide appropriate camera permissions and explain their use.
+
+Handle low connectivity and interrupted uploads safely.
+
+Sensitive patient records must not be stored in unsecured local storage.
+
+---
+
+20. USER INTERFACE AND DESIGN
+
+Use a modern, professional medical technology design.
+
+Design principles:
+
+- Clean clinical dashboard.
+- Simple navigation.
+- Professional typography.
+- Consistent spacing.
+- Clear information hierarchy.
+- Accessible contrast.
+- Responsive cards.
+- Interactive graphs.
+- Structured patient timelines.
+- Easy-to-read assessment forms.
+
+Use separate dashboard experiences for doctors, physiotherapists, students and administrators.
+
+Provide search across:
+
+- Patient names and authorized identifiers.
+- Body regions.
+- Joints.
+- Condition categories.
+- Condition names.
+- Special tests.
+- Exercises.
+
+Use filters and breadcrumbs.
+
+The clinical library must be easy to navigate without excessive clicking.
+
+---
+
+21. AI CLINICAL SAFETY AND RELIABILITY
+
+AI must work as a clinical decision-support assistant, not as an autonomous doctor.
+
+Mandatory safeguards:
+
+- Do not fabricate clinical findings.
+- Do not invent test results.
+- Do not generate unsupported diagnostic certainty.
+- Do not prescribe treatment without considering relevant contraindications.
+- Identify emergency red flags.
+- Recommend referral or urgent evaluation when appropriate.
+- Explain uncertainty.
+- Cite clinical sources where available.
+- Distinguish evidence from hypotheses.
+- Require professional review before finalizing clinical decisions.
+
+Every AI-generated assessment must show:
+
+1. Input information considered.
+2. Observations.
+3. Supporting findings.
+4. Limitations.
+5. Differential considerations.
+6. Recommended further assessment.
+7. Confidence or uncertainty explanation.
+8. Professional review status.
+
+Protect patient privacy when transmitting data to AI services.
+
+---
+
+22. TESTING AND QUALITY ASSURANCE
+
+Before releasing any upgrade:
+
+Test:
+
+- Login and registration.
+- Role-based access.
+- Doctor-wise patient privacy.
+- Patient creation and editing.
+- Existing patient data compatibility.
+- Clinical assessment saving.
+- Video upload and analysis.
+- Image upload.
+- Report generation.
+- Hindi translations.
+- Gujarati translations.
+- Mobile responsiveness.
+- Android functionality.
+- iOS functionality.
+- Database rules.
+- API security.
+- Performance.
+- Error handling.
+
+Use automated tests and manual clinical workflow testing.
+
+Do not mark a feature as completed merely because its UI exists.
+
+Every button, form, integration and workflow must perform its intended function.
+
+---
+
+23. IMPLEMENTATION PHASES
+
+Work in the following order.
+
+Phase 1 – Audit
+
+Inspect the existing repository, architecture, database and features.
+
+Deliver an inventory of existing functionality and upgrade requirements.
+
+Phase 2 – Foundation
+
+Improve authentication, roles, permissions, database design and patient management.
+
+Phase 3 – Clinical library
+
+Build the complete anatomical, joint-wise and condition-wise database.
+
+Phase 4 – Assessment engine
+
+Implement subjective and objective clinical assessment workflows.
+
+Phase 5 – AI intelligence
+
+Implement probable-condition support, clinical reasoning and structured AI outputs.
+
+Phase 6 – Motion intelligence
+
+Implement gait, posture, biomechanics and video analysis.
+
+Phase 7 – Rehabilitation
+
+Implement treatment planning, exercise prescription and longitudinal progress tracking.
+
+Phase 8 – Multilingual support
+
+Complete English, Hindi and Gujarati translation throughout the application.
+
+Phase 9 – Cross-platform development
+
+Extend the existing application to Android and iOS while preserving the web experience.
+
+Phase 10 – Testing and deployment
+
+Test all workflows, validate permissions, migrate data safely and deploy.
+
+---
+
+24. STRICT DEVELOPMENT RULES
+
+1. Never delete existing working features.
+2. Never replace the existing application with a generic template.
+3. Never create dummy patient records to demonstrate functionality in production.
+4. Never hardcode fake AI results.
+5. Never use simulated analysis and present it as real analysis.
+6. Never expose API credentials.
+7. Never bypass authentication.
+8. Never make patient data publicly accessible.
+9. Never overwrite historical assessments.
+10. Never create duplicate records during migration.
+11. Never claim an integration is complete without testing it.
+12. Never use fabricated clinical references.
+13. Preserve existing reference patient profiles and doctor-wise patient associations.
+14. Preserve Dr. Darpan Vanavi's existing 11 reference patient profiles and their associated data.
+15. Keep the Knee Arthroplasty & Joint Replacement category.
+16. Use the category name Fractures & Trauma Rehabilitation.
+17. Keep the original uploaded patient videos and images unchanged.
+18. Maintain a clear distinction between educational content and patient-specific clinical recommendations.
+
+---
+
+25. FINAL EXPECTED DELIVERABLES
+
+At completion, provide:
+
+1. Existing application audit report.
+2. Updated application architecture.
+3. Updated source code.
+4. Database schema.
+5. Database migration plan.
+6. Security rules.
+7. API documentation.
+8. Clinical condition database.
+9. Working assessment workflows.
+10. Working AI integrations.
+11. Working gait and motion analysis.
+12. Working report generation.
+13. English, Hindi and Gujarati language support.
+14. Android application build.
+15. iOS application build.
+16. Web deployment.
+17. Test report.
+18. Known limitations and unresolved issues.
+19. Deployment and maintenance instructions.
+
+FINAL EXECUTION INSTRUCTION
+
+Do not simply provide a development plan or a visual prototype.
+
+Work directly on the existing application and implement the upgrades in controlled phases.
+
+Start with the repository audit. Identify the current architecture and explain what must be preserved.
+
+Then implement the highest-priority improvements one by one.
+
+After every phase:
+
+- Show what was changed.
+- Identify files modified.
+- Report completed functionality.
+- Report failed tests.
+- Identify pending work.
+- Confirm existing functionality remains intact.
+
+If an external API, Firebase permission, credential or deployment approval is required, identify the exact requirement rather than pretending the integration is complete.
+
+The final objective is a genuinely functional, clinically useful, secure and scalable ClinicaAI platform for doctors, physiotherapists and students across Web, Android and iOS.

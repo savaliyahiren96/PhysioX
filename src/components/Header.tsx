@@ -22,14 +22,19 @@ import {
   Calculator,
   RotateCcw,
   Lock,
+  GraduationCap,
+  ShieldCheck,
 } from 'lucide-react';
 import { AudienceScopeModal } from './AudienceScopeModal';
 import { useLanguage, SupportedLanguage } from '../context/LanguageContext';
+import { useUserRole } from '../context/UserRoleContext';
 
 export type AppView =
   | 'doctor-dashboard'
   | 'patient-profile'
   | 'private-registry'
+  | 'student-hub'
+  | 'admin-governance'
   | 'dashboard'
   | 'assessment-format'
   | 'wizard'
@@ -56,6 +61,8 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ activeView, onNavigate, onStartNewAssessment }) => {
   const { language, setLanguage, t } = useLanguage();
+  const { currentRole, setRole } = useUserRole();
+  const [roleMenuOpen, setRoleMenuOpen] = useState(false);
   const [sportsMenuOpen, setSportsMenuOpen] = useState(false);
   const [aiMenuOpen, setAiMenuOpen] = useState(false);
   const [scopeModalOpen, setScopeModalOpen] = useState(false);
@@ -129,6 +136,32 @@ export const Header: React.FC<HeaderProps> = ({ activeView, onNavigate, onStartN
             >
               <Lock className="w-3.5 h-3.5 text-amber-700" />
               <span>{t('nav.privateRegistry')}</span>
+            </button>
+
+            {/* Dedicated Student Academic Hub Nav Button */}
+            <button
+              onClick={() => onNavigate('student-hub')}
+              className={`hover:text-purple-900 transition-colors whitespace-nowrap shrink-0 flex items-center gap-1.5 cursor-pointer px-2.5 py-1 rounded-lg ${
+                activeView === 'student-hub'
+                  ? 'bg-purple-900 text-purple-200 font-bold shadow-xs'
+                  : 'bg-purple-50 text-purple-800 hover:bg-purple-100 font-semibold border border-purple-200'
+              }`}
+            >
+              <GraduationCap className="w-3.5 h-3.5 text-purple-600" />
+              <span>{t('nav.studentHub')}</span>
+            </button>
+
+            {/* Dedicated Admin Governance Nav Button */}
+            <button
+              onClick={() => onNavigate('admin-governance')}
+              className={`hover:text-slate-900 transition-colors whitespace-nowrap shrink-0 flex items-center gap-1.5 cursor-pointer px-2.5 py-1 rounded-lg ${
+                activeView === 'admin-governance'
+                  ? 'bg-slate-900 text-teal-300 font-bold shadow-xs'
+                  : 'bg-slate-100 text-slate-800 hover:bg-slate-200 font-semibold border border-slate-300'
+              }`}
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-slate-700" />
+              <span>{t('nav.adminGovernance')}</span>
             </button>
 
             <button
@@ -375,6 +408,98 @@ export const Header: React.FC<HeaderProps> = ({ activeView, onNavigate, onStartN
 
           {/* Zone 3: Language Selector & Primary Actions */}
           <div className="flex items-center gap-2.5 shrink-0">
+            {/* Active Clinical Role Switcher */}
+            <div className="relative">
+              <button
+                onClick={() => setRoleMenuOpen(!roleMenuOpen)}
+                className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-800 cursor-pointer shadow-2xs"
+                title="Switch Active Clinical Role"
+              >
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="capitalize">{currentRole}</span>
+                <ChevronDown className="w-3 h-3 text-slate-400" />
+              </button>
+
+              {roleMenuOpen && (
+                <div
+                  onMouseLeave={() => setRoleMenuOpen(false)}
+                  className="absolute right-0 mt-1.5 w-64 bg-white border border-slate-200 rounded-xl shadow-xl p-1.5 z-50 text-xs space-y-1"
+                >
+                  <div className="px-2.5 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                    Select Active Role
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      setRole('doctor');
+                      onNavigate('doctor-dashboard');
+                      setRoleMenuOpen(false);
+                    }}
+                    className={`w-full text-left p-2 rounded-lg flex items-center gap-2 cursor-pointer ${
+                      currentRole === 'doctor' ? 'bg-teal-50 text-teal-900 font-bold' : 'hover:bg-slate-50 text-slate-700'
+                    }`}
+                  >
+                    <UserCheck className="w-4 h-4 text-teal-600" />
+                    <div>
+                      <div className="font-semibold">Doctor (Dr. Darpan)</div>
+                      <div className="text-[10px] text-slate-400">Profile, Patients, Private Vault</div>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setRole('physiotherapist');
+                      onNavigate('assessment-format');
+                      setRoleMenuOpen(false);
+                    }}
+                    className={`w-full text-left p-2 rounded-lg flex items-center gap-2 cursor-pointer ${
+                      currentRole === 'physiotherapist' ? 'bg-indigo-50 text-indigo-900 font-bold' : 'hover:bg-slate-50 text-slate-700'
+                    }`}
+                  >
+                    <Activity className="w-4 h-4 text-indigo-600" />
+                    <div>
+                      <div className="font-semibold">Physiotherapist Specialist</div>
+                      <div className="text-[10px] text-slate-400">Assessments, ROM/MMT, Protocols</div>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setRole('student');
+                      onNavigate('student-hub');
+                      setRoleMenuOpen(false);
+                    }}
+                    className={`w-full text-left p-2 rounded-lg flex items-center gap-2 cursor-pointer ${
+                      currentRole === 'student' ? 'bg-purple-50 text-purple-900 font-bold' : 'hover:bg-slate-50 text-slate-700'
+                    }`}
+                  >
+                    <GraduationCap className="w-4 h-4 text-purple-600" />
+                    <div>
+                      <div className="font-semibold">BPT & MPT Student Hub</div>
+                      <div className="text-[10px] text-slate-400">Educational Cases, Tests, Quizzes</div>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setRole('admin');
+                      onNavigate('admin-governance');
+                      setRoleMenuOpen(false);
+                    }}
+                    className={`w-full text-left p-2 rounded-lg flex items-center gap-2 cursor-pointer ${
+                      currentRole === 'admin' ? 'bg-slate-100 text-slate-900 font-bold' : 'hover:bg-slate-50 text-slate-700'
+                    }`}
+                  >
+                    <ShieldCheck className="w-4 h-4 text-slate-700" />
+                    <div>
+                      <div className="font-semibold">Administrator</div>
+                      <div className="text-[10px] text-slate-400">Tenant Isolation, DPDP, Audit Logs</div>
+                    </div>
+                  </button>
+                </div>
+              )}
+            </div>
+
             {/* Language Switcher Pill: English | हिंदी | ગુજરાતી */}
             <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 shadow-2xs">
               <div className="px-1.5 text-slate-400 hidden sm:block">

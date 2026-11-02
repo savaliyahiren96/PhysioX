@@ -15,12 +15,15 @@ import { ComprehensiveAssessmentFormat } from './components/ComprehensiveAssessm
 import { DoctorPatientDashboard } from './components/DoctorPatientDashboard';
 import { PatientProfileHub } from './components/PatientProfileHub';
 import { PrivatePatientRegistry } from './components/PrivatePatientRegistry';
+import { StudentAcademicHub } from './components/StudentAcademicHub';
+import { AdminGovernanceDashboard } from './components/AdminGovernanceDashboard';
 import { AIMotionGaitAnalysis } from './components/AIMotionGaitAnalysis';
 import { AIPostureAnalysis } from './components/AIPostureAnalysis';
 import { AdvancedBiomechanicsModule } from './components/AdvancedBiomechanicsModule';
 import { OutcomeMeasuresCalculator } from './components/OutcomeMeasuresCalculator';
 import { ProgressTrackingView } from './components/ProgressTrackingView';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
+import { UserRoleProvider } from './context/UserRoleContext';
 import { PatientIntake } from './types/clinical';
 import { DoctorPatient } from './types/doctorPatient';
 import { DEMO_PATIENTS } from './data/clinicalKnowledge';
@@ -200,6 +203,14 @@ function AppContent() {
           <PrivatePatientRegistry />
         )}
 
+        {activeView === 'student-hub' && (
+          <StudentAcademicHub />
+        )}
+
+        {activeView === 'admin-governance' && (
+          <AdminGovernanceDashboard />
+        )}
+
         {activeView === 'dashboard' && (
           <DashboardView
             onSelectPatient={handleSelectPatient}
@@ -285,7 +296,9 @@ function AppContent() {
 export default function App() {
   return (
     <LanguageProvider>
-      <AppContent />
+      <UserRoleProvider>
+        <AppContent />
+      </UserRoleProvider>
     </LanguageProvider>
   );
 }

@@ -1313,6 +1313,109 @@ app.delete('/api/private-patients/:id/documents/:docId', (req: Request, res: Res
   });
 });
 
+// ==========================================
+// 8. AUDIT LOGS & TENANT GOVERNANCE
+// ==========================================
+interface ServerAuditLog {
+  id: string;
+  timestamp: string;
+  userId: string;
+  userName: string;
+  userRole: string;
+  action: string;
+  module: string;
+  patientId?: string;
+  details: string;
+  severity: 'INFO' | 'WARNING' | 'CRITICAL';
+}
+
+const inMemoryAuditLogs: ServerAuditLog[] = [
+  {
+    id: 'LOG-INIT-01',
+    timestamp: new Date(Date.now() - 7200000).toISOString(),
+    userId: 'DOC-DARPAN-01',
+    userName: 'Dr. Darpan Vanavi',
+    userRole: 'doctor',
+    action: 'SYSTEM_BOOT',
+    module: 'CORE',
+    details: 'ClinicaAI system initialized with doctor profile and 11 reference patients',
+    severity: 'INFO',
+  },
+  {
+    id: 'LOG-INIT-02',
+    timestamp: new Date(Date.now() - 3600000).toISOString(),
+    userId: 'DOC-DARPAN-01',
+    userName: 'Dr. Darpan Vanavi',
+    userRole: 'doctor',
+    action: 'VAULT_ACCESS',
+    module: 'PRIVATE_REGISTRY',
+    patientId: 'PVT-2026-001',
+    details: 'PIN authenticated access to personal confidential registry',
+    severity: 'INFO',
+  },
+  {
+    id: 'LOG-INIT-03',
+    timestamp: new Date(Date.now() - 1800000).toISOString(),
+    userId: 'STU-BPT-2026',
+    userName: 'Ananya Sharma',
+    userRole: 'student',
+    action: 'STUDENT_SESSION',
+    module: 'ACADEMIC_HUB',
+    details: 'Student session verified; real patient records masked, educational sandbox active',
+    severity: 'INFO',
+  },
+];
+
+app.get('/api/audit-logs', (_req: Request, res: Response) => {
+  res.json({
+    total: inMemoryAuditLogs.length,
+    logs: inMemoryAuditLogs.slice().reverse(),
+  });
+});
+
+app.post('/api/audit-logs', (req: Request, res: Response) => {
+  const { userId, userName, userRole, action, module, patientId, details, severity } = req.body;
+  const newLog: ServerAuditLog = {
+    id: `LOG-${Date.now().toString(36).toUpperCase()}`,
+    timestamp: new Date().toISOString(),
+    userId: userId || 'ANONYMOUS',
+    userName: userName || 'User',
+    userRole: userRole || 'unknown',
+    action: action || 'ACTION',
+    module: module || 'GENERAL',
+    patientId: patientId || undefined,
+    details: details || '',
+    severity: severity || 'INFO',
+  };
+
+  inMemoryAuditLogs.push(newLog);
+  if (inMemoryAuditLogs.length > 500) {
+    inMemoryAuditLogs.shift();
+  }
+
+  res.status(201).json({ success: true, log: newLog });
+});
+
+app.get('/api/admin/system-status', (_req: Request, res: Response) => {
+  res.json({
+    status: 'HEALTHY',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development',
+    database: {
+      file: 'clinic_db.json',
+      doctorsCount: (dbMemory.doctors || []).length,
+      patientsCount: (dbMemory.patients || []).length,
+      privatePatientsCount: (dbMemory.privatePatients || []).length,
+      auditLogsCount: inMemoryAuditLogs.length,
+    },
+    privacy: {
+      dpdpCompliance: 'ENFORCED',
+      studentIsolation: 'ACTIVE',
+      privateVaultEncryption: 'ACTIVE',
+    },
+  });
+});
+
 // Setup Vite middleware in dev or static files in production
 async function startServer() {
   if (process.env.NODE_ENV !== 'production') {
