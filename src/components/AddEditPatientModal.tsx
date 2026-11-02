@@ -28,16 +28,14 @@ export const AddEditPatientModal: React.FC<AddEditPatientModalProps> = ({
   const [name, setName] = useState('');
   const [age, setAge] = useState<number | ''>('');
   const [gender, setGender] = useState<PatientGender>('Not Specified');
-  const [location, setLocation] = useState('Pipaliya');
+  const [location, setLocation] = useState('');
   const [contactNumber, setContactNumber] = useState('');
   const [registrationDate, setRegistrationDate] = useState(
     new Date().toISOString().split('T')[0]
   );
-  const [primaryDiagnosis, setPrimaryDiagnosis] = useState('Post-operative TKR');
-  const [presentingComplaints, setPresentingComplaints] = useState(
-    'Pain during knee bending, limping gait associated with previous antalgic gait and difficulty in sit-to-stand.'
-  );
-  const [medicalHistory, setMedicalHistory] = useState('None reported');
+  const [primaryDiagnosis, setPrimaryDiagnosis] = useState('');
+  const [presentingComplaints, setPresentingComplaints] = useState('');
+  const [medicalHistory, setMedicalHistory] = useState('');
   const [surgicalHistory, setSurgicalHistory] = useState('None reported');
   const [status, setStatus] = useState<PatientStatus>('Active');
 
@@ -272,10 +270,10 @@ export const AddEditPatientModal: React.FC<AddEditPatientModalProps> = ({
               </div>
 
               <div>
-                <label className="font-semibold text-slate-700 block mb-1">Location / Village</label>
+                <label className="font-semibold text-slate-700 block mb-1">Location / Clinic Area</label>
                 <input
                   type="text"
-                  placeholder="e.g. Pipaliya / Khandha"
+                  placeholder="e.g. Vadodara"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   className="w-full border border-slate-300 rounded-lg p-2 bg-white"

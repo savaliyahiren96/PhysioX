@@ -259,22 +259,24 @@ export const PatientProfileHub: React.FC<PatientProfileHubProps> = ({
             />
           </div>
 
-          {/* Quick Location Pills */}
-          <div className="flex items-center gap-1.5 text-[11px] overflow-x-auto pb-1">
-            {['all', 'Pipaliya', 'Khandha'].map((loc) => (
-              <button
-                key={loc}
-                onClick={() => setLocationFilter(loc)}
-                className={`px-2.5 py-1 rounded-lg font-medium cursor-pointer transition-colors ${
-                  locationFilter === loc
-                    ? 'bg-teal-700 text-white font-bold'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}
-              >
-                {loc === 'all' ? 'All Locations' : loc}
-              </button>
-            ))}
-          </div>
+          {/* Dynamic Location Pills (only when doctor has registered locations) */}
+          {Array.from(new Set(patients.map((p) => p.location))).filter(Boolean).length > 0 && (
+            <div className="flex items-center gap-1.5 text-[11px] overflow-x-auto pb-1">
+              {['all', ...Array.from(new Set(patients.map((p) => p.location))).filter(Boolean)].map((loc) => (
+                <button
+                  key={loc}
+                  onClick={() => setLocationFilter(loc)}
+                  className={`px-2.5 py-1 rounded-lg font-medium cursor-pointer transition-colors ${
+                    locationFilter === loc
+                      ? 'bg-teal-700 text-white font-bold'
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  }`}
+                >
+                  {loc === 'all' ? 'All Locations' : loc}
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* Patient Cards List */}
           <div className="space-y-2 max-h-[600px] overflow-y-auto pr-1">

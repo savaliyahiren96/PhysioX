@@ -42,7 +42,7 @@ import {
 import { AppView } from './Header';
 import { useLanguage } from '../context/LanguageContext';
 import { useUserRole } from '../context/UserRoleContext';
-import { INITIAL_DOCTOR, INITIAL_PATIENTS } from '../data/initialDoctorPatientData';
+import { INITIAL_DOCTOR } from '../data/initialDoctorPatientData';
 import { ALL_JOINT_CONDITIONS } from '../data/jointProtocolsData';
 import { MASTER_CONDITIONS_DATABASE, MasterConditionRecord } from '../data/masterAnatomicalDatabase';
 import { MASTER_SPECIAL_TESTS_LIBRARY } from '../data/specialTestLibraryData';
@@ -418,9 +418,12 @@ export const MainHomepage: React.FC<MainHomepageProps> = ({
   const { t } = useLanguage();
   const { currentRole, setRole } = useUserRole();
 
-  // Search state
+  // Search & Knowledge Hierarchy state
   const [globalSearchQuery, setGlobalSearchQuery] = useState('');
+  const [selectedSpecialty, setSelectedSpecialty] = useState<string>('all');
+  const [selectedRegion, setSelectedRegion] = useState<string>('all');
   const [selectedJointId, setSelectedJointId] = useState<string>('knee');
+  const [selectedKnowledgePillar, setSelectedKnowledgePillar] = useState<string>('all');
 
   // Condition Modal state (30 standardized sections)
   const [activeConditionModal, setActiveConditionModal] = useState<any | null>(null);
@@ -608,7 +611,7 @@ export const MainHomepage: React.FC<MainHomepageProps> = ({
               <Search className="w-5 h-5 text-teal-600 shrink-0" />
               <input
                 type="text"
-                placeholder="Search joint, condition, symptom ('Knee Pain'), muscle, special test, finding..."
+                placeholder="Search educational library: joints, conditions ('ACL', 'Frozen Shoulder'), anatomy, muscles, special tests, biomechanics, protocols..."
                 value={globalSearchQuery}
                 onChange={(e) => setGlobalSearchQuery(e.target.value)}
                 className="w-full text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none bg-transparent"
@@ -625,15 +628,16 @@ export const MainHomepage: React.FC<MainHomepageProps> = ({
 
             {/* Quick chips below input */}
             <div className="px-4 pb-3 flex flex-wrap items-center gap-1.5 text-xs border-t border-slate-100 pt-2.5">
-              <span className="text-[11px] font-bold text-slate-400">Popular:</span>
+              <span className="text-[11px] font-bold text-slate-400">Popular Reference Topics:</span>
               {[
-                'Knee Pain',
-                'ACL Injury',
-                'Rotator Cuff',
-                'Sciatica / L5',
-                'Achilles Tendinopathy',
+                'ACL Rupture',
+                'Rotator Cuff Tear',
+                'Lumbar Disc L4-L5',
+                'Adhesive Capsulitis',
                 'Lachman Test',
-                'TKR Rehab',
+                'TKR Rehab Protocol',
+                'Achilles Tendinopathy',
+                'PFPS Biomechanics',
               ].map((chip) => (
                 <button
                   key={chip}
@@ -729,11 +733,126 @@ export const MainHomepage: React.FC<MainHomepageProps> = ({
           )}
         </div>
 
-        {/* 1. JOINT-WISE CLASSIFICATION (14 Anatomical Regions) */}
+        {/* 6-LEVEL ACADEMIC HIERARCHY NAVIGATOR */}
+        <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-7 shadow-xs space-y-5">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-900 text-[11px] font-black uppercase tracking-wider">
+                  <Layers className="w-3.5 h-3.5 text-teal-700" />
+                  <span>Universal 6-Level Hierarchy</span>
+                </span>
+                <span className="text-xs font-semibold text-slate-400">Pure Educational Reference Engine</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-slate-900">
+                Specialty → Region → Joint → Category → Condition → Clinical Dossier
+              </h3>
+            </div>
+            <div className="text-xs text-slate-500 bg-slate-50 px-3 py-2 rounded-xl border border-slate-200">
+              Zero Pre-filled Patient Data · 100% Peer-Reviewed Evidence
+            </div>
+          </div>
+
+          {/* Level 1: Medical & Physiotherapy Specialty Filter */}
+          <div className="space-y-2">
+            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+              Level 1: Clinical Specialty
+            </span>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { id: 'all', label: 'All Medical Specialties' },
+                { id: 'msk_sports', label: 'Musculoskeletal & Sports PT' },
+                { id: 'orthopaedic', label: 'Orthopaedics & Joint Arthroplasty' },
+                { id: 'neuro', label: 'Neurology & Neuro-Rehabilitation' },
+                { id: 'cardiopulmonary', label: 'Cardiopulmonary Physiotherapy' },
+                { id: 'paediatric', label: 'Paediatrics & Adolescents' },
+                { id: 'geriatric', label: 'Geriatrics & Frailty Care' },
+              ].map((spec) => (
+                <button
+                  key={spec.id}
+                  onClick={() => setSelectedSpecialty(spec.id)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    selectedSpecialty === spec.id
+                      ? 'bg-slate-900 text-teal-300 shadow-xs ring-2 ring-teal-500/30'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  }`}
+                >
+                  {spec.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Level 2: Anatomical Region Filter */}
+          <div className="space-y-2">
+            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+              Level 2: Anatomical Region
+            </span>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { id: 'all', label: 'All Regions' },
+                { id: 'lower_limb', label: 'Lower Extremity Complex' },
+                { id: 'upper_limb', label: 'Upper Extremity Complex' },
+                { id: 'spine', label: 'Spine & Pelvis Complex' },
+                { id: 'cranio_cervical', label: 'Cranio-Cervical & TMJ' },
+              ].map((reg) => (
+                <button
+                  key={reg.id}
+                  onClick={() => setSelectedRegion(reg.id)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    selectedRegion === reg.id
+                      ? 'bg-teal-800 text-white shadow-xs'
+                      : 'bg-teal-50 text-teal-900 hover:bg-teal-100 border border-teal-200'
+                  }`}
+                >
+                  {reg.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* 12 Clinical Knowledge Pillars Toolbar */}
+          <div className="pt-2 border-t border-slate-100 space-y-2">
+            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+              Core Clinical Knowledge Exploration Pillars (12 Pathways):
+            </span>
+            <div className="flex flex-wrap gap-1.5 text-xs">
+              {[
+                { id: 'all', label: 'All Pillars' },
+                { id: 'joint', label: '1. Joint-Wise' },
+                { id: 'condition', label: '2. Condition-Wise' },
+                { id: 'anatomy', label: '3. Anatomy' },
+                { id: 'biomechanics', label: '4. Biomechanics' },
+                { id: 'pathomechanics', label: '5. Pathomechanics' },
+                { id: 'muscle_function', label: '6. Muscle Function' },
+                { id: 'clinical_exam', label: '7. Clinical Examination' },
+                { id: 'special_tests', label: '8. Special Tests Library' },
+                { id: 'functional', label: '9. Functional Assessment' },
+                { id: 'investigations', label: '10. Investigations' },
+                { id: 'management', label: '11. 3-Tier Management' },
+                { id: 'protocols', label: '12. Phased Protocols' },
+              ].map((pillar) => (
+                <button
+                  key={pillar.id}
+                  onClick={() => setSelectedKnowledgePillar(pillar.id)}
+                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                    selectedKnowledgePillar === pillar.id
+                      ? 'bg-teal-600 text-white font-bold shadow-2xs'
+                      : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200'
+                  }`}
+                >
+                  {pillar.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Level 3: JOINT-WISE CLASSIFICATION (14 Anatomical Regions) */}
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-200">
             <div>
-              <h3 className="text-xl font-bold text-slate-900">1. Joint-Wise Classification</h3>
+              <h3 className="text-xl font-bold text-slate-900">Level 3: Joint-Wise Classification</h3>
               <p className="text-xs text-slate-500">Select any joint complex to reveal categorized clinical conditions and pathology</p>
             </div>
             <span className="text-xs font-bold text-teal-800 bg-teal-50 px-3 py-1 rounded-full border border-teal-200">
@@ -792,7 +911,7 @@ export const MainHomepage: React.FC<MainHomepageProps> = ({
                 <span className="text-xs text-slate-500">{selectedJoint.subtitle}</span>
               </div>
               <h3 className="text-2xl font-black text-slate-900 mt-1">
-                2. Condition-Wise Clinical Classification
+                Level 4 & 5: Condition Category & Conditions
               </h3>
             </div>
 
@@ -963,7 +1082,7 @@ export const MainHomepage: React.FC<MainHomepageProps> = ({
               </div>
 
               <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
-                <span className="text-slate-500 font-medium">Assigned Patients: <strong>11</strong></span>
+                <span className="text-slate-500 font-medium">Practice Status: <strong className="text-slate-700">Active Practitioner</strong></span>
                 <button
                   onClick={() => onNavigate('doctor-dashboard')}
                   className="font-bold text-teal-700 hover:text-teal-900 flex items-center gap-1 cursor-pointer"
@@ -977,7 +1096,7 @@ export const MainHomepage: React.FC<MainHomepageProps> = ({
             {/* Personalized Dashboard Feature Gateways */}
             <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
               {[
-                { title: 'My Patients', desc: '11 reference patients with clinical notes & history', view: 'doctor-dashboard', icon: 'Users' },
+                { title: 'Authorized Records', desc: 'Personalized patient management workspace', view: 'doctor-dashboard', icon: 'Users' },
                 { title: 'Patient Assessment', desc: 'Full 3-Tier diagnostic format & guided wizard', view: 'assessment-format', icon: 'FileText' },
                 { title: 'Private Vault 🔒', desc: 'Personal PIN-protected confidential patient records', view: 'private-registry', icon: 'Lock' },
                 { title: 'AI Motion & Gait', desc: '8-phase gait analysis, cadence & asymmetry index', view: 'motion', icon: 'Camera' },

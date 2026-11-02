@@ -19,10 +19,10 @@ import {
   UserCheck,
 } from 'lucide-react';
 import { PatientIntake } from '../types/clinical';
-import { DEMO_PATIENTS, SPECIALTIES_CONFIG } from '../data/clinicalKnowledge';
+import { SPECIALTIES_CONFIG } from '../data/clinicalKnowledge';
 import { AudienceScopeModal } from './AudienceScopeModal';
 import { useLanguage } from '../context/LanguageContext';
-import { Globe } from 'lucide-react';
+import { Globe, UserPlus, Lock } from 'lucide-react';
 
 import { AppView } from './Header';
 
@@ -38,15 +38,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   onNavigate,
 }) => {
   const { language, setLanguage, t, getSpecialityLabel } = useLanguage();
-  const [searchTerm, setSearchTerm] = useState('');
   const [scopeModalOpen, setScopeModalOpen] = useState(false);
-
-  const filteredPatients = DEMO_PATIENTS.filter(
-    (p) =>
-      p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.mrn.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.chiefComplaint.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -329,99 +321,49 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
       </div>
 
-      {/* Preloaded Clinical Demonstration Patients & Registry */}
-      <div className="space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3">
+      {/* Clinical Assessment & Knowledge Gateway (Zero Prefilled Data) */}
+      <div className="bg-gradient-to-r from-slate-900 via-teal-950 to-slate-900 rounded-2xl p-6 text-white space-y-4 shadow-sm border border-teal-900/60">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h2 className="text-base font-bold text-slate-900">Patient Registry & Demonstration Cases</h2>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Select any preloaded fictional case to examine adaptive history, red flags, physical tests, and differentials.
+            <span className="text-[11px] font-bold uppercase tracking-wider text-teal-400">
+              Interactive Diagnostic & Assessment Engine
+            </span>
+            <h2 className="text-xl font-bold tracking-tight text-white mt-1">
+              Physiotherapy Assessment & Rehabilitation Planning
+            </h2>
+            <p className="text-xs text-slate-300 mt-1 max-w-2xl">
+              Conduct criteria-based intake, red flag triage, adaptive physical examination, special tests with likelihood ratios, and 4-phase therapeutic progression.
             </p>
           </div>
 
-          <div className="relative max-w-xs w-full">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              placeholder="Search patients, MRN, complaint..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full text-xs pl-9 pr-3 py-2 rounded-lg border border-slate-200 bg-white focus:outline-teal-700 shadow-xs"
-            />
+          <div className="flex flex-wrap items-center gap-2.5">
+            <button
+              type="button"
+              onClick={onNewAssessment}
+              className="px-4 py-2.5 bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold rounded-xl text-xs transition-colors flex items-center gap-2 shadow-md cursor-pointer"
+            >
+              <UserPlus className="w-4 h-4" />
+              <span>+ Start Clean Patient Assessment</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onNavigate('home')}
+              className="px-4 py-2.5 bg-white/10 hover:bg-white/20 border border-teal-400/30 text-teal-200 font-semibold rounded-xl text-xs transition-colors flex items-center gap-2 cursor-pointer"
+            >
+              <BookOpen className="w-4 h-4 text-teal-300" />
+              <span>Explore Physio Encyclopedia</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onNavigate('private-registry')}
+              className="px-3.5 py-2.5 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/40 text-amber-200 font-semibold rounded-xl text-xs transition-colors flex items-center gap-1.5 cursor-pointer"
+            >
+              <Lock className="w-4 h-4 text-amber-300" />
+              <span>Private Registry 🔒</span>
+            </button>
           </div>
-        </div>
-
-        {/* Patient Profiles Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {filteredPatients.map((patient) => {
-            const isRedFlagDemo = patient.chiefComplaint.toLowerCase().includes('numbness') || patient.notes.includes('SIMULATION');
-
-            return (
-              <div
-                key={patient.id}
-                className={`border rounded-2xl p-5 space-y-4 transition-all shadow-xs flex flex-col justify-between ${
-                  isRedFlagDemo
-                    ? 'border-rose-300 bg-rose-50/20 hover:border-rose-400'
-                    : 'border-slate-200 bg-white hover:border-slate-300'
-                }`}
-              >
-                <div className="space-y-2.5">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-bold text-slate-900 text-sm">{patient.name}</h3>
-                        <span className="text-[11px] font-mono text-slate-400">MRN: {patient.mrn}</span>
-                      </div>
-                      <div className="text-xs text-slate-500 mt-0.5">
-                        {patient.age} yrs · {patient.sex} · {patient.occupation}
-                      </div>
-                    </div>
-
-                    <span
-                      className={`text-[10px] font-semibold px-2 py-0.5 rounded uppercase tracking-wider ${
-                        isRedFlagDemo
-                          ? 'bg-rose-100 text-rose-800 border border-rose-200'
-                          : 'bg-slate-100 text-slate-700'
-                      }`}
-                    >
-                      {isRedFlagDemo ? 'Red-Flag Case' : patient.onset}
-                    </span>
-                  </div>
-
-                  <div className="text-xs text-slate-800 leading-relaxed font-medium bg-slate-50/70 p-2.5 rounded-lg border border-slate-100">
-                    <span className="text-slate-500 font-normal block text-[11px]">Chief Complaint:</span>
-                    {patient.chiefComplaint}
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-2 text-xs text-slate-600">
-                    <div>
-                      <span className="text-slate-400 block text-[11px]">Location:</span>
-                      <span className="line-clamp-1">{patient.anatomicalLocation}</span>
-                    </div>
-                    <div>
-                      <span className="text-slate-400 block text-[11px]">NPRS Pain Severity:</span>
-                      <span className="font-mono font-bold text-slate-900">{patient.severityNprs}/10</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-[11px] text-slate-400">
-                    Goal: <span className="text-slate-600">{patient.patientGoals.slice(0, 45)}...</span>
-                  </span>
-
-                  <button
-                    type="button"
-                    onClick={() => onSelectPatient(patient)}
-                    className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 shadow-xs transition-colors shrink-0"
-                  >
-                    <span>Launch Clinical Assessment</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-teal-400" />
-                  </button>
-                </div>
-              </div>
-            );
-          })}
         </div>
       </div>
 

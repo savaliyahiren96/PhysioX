@@ -27,12 +27,41 @@ import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { UserRoleProvider } from './context/UserRoleContext';
 import { PatientIntake } from './types/clinical';
 import { DoctorPatient } from './types/doctorPatient';
-import { DEMO_PATIENTS } from './data/clinicalKnowledge';
+const createCleanBlankPatient = (): PatientIntake => ({
+  id: `pt-${Date.now().toString().slice(-4)}`,
+  mrn: `CLIN-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`,
+  name: '',
+  age: '' as any,
+  sex: 'Unknown',
+  heightCm: '' as any,
+  weightKg: '' as any,
+  occupation: '',
+  activityLevel: 'Unknown',
+  chiefComplaint: '',
+  anatomicalLocation: '',
+  onset: 'Unknown',
+  duration: '',
+  severityNprs: 0,
+  progression: 'Unknown',
+  injuryMechanism: '',
+  aggravatingFactors: [],
+  relievingFactors: [],
+  functionalLimitations: '',
+  patientGoals: '',
+  medicalHistory: '',
+  surgicalHistory: '',
+  comorbidities: [],
+  medications: '',
+  allergies: '',
+  priorInvestigations: '',
+  priorTreatments: '',
+  notes: '',
+});
 
 function AppContent() {
   const { t, language } = useLanguage();
   const [activeView, setActiveView] = useState<AppView>('home');
-  const [selectedPatient, setSelectedPatient] = useState<PatientIntake>(DEMO_PATIENTS[0]);
+  const [selectedPatient, setSelectedPatient] = useState<PatientIntake>(createCleanBlankPatient);
 
   const handleSelectPatient = (patient: PatientIntake) => {
     setSelectedPatient(patient);
@@ -40,38 +69,7 @@ function AppContent() {
   };
 
   const handleStartNewAssessment = () => {
-    const blankPatient: PatientIntake = {
-      id: `pt-${Date.now().toString().slice(-4)}`,
-      mrn: `CLIN-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`,
-      name: 'New Patient Intake',
-      age: 26,
-      sex: 'Male',
-      heightCm: 178,
-      weightKg: 74,
-      occupation: 'State Level Cricket Fast Bowler',
-      activityLevel: 'Heavy Athletic',
-      chiefComplaint: 'Right lumbar pars stress reaction with bowling pain during delivery stride',
-      anatomicalLocation: 'L4/L5 Lumbar Spine - Non-bowling arm side',
-      onset: 'Subacute (2 - 6 weeks)',
-      duration: '3 weeks',
-      severityNprs: 6,
-      progression: 'Worsening',
-      injuryMechanism: 'Repetitive front-foot landing shock and hyperextension counter-rotation during match spell',
-      aggravatingFactors: ['Fast bowling', 'Lumbar extension and rotation', 'Running sprints'],
-      relievingFactors: ['Rest', 'Lying supine with knees bent'],
-      functionalLimitations: 'Unable to bowl off full run-up; pain on Stork single-leg extension test',
-      patientGoals: 'Heal pars stress reaction without complete fracture, resume Ranji Trophy season',
-      medicalHistory: 'Vitamin D deficiency noted 6 months ago',
-      surgicalHistory: 'None',
-      comorbidities: ['None'],
-      medications: 'Calcium & Vitamin D3 supplementation',
-      allergies: 'No known drug allergies',
-      priorInvestigations: 'Lumbar MRI STIR sequence confirmed grade 2 bone marrow edema in left L5 pars',
-      priorTreatments: 'Bowling ceased 10 days ago, core stabilization begun',
-      notes: 'High-performance sports medicine intake for criteria-based return to sport.',
-    };
-
-    setSelectedPatient(blankPatient);
+    setSelectedPatient(createCleanBlankPatient());
     setActiveView('wizard');
   };
 
@@ -237,14 +235,14 @@ function AppContent() {
                 chiefComplaint: `${diagnosis} (${prev.chiefComplaint})`,
               }));
             }}
-            onExit={() => setActiveView('dashboard')}
+            onExit={() => setActiveView('home')}
           />
         )}
 
         {activeView === 'wizard' && (
           <AssessmentWizard
             initialPatient={selectedPatient}
-            onExit={() => setActiveView('dashboard')}
+            onExit={() => setActiveView('home')}
           />
         )}
 

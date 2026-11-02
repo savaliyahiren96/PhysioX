@@ -50,8 +50,8 @@ export interface PosturePresetCase {
 const POSTURE_PRESETS: PosturePresetCase[] = [
   {
     id: 'post-tkr-asymmetry',
-    name: 'Post-Op Knee Replacement Asymmetry & Valgus Thrust (Jayaben Patel / Dineshbhai Patel)',
-    nameHi: 'टीकेआर पश्चात कायात्मक विषमता एवं पेलविक झुकाव',
+    name: 'Post-Op Knee Replacement Asymmetry & Valgus Thrust Model',
+    nameHi: 'टीकेआर पश्चात कायात्मक विषमता एवं पेलविक झुकाव मॉडल',
     nameGu: 'ટીકેઆર પછીની મુદ્રા વિષમતા અને પેલ્વિક ઝૂકાવ',
     patientDescription: 'Antalgic stance posture with 18mm pelvic obliquity, compensatory lateral spinal curve, and reduced weight bearing on operated side.',
     craniovertebralAngle: 46,

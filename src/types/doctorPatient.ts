@@ -98,7 +98,7 @@ export interface DoctorPatient {
   name: string;
   age: number | string;
   gender: PatientGender;
-  location: string; // e.g. 'Pipaliya', 'Khandha'
+  location: string; // e.g. 'Vadodara' or clinic branch
   contactNumber?: string;
   registrationDate: string;
   primaryDiagnosis: string;

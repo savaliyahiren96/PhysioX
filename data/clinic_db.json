@@ -1,0 +1,259 @@
+{
+  "doctors": [
+    {
+      "id": "DOC-DARPAN-01",
+      "username": "drdarpan",
+      "fullName": "Dr. Darpan Vanavi",
+      "designation": "Physiotherapist",
+      "qualification": "BPT, MPT (Musculoskeletal and Sports)",
+      "specialisation": "Musculoskeletal and Sports Physiotherapy",
+      "registrationNumber": "",
+      "hospitalClinicName": "Vanavi Physiotherapy Clinic",
+      "clinicAddress": "Vadodara, Gujarat",
+      "contactNumber": "",
+      "email": "",
+      "profilePhotoUrl": "",
+      "professionalExperience": "Physiotherapy Practitioner",
+      "workingLocation": "Vadodara, Gujarat",
+      "professionalStatus": "Physiotherapy Practitioner",
+      "createdAt": "2026-01-15T09:00:00Z",
+      "updatedAt": "2026-10-31T00:00:00Z"
+    }
+  ],
+  "patients": [],
+  "privatePatients": [
+    {
+      "id": "PVT-2026-001",
+      "patientName": "Rameshbhai V. Parmar",
+      "age": 54,
+      "gender": "Male",
+      "contactNumber": "+91 98250 44321",
+      "address": "B-304, Shreemad Residency, Gotri Road, Vadodara, Gujarat",
+      "dateOfFirstVisit": "2026-09-14",
+      "chiefComplaints": "Severe right shoulder pain, inability to sleep on right side, and restricted overhead reach (> 6 weeks).",
+      "clinicalDiagnosis": "Adhesive Capsulitis (Frozen Shoulder - Freezing to Frozen Stage)",
+      "medicalHistory": "Type 2 Diabetes Mellitus (HbA1c 7.6%) on Metformin 500mg BD. No history of shoulder dislocation.",
+      "physiotherapyAssessment": {
+        "romFindings": "Active Abduction: 75° (painful arc 60°-75°); External Rotation at side: 15° (contralateral 65°); Passive Flexion: 95° firm capsular end-feel.",
+        "mmtFindings": "Supraspinatus: Grade 4/5 (inhibited by pain); Subscapularis: 4+/5; Infraspinatus: 3+/5.",
+        "postureGaitFindings": "Slight anterior head carriage, right shoulder elevation, rounded shoulder posture.",
+        "specialTestsFindings": "Hawkins-Kennedy: Positive; Neer Test: Positive; Empty Can Test: Painful without drop arm; Speed Test: Negative.",
+        "functionalFindings": "QuickDASH: 58.2/100; SPADI: 64/100. Unable to reach back pocket or fasten seatbelt.",
+        "painScoreNprs": 7,
+        "clinicalImpression": "Classic diabetic stiff shoulder with severe capsular contracture and capsuloligamentous hypomobility."
+      },
+      "treatmentPlan": {
+        "shortTermGoals": "Reduce night pain NPRS from 7 to <= 3 within 3 weeks; achieve 35° active external rotation and 120° passive flexion.",
+        "longTermGoals": "Achieve functional overhead reach (150°+ elevation) and return to full independence in personal grooming.",
+        "prescribedExercises": "Maitland Grade II-III inferior and posterior glenohumeral mobilizations, pendulum swings, table slides, wand active-assisted elevation, doorway submaximal pectoral stretching.",
+        "dosageSetsReps": "Pendulum 3x30 sec, table slides 3x10 reps twice daily; wand exercises 3x10 reps.",
+        "frequencyAndDuration": "3 supervised clinical sessions/week for 8 weeks + daily home exercise protocol.",
+        "precautions": "Do not force aggressive high-velocity passive manipulation beyond patient tolerance; monitor diabetic blood sugar.",
+        "progressionCriteria": "Progress to rotator cuff isometric strengthening once external rotation passes 40° and resting pain <= 3/10."
+      },
+      "treatmentSessions": [
+        {
+          "sessionId": "SESS-001-1",
+          "sessionNumber": 1,
+          "date": "2026-09-14",
+          "treatmentGiven": "Gentle Maitland Grade II inferior glide mobilizations, moist heat application 10 min, pendulum exercise guidance.",
+          "patientResponse": "Reported immediate relaxation in anterior joint line; pain eased during pendulum movement.",
+          "therapistNotes": "Educated patient on diabetic predisposition to prolonged adhesive capsulitis.",
+          "clinicianName": "Dr. Darpan Vanavi"
+        },
+        {
+          "sessionId": "SESS-001-2",
+          "sessionNumber": 2,
+          "date": "2026-09-18",
+          "treatmentGiven": "Grade II-III posterior capsular glide, seated wand active-assisted flexion, cross-body adduction stretch.",
+          "patientResponse": "Flexion improved from 95° to 102° post-mobilization.",
+          "therapistNotes": "Patient compliant with twice-daily home wand exercises.",
+          "clinicianName": "Dr. Darpan Vanavi"
+        },
+        {
+          "sessionId": "SESS-001-3",
+          "sessionNumber": 3,
+          "date": "2026-09-25",
+          "treatmentGiven": "Grade III inferior and posterior glides, theraband yellow internal/external rotation isometrics at 0° abduction.",
+          "patientResponse": "Able to sleep 5 hours continuously without waking up from shoulder throb.",
+          "therapistNotes": "Night pain dropped from 7 to 4 on NPRS.",
+          "clinicianName": "Dr. Darpan Vanavi"
+        }
+      ],
+      "followUpDate": "2026-11-08",
+      "status": "Active",
+      "documents": [
+        {
+          "id": "DOC-001-1",
+          "title": "Right Shoulder MRI Plain & Contrast Report",
+          "documentType": "X-Ray / MRI",
+          "uploadDate": "2026-09-14",
+          "fileSize": "3.4 MB",
+          "notes": "Axioradiology Vadodara: Confirmed thickening of coracohumeral ligament and axillary recess capsule (4.2 mm). Intact rotator cuff tendons."
+        },
+        {
+          "id": "DOC-001-2",
+          "title": "Initial Physiotherapy Assessment Summary Note",
+          "documentType": "Physiotherapy Assessment",
+          "uploadDate": "2026-09-14",
+          "fileSize": "1.2 MB",
+          "notes": "Baseline ROM goniometric charting and SPADI score documentation."
+        }
+      ],
+      "doctorId": "DOC-DARPAN-01",
+      "doctorName": "Dr. Darpan Vanavi",
+      "createdAt": "2026-09-14T10:00:00.000Z",
+      "updatedAt": "2026-10-31T09:30:00.000Z"
+    },
+    {
+      "id": "PVT-2026-002",
+      "patientName": "Meenaben K. Shah",
+      "age": 62,
+      "gender": "Female",
+      "contactNumber": "+91 97129 88123",
+      "address": "42, Alkapuri Society, Near Railway Station, Vadodara, Gujarat",
+      "dateOfFirstVisit": "2026-10-02",
+      "chiefComplaints": "Bilateral knee pain during morning rising, cracking crepitus, and severe difficulty squatting or taking temple stairs.",
+      "clinicalDiagnosis": "Bilateral Primary Knee Osteoarthritis (Kellgren-Lawrence Grade III Medial Compartment)",
+      "medicalHistory": "Hypertension controlled on Telmisartan 40mg. Mild lumbar spondylosis.",
+      "physiotherapyAssessment": {
+        "romFindings": "Right Knee: Flexion 105° (firm end-feel), Extension -5° lag; Left Knee: Flexion 110°, Extension 0°.",
+        "mmtFindings": "Quadriceps (VMO): Grade 3+/5 bilateral; Hip Abductors (Gluteus Medius): 3+/5; Hamstrings: 4/5.",
+        "postureGaitFindings": "Mild bilateral genu varum (bowed knees), reduced stance time on right limb, slow walking cadence (88 steps/min).",
+        "specialTestsFindings": "Patellar Grind (Clarke) Test: Positive bilateral; McMurray Test: Negative; Medial Joint Line Tenderness: Positive grade 2.",
+        "functionalFindings": "WOMAC Index: 54/96; 30-Second Chair Stand: 7 repetitions with handrest push-off; Timed Up and Go (TUG): 14.8 seconds.",
+        "painScoreNprs": 6,
+        "clinicalImpression": "Advanced medial tibiofemoral joint space narrowing with secondary quadriceps arthrogenic inhibition and extensor lag."
+      },
+      "treatmentPlan": {
+        "shortTermGoals": "Achieve 0° right knee full extension and reduce stair climbing pain NPRS to <= 3 within 4 weeks.",
+        "longTermGoals": "Achieve >= 12 repetitions on 30s chair stand without arm assistance; independent community walking > 2 km.",
+        "prescribedExercises": "High-intensity NMES quad sets, seated heel slides with towel assistance, mini closed-chain squats (0°-45°), supine straight leg raises with 1kg cuff weight, non-impact recumbent stationary cycling.",
+        "dosageSetsReps": "Quad sets 3x10 (10s hold), SLR 3x10, mini-squats 3x10 twice daily.",
+        "frequencyAndDuration": "3 clinic sessions/week for 6 weeks + daily home compliance.",
+        "precautions": "Strictly avoid deep squats > 60° and cross-legged sitting (Sukhasana) during acute flare-up.",
+        "progressionCriteria": "Progress to backward treadmill walking and lateral step-ups when 30s chair stand >= 10 reps."
+      },
+      "treatmentSessions": [
+        {
+          "sessionId": "SESS-002-1",
+          "sessionNumber": 1,
+          "date": "2026-10-02",
+          "treatmentGiven": "Medial and superior patellar mobilization Grade II-III, isometric quad sets with biofeedback, cryotherapy 15 min.",
+          "patientResponse": "Felt lighter in knees when getting off treatment couch.",
+          "therapistNotes": "Educated patient on weight management and avoidance of low stool sitting.",
+          "clinicianName": "Dr. Darpan Vanavi"
+        },
+        {
+          "sessionId": "SESS-002-2",
+          "sessionNumber": 2,
+          "date": "2026-10-06",
+          "treatmentGiven": "NMES 15 min on VMO, straight leg raises, stationary cycling 10 min low resistance.",
+          "patientResponse": "Able to complete 8 reps of chair stand.",
+          "therapistNotes": "Quadriceps activation noticeably crisper on palpation.",
+          "clinicianName": "Dr. Darpan Vanavi"
+        }
+      ],
+      "followUpDate": "2026-11-04",
+      "status": "Active",
+      "documents": [
+        {
+          "id": "DOC-002-1",
+          "title": "Bilateral Weight-Bearing Knee Radiographs (AP & Lateral)",
+          "documentType": "X-Ray / MRI",
+          "uploadDate": "2026-10-02",
+          "fileSize": "4.1 MB",
+          "notes": "Significant medial joint space loss, subchondral sclerosis, and marginal osteophytes. Lateral compartment intact."
+        }
+      ],
+      "doctorId": "DOC-DARPAN-01",
+      "doctorName": "Dr. Darpan Vanavi",
+      "createdAt": "2026-10-02T11:30:00.000Z",
+      "updatedAt": "2026-10-31T08:15:00.000Z"
+    },
+    {
+      "id": "PVT-2026-003",
+      "patientName": "Kunal P. Joshi",
+      "age": 29,
+      "gender": "Male",
+      "contactNumber": "+91 99042 11567",
+      "address": "Flat 12, Nilamber Greens, Vasna-Bhayli Main Road, Vadodara",
+      "dateOfFirstVisit": "2026-08-20",
+      "chiefComplaints": "Acute right lower back pain with sharp shooting electric shock down postero-lateral calf to right big toe.",
+      "clinicalDiagnosis": "L4-L5 Lumbar Disc Herniation with Right L5 Radiculopathy",
+      "medicalHistory": "Software engineer with 9-10 hours sedentary desk work daily. No previous spinal surgeries.",
+      "physiotherapyAssessment": {
+        "romFindings": "Lumbar Flexion: Limited to 25° with immediate peripheralization into right calf; Lumbar Extension: 12° with centralizing back sensation.",
+        "mmtFindings": "Extensor Hallucis Longus (L5): Grade 4-/5; Tibialis Anterior (L4): 5/5; Peroneus Longus (S1): 5/5.",
+        "postureGaitFindings": "Antalgic lateral shift (scoliotic list to the left side away from the pain side); antalgic gait with shortened right stance.",
+        "specialTestsFindings": "Straight Leg Raise (SLR) Right: Positive at 35° (reproduces shooting leg pain); Crossed SLR (Well-leg raise): Positive at 50°; Slump Test: Positive; Babinski / Clonus: Negative.",
+        "functionalFindings": "Oswestry Disability Index (ODI): 52/100 (Severe disability); NPRS Leg Pain: 8/10; Back Pain: 4/10.",
+        "painScoreNprs": 8,
+        "clinicalImpression": "Mechanical nerve root compression at L5 with acute neurodynamic sensitivity. Meets criteria for directional preference extension protocol."
+      },
+      "treatmentPlan": {
+        "shortTermGoals": "Centralize shooting leg pain into the midline back within 10 days; eliminate lateral shift deformity.",
+        "longTermGoals": "Achieve ODI <= 12/100; pain-free return to 8-hour ergonomic workstation work and gym workouts.",
+        "prescribedExercises": "McKenzie directional preference prone press-ups (10 reps every 2 hours), manual correction of lateral shift, gentle sciatic neurodynamic sliding, McGill Big 3 core stabilization.",
+        "dosageSetsReps": "Prone press-ups 10 reps every 2 waking hours; modified curl-up, side bridge, bird-dog 3x10s holds.",
+        "frequencyAndDuration": "Daily home directional preference + 2 supervised clinic sessions/week.",
+        "precautions": "Strictly avoid sustained lumbar flexion, lifting from floor, and sit-ups; screen for Cauda Equina red flags.",
+        "progressionCriteria": "Progress to loaded hip hinge and deadlifts once leg pain remains completely absent for 3 consecutive weeks."
+      },
+      "treatmentSessions": [
+        {
+          "sessionId": "SESS-003-1",
+          "sessionNumber": 1,
+          "date": "2026-08-20",
+          "treatmentGiven": "Manual correction of left lateral shift against wall, passive prone lying on pillows 5 min, repeated prone extensions in lying.",
+          "patientResponse": "Electric shock sensation retreated from foot up into upper buttock (centralization confirmed).",
+          "therapistNotes": "Educated patient on McKenzie centralization phenomenon and lumbar roll support for chair.",
+          "clinicianName": "Dr. Darpan Vanavi"
+        },
+        {
+          "sessionId": "SESS-003-2",
+          "sessionNumber": 2,
+          "date": "2026-08-24",
+          "treatmentGiven": "Prone press-ups with therapist overpressure, sciatic nerve flossing in supine, McGill side bridge.",
+          "patientResponse": "Leg pain completely centralized into right sacral area; no calf pain when standing.",
+          "therapistNotes": "SLR improved from 35° to 65° without pain recurrence.",
+          "clinicianName": "Dr. Darpan Vanavi"
+        },
+        {
+          "sessionId": "SESS-003-3",
+          "sessionNumber": 3,
+          "date": "2026-09-12",
+          "treatmentGiven": "Advanced core bracing, standing hip hinge retraining with dowel, ergonomic workstation setup review.",
+          "patientResponse": "NPRS 1/10. Able to sit for 45 minutes with lumbar roll without leg symptoms.",
+          "therapistNotes": "EHL strength normalized to Grade 5/5. ODI reduced to 16/100.",
+          "clinicianName": "Dr. Darpan Vanavi"
+        }
+      ],
+      "followUpDate": "2026-10-15",
+      "status": "Discharged",
+      "documents": [
+        {
+          "id": "DOC-003-1",
+          "title": "Lumbosacral Spine MRI Report & DICOM Key Images",
+          "documentType": "X-Ray / MRI",
+          "uploadDate": "2026-08-20",
+          "fileSize": "5.2 MB",
+          "notes": "Synergy Imaging Vadodara: L4-L5 right paracentral disc protrusion compressing descending right L5 nerve root."
+        },
+        {
+          "id": "DOC-003-2",
+          "title": "Discharge Functional Reassessment & Home Exercise Plan",
+          "documentType": "Physiotherapy Assessment",
+          "uploadDate": "2026-10-15",
+          "fileSize": "1.4 MB",
+          "notes": "Discharge ODI 8/100, full straight leg raise 80° bilateral pain-free. Cleared for normal recreational gym activity."
+        }
+      ],
+      "doctorId": "DOC-DARPAN-01",
+      "doctorName": "Dr. Darpan Vanavi",
+      "createdAt": "2026-08-20T09:00:00.000Z",
+      "updatedAt": "2026-10-15T12:00:00.000Z"
+    }
+  ],
+  "registryPin": "1234"
+}

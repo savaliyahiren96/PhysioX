@@ -85,9 +85,9 @@ interface SamplePreset {
 const SAMPLE_PRESETS: SamplePreset[] = [
   {
     id: 'post-tkr-antalgic',
-    name: 'Post-Op TKR Antalgic & Stiff Knee Gait (Jayaben Patel / Dineshbhai Patel)',
-    nameHi: 'टीकेआर पश्चात दर्दयुक्त एवं जकड़न चाल (जयबेन पटेल)',
-    nameGu: 'ટીકેઆર પછીની લંગડાતી અને જકડાયેલી ચાલ (જયાબેન પટેલ)',
+    name: 'Post-Op TKR Antalgic & Stiff Knee Gait Model',
+    nameHi: 'टीकेआर पश्चात दर्दयुक्त एवं जकड़न चाल मॉडल',
+    nameGu: 'ટીકેઆર પછીની લંગડાતી અને જકડાયેલી ચાલ મોડેલ',
     description: 'Reduced swing phase knee flexion (stiff knee gait), shortened right stance duration, asymmetric step length, and compensatory trunk lean.',
     metrics: {
       cadence: 88,
@@ -213,9 +213,9 @@ const SAMPLE_PRESETS: SamplePreset[] = [
   },
   {
     id: 'tibial-fracture-limp',
-    name: 'Tibial Shaft Fracture Post-Union Antalgic Calf Gait (Pratikbhai Patel / Vijaybhai Patel)',
-    nameHi: 'टिबिया फ्रैक्चर पिण्डली कमजोरी चाल (પ્રતિકભાઈ પટેલ)',
-    nameGu: 'ટિબિયા ફ્રેક્ચર પછી પિંડીની નબળાઈવાળી ચાલ (પ્રતિકભાઈ પટેલ)',
+    name: 'Tibial Shaft Fracture Post-Union Antalgic Calf Gait Model',
+    nameHi: 'टिबिया फ्रैक्चर पिण्डली कमजोरी चाल मॉडल',
+    nameGu: 'ટિબિયા ફ્રેક્ચર પછી પિંડીની નબળાઈવાળી ચાલ મોડેલ',
     description: 'Reduced push-off at terminal stance due to gastrocnemius/soleus weakness and restricted ankle dorsiflexion.',
     metrics: {
       cadence: 96,

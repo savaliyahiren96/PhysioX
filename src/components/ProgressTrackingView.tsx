@@ -49,9 +49,9 @@ interface PatientProgressTimeline {
 
 const SAMPLE_TIMELINES: PatientProgressTimeline[] = [
   {
-    patientId: 'PT-2026-002',
-    patientName: 'Jayaben Patel (73F, Pipaliya)',
-    diagnosis: 'Post-operative TKR (Right Knee)',
+    patientId: 'BENCH-TKR-01',
+    patientName: 'Clinical Benchmark: Total Knee Arthroplasty (TKR Rehab)',
+    diagnosis: 'Post-operative TKR Rehabilitation (Phase I - IV)',
     dischargeTarget: {
       painNprs: 1,
       romFlexionDeg: 120,
@@ -121,9 +121,9 @@ const SAMPLE_TIMELINES: PatientProgressTimeline[] = [
     ],
   },
   {
-    patientId: 'PT-2026-001',
-    patientName: 'Pratikbhai Patel (23M, Pipaliya)',
-    diagnosis: 'Tibial Shaft Fracture Post-IM Nailing',
+    patientId: 'BENCH-TIB-02',
+    patientName: 'Clinical Benchmark: Tibial Shaft Fracture Post-IM Nailing',
+    diagnosis: 'Tibial Shaft Fracture Post-Union Functional Rehab',
     dischargeTarget: {
       painNprs: 0,
       romFlexionDeg: 135,

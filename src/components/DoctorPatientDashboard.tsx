@@ -248,19 +248,19 @@ export const DoctorPatientDashboard: React.FC<DoctorPatientDashboardProps> = ({
         </div>
 
         <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-          <div className="text-[11px] font-bold text-indigo-700 uppercase tracking-wider">Pipaliya Cohort</div>
+          <div className="text-[11px] font-bold text-indigo-700 uppercase tracking-wider">Discharged</div>
           <div className="text-2xl font-bold text-indigo-900 mt-1">
-            {patients.filter((p) => p.location.toLowerCase().includes('pipaliya')).length}
+            {patients.filter((p) => p.status === 'Discharged').length}
           </div>
-          <div className="text-[10px] text-slate-500 mt-0.5">TKR, Tibia, Femur</div>
+          <div className="text-[10px] text-slate-500 mt-0.5">Goals achieved</div>
         </div>
 
         <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-          <div className="text-[11px] font-bold text-purple-700 uppercase tracking-wider">Khandha Cohort</div>
+          <div className="text-[11px] font-bold text-purple-700 uppercase tracking-wider">On Hold</div>
           <div className="text-2xl font-bold text-purple-900 mt-1">
-            {patients.filter((p) => p.location.toLowerCase().includes('khandha')).length}
+            {patients.filter((p) => p.status === 'On Hold').length}
           </div>
-          <div className="text-[10px] text-slate-500 mt-0.5">ACLR, UKR, Elbow, TKR</div>
+          <div className="text-[10px] text-slate-500 mt-0.5">Awaiting clearance</div>
         </div>
       </div>
 
@@ -272,7 +272,7 @@ export const DoctorPatientDashboard: React.FC<DoctorPatientDashboardProps> = ({
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
             <input
               type="text"
-              placeholder="Search patients by name, age, condition, or location (e.g. 'Pipaliya', 'TKR', 'Pratikbhai')..."
+              placeholder="Search registered patients by patient name, ID, or clinical diagnosis..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 bg-slate-50/50"
@@ -281,34 +281,21 @@ export const DoctorPatientDashboard: React.FC<DoctorPatientDashboardProps> = ({
 
           {/* Quick Filters */}
           <div className="flex flex-wrap items-center gap-2 w-full md:w-auto text-xs">
-            {/* Location selector */}
-            <select
-              value={selectedLocation}
-              onChange={(e) => setSelectedLocation(e.target.value)}
-              className="border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs bg-white text-slate-700 font-medium"
-            >
-              <option value="all">All Locations</option>
-              {availableLocations.map((loc) => (
-                <option key={loc} value={loc}>
-                  {loc}
-                </option>
-              ))}
-            </select>
-
-            {/* Condition selector */}
-            <select
-              value={selectedCondition}
-              onChange={(e) => setSelectedCondition(e.target.value)}
-              className="border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs bg-white text-slate-700 font-medium"
-            >
-              <option value="all">All Conditions</option>
-              <option value="TKR">Post-operative TKR</option>
-              <option value="Tibial">Tibial Shaft Fracture</option>
-              <option value="Femur">Femur Fracture</option>
-              <option value="ACL">Post ACL Reconstruction</option>
-              <option value="Unicondylar">Unicondylar Knee (UKR)</option>
-              <option value="Elbow">Elbow Fracture</option>
-            </select>
+            {/* Location selector (only if doctor has added locations) */}
+            {availableLocations.length > 0 && (
+              <select
+                value={selectedLocation}
+                onChange={(e) => setSelectedLocation(e.target.value)}
+                className="border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs bg-white text-slate-700 font-medium"
+              >
+                <option value="all">All Locations</option>
+                {availableLocations.map((loc) => (
+                  <option key={loc} value={loc}>
+                    {loc}
+                  </option>
+                ))}
+              </select>
+            )}
 
             <button
               onClick={() => {
@@ -391,7 +378,24 @@ export const DoctorPatientDashboard: React.FC<DoctorPatientDashboardProps> = ({
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {filteredPatients.length === 0 ? (
+              {patients.length === 0 ? (
+                <tr>
+                  <td colSpan={8} className="py-12 text-center text-slate-500">
+                    <Users className="w-10 h-10 text-slate-300 mx-auto mb-2" />
+                    <p className="font-bold text-slate-800 text-sm">No Patient Records in this Workspace</p>
+                    <p className="text-xs text-slate-500 mt-1 max-w-md mx-auto">
+                      All sample and prefilled patient data have been removed. Patient records appear only when an authorized professional voluntarily registers them.
+                    </p>
+                    <button
+                      onClick={() => setAddPatientModalOpen(true)}
+                      className="mt-4 px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl text-xs inline-flex items-center gap-1.5 shadow-sm cursor-pointer"
+                    >
+                      <UserPlus className="w-4 h-4" />
+                      <span>+ Register Authorized Patient</span>
+                    </button>
+                  </td>
+                </tr>
+              ) : filteredPatients.length === 0 ? (
                 <tr>
                   <td colSpan={8} className="py-12 text-center text-slate-400">
                     <AlertCircle className="w-8 h-8 text-slate-300 mx-auto mb-2" />

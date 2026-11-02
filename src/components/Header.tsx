@@ -421,7 +421,7 @@ export const Header: React.FC<HeaderProps> = ({ activeView, onNavigate, onStartN
                     <UserCheck className="w-4 h-4 text-teal-600" />
                     <div>
                       <div className="font-semibold">Doctor (Dr. Darpan)</div>
-                      <div className="text-[10px] text-slate-400">Profile, Patients, Private Vault</div>
+                      <div className="text-[10px] text-slate-400">Profile, Assessments, Private Vault</div>
                     </div>
                   </button>
 

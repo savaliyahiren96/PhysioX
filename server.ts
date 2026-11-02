@@ -32,7 +32,7 @@ interface ClinicDatabase {
 
 let dbMemory: ClinicDatabase = {
   doctors: [INITIAL_DOCTOR],
-  patients: [...INITIAL_PATIENTS],
+  patients: [],
   privatePatients: [...INITIAL_PRIVATE_PATIENTS],
   registryPin: '1234',
 };
@@ -51,13 +51,8 @@ function initDatabase() {
         if (!hasDarpan) {
           parsed.doctors.unshift(INITIAL_DOCTOR);
         }
-        // Ensure 11 reference patients exist
-        for (const initPatient of INITIAL_PATIENTS) {
-          const exists = parsed.patients.some((p: DoctorPatient) => p.id === initPatient.id || p.name === initPatient.name);
-          if (!exists) {
-            parsed.patients.push(initPatient);
-          }
-        }
+        // No fake or prefilled demo patients. Only authorized patients added by clinician.
+        parsed.patients = [];
         // Ensure Private Patients array and default PIN exist
         if (!parsed.privatePatients || !Array.isArray(parsed.privatePatients) || parsed.privatePatients.length === 0) {
           parsed.privatePatients = [...INITIAL_PRIVATE_PATIENTS];

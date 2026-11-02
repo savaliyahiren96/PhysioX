@@ -947,7 +947,7 @@ export const PatientDetailRecordModal: React.FC<PatientDetailRecordModalProps> =
                   {aiMatchResult.matchingCohortPatients?.length > 0 && (
                     <div className="pt-3 border-t border-slate-100">
                       <span className="font-semibold text-slate-700 block text-xs mb-2">
-                        Similar Cohort Patients Under Dr. Darpan Vanavi (Pipaliya / Khandha):
+                        Similar Registered Patients in Doctor's Practice:
                       </span>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {aiMatchResult.matchingCohortPatients.map((cohort: any) => (
